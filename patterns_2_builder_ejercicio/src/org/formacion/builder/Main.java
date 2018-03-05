@@ -12,7 +12,7 @@ public class Main {
 				.setLugarTrabajo("Google")
 				.build();
 
-		Persona hijo = new Persona.Builder("Pedro")
+		Persona hijo = new Persona.Builder("Alexandra")
 				.setMenor(4)
 				.setColegio("Colegio de selva")
 				.build();
