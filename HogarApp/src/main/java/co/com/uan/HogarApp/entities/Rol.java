@@ -138,7 +138,7 @@ public class Rol implements Serializable {
 
     @Override
     public String toString() {
-        return "app.Rol[ rolId=" + rolId + " ]";
+        return "app.Rol[ rolId=" + rolId + " ] "+descripcion;
     }
     
 }

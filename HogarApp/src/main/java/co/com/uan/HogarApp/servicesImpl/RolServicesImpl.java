@@ -48,7 +48,16 @@ public class RolServicesImpl implements RolServices{
 //                simpleJdbcCall.execute(new HashMap<String, Object>(0));
 //        System.out.println("result: " + result);
 //        return (List) result.get("role_list_o");
-		return rolRepository.collect_roles();
+		List<Rol> roles = rolRepository.collect_roles();
+		if(roles!= null) {
+			System.out.println("1");
+			for (Rol rol : roles) {
+				System.out.println(rol.getDescripcion());
+			}
+		}else {
+			System.out.println("12");
+		}
+		return roles;
 	}
 
 }
