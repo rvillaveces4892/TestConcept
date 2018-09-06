@@ -3,17 +3,21 @@ package co.com.uan.HogarApp;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import co.com.uan.HogarApp.bridge.BridgeImpl;
 import co.com.uan.HogarApp.entities.Coordenadas;
-import co.com.uan.HogarApp.entities.Rol;
 import co.com.uan.HogarApp.entities.Servicio;
 import co.com.uan.HogarApp.entities.Usuario;
+import co.com.uan.HogarApp.facade.Fachada;
 import co.com.uan.HogarApp.services.CoordenadaServices;
-import co.com.uan.HogarApp.services.RolServices;
 import co.com.uan.HogarApp.services.ServicioServices;
+import co.com.uan.HogarApp.servicesImpl.Persona;
+import co.com.uan.HogarApp.servicesImpl.Proveedor;
 
 @RestController
 public class PrincipalController {
@@ -25,9 +29,7 @@ public class PrincipalController {
 	private ServicioServices servicioService;
 	
 	@Autowired
-	private RolServices rolService;
-	
-	
+	private Persona usuarioService;
 	
 	@RequestMapping("/hola")
 	public String obtenerProveedoresCercanos() {
@@ -57,11 +59,25 @@ public class PrincipalController {
 		return servicioService.getServicios();
 	}
 
-	@RequestMapping("/findAllRoles")
-	public List<Rol> findAllRoles(){
-//		AnnotationConfigApplicationContext context =
-//                new AnnotationConfigApplicationContext(AppConfig.class);
-		return rolService.getRoles();
+//	@RequestMapping("/findAllProvedoresCercanos")
+//	public List<Usuario> findAllProvedoresCercanos(@RequestParam("usuarioIdCliente") Long usuarioIdCliente,
+//												@RequestParam("servicioId") Long servicioId){
+//		return usuarioService.getProveedoresCercanos(usuarioIdCliente, servicioId);
+//	}
+	
+	@RequestMapping("/findAllProvedoresCercanos")
+	public List<Usuario> findAllProvedoresCercanos(@RequestParam("usuarioIdCliente") Long usuarioIdCliente,
+												@RequestParam("servicioId") Long servicioId){
+		Fachada proveedor = new BridgeImpl(new Proveedor());
+//	    System.out.println(proveedor.obtenerPersonaByID(524));
+		return proveedor.buscarProveedoresCercanos(usuarioIdCliente, servicioId);
 	}
+	
+	@RequestMapping(value = "/usuario/create", method = RequestMethod.POST)
+    public String newUsuario(@RequestBody Usuario usuario){
+		System.out.println(usuario.getNombres());
+//        model.addAttribute("productForm", new ProductForm());
+        return "product/productform";
+    }
 
 }

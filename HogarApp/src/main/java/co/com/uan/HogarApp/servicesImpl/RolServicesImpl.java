@@ -50,7 +50,7 @@ public class RolServicesImpl implements RolServices{
 //        return (List) result.get("role_list_o");
 		List<Rol> roles = rolRepository.collect_roles();
 		if(roles!= null) {
-			System.out.println("1");
+			System.out.println("1 "+roles.size());
 			for (Rol rol : roles) {
 				System.out.println(rol.getDescripcion());
 			}

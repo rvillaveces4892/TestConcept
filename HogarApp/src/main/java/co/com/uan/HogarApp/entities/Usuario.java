@@ -7,9 +7,8 @@ package co.com.uan.HogarApp.entities;
 
 import java.io.Serializable;
 import java.util.Date;
-import java.util.List;
+
 import javax.persistence.Basic;
-import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -18,15 +17,20 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
-import javax.persistence.OneToMany;
+import javax.persistence.NamedStoredProcedureQuery;
 import javax.persistence.OneToOne;
+import javax.persistence.ParameterMode;
+import javax.persistence.StoredProcedureParameter;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import javax.xml.bind.annotation.XmlRootElement;
-import javax.xml.bind.annotation.XmlTransient;
+
+import com.fasterxml.jackson.annotation.JsonIdentityInfo;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 
 /**
  *
@@ -35,6 +39,10 @@ import javax.xml.bind.annotation.XmlTransient;
 @Entity
 @Table(name = "USUARIO")
 @XmlRootElement
+@NamedStoredProcedureQuery(name = "Usuario.calcular", procedureName = "prc_obtener_proveedores_cercanos", parameters = {
+		  @StoredProcedureParameter(mode = ParameterMode.IN, name = "id_cliente", type = Integer.class),
+		  @StoredProcedureParameter(mode = ParameterMode.IN, name = "id_servicio", type = Integer.class),
+		  @StoredProcedureParameter(mode = ParameterMode.OUT, name = "ids", type = String.class) })
 @NamedQueries({
     @NamedQuery(name = "Usuario.findAll", query = "SELECT u FROM Usuario u")
     , @NamedQuery(name = "Usuario.findByUsuarioId", query = "SELECT u FROM Usuario u WHERE u.usuarioId = :usuarioId")
@@ -53,7 +61,7 @@ public class Usuario implements Serializable {
     private static final long serialVersionUID = 1L;
     @Id
     @Basic(optional = false)
-    @NotNull
+//    @NotNull
     @Column(name = "USUARIO_ID")
     private Long usuarioId;
     @Size(max = 20)
@@ -96,21 +104,24 @@ public class Usuario implements Serializable {
     @Size(max = 10)
     @Column(name = "ESTADO")
     private String estado;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "usuarioIdCalificador", fetch = FetchType.LAZY)
-    private List<Calificacion> calificacionList;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "usuarioIdCalificado", fetch = FetchType.LAZY)
-    private List<Calificacion> calificacionList1;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "usuarioIdProveedor", fetch = FetchType.LAZY)
-    private List<Cotizacion> cotizacionList;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "usuario", fetch = FetchType.LAZY)
-    private List<NotificacionProveedor> notificacionProveedorList;
-    @OneToMany(mappedBy = "usuarioIdProveedor", fetch = FetchType.LAZY)
-    private List<Solicitud> solicitudList;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "usuarioIdCliente", fetch = FetchType.LAZY)
-    private List<Solicitud> solicitudList1;
+//    @OneToMany(cascade = CascadeType.ALL, mappedBy = "usuarioIdCalificador", fetch = FetchType.LAZY)
+//    private List<Calificacion> calificacionList;
+//    @OneToMany(cascade = CascadeType.ALL, mappedBy = "usuarioIdCalificado", fetch = FetchType.LAZY)
+//    private List<Calificacion> calificacionList1;
+//    @OneToMany(cascade = CascadeType.ALL, mappedBy = "usuarioIdProveedor", fetch = FetchType.LAZY)
+//    private List<Cotizacion> cotizacionList;
+//    @OneToMany(cascade = CascadeType.ALL, mappedBy = "usuario", fetch = FetchType.LAZY)
+//    private List<NotificacionProveedor> notificacionProveedorList;
+//    @OneToMany(mappedBy = "usuarioIdProveedor", fetch = FetchType.LAZY)
+//    private List<Solicitud> solicitudList;
+//    @OneToMany(cascade = CascadeType.ALL, mappedBy = "usuarioIdCliente", fetch = FetchType.LAZY)
+//    private List<Solicitud> solicitudList1;
+    @JsonManagedReference
     @JoinColumn(name = "COORDENADA_ID", referencedColumnName = "COORDENADA_ID")
-    @OneToOne(optional = false, fetch = FetchType.LAZY)
+    @OneToOne(fetch = FetchType.LAZY)
     private Coordenadas coordenadaId;
+    
+    @JsonManagedReference
     @JoinColumn(name = "ROL_ID", referencedColumnName = "ROL_ID")
     @ManyToOne(optional = false, fetch = FetchType.LAZY)
     private Rol rolId;
@@ -219,59 +230,59 @@ public class Usuario implements Serializable {
         this.estado = estado;
     }
 
-    @XmlTransient
-    public List<Calificacion> getCalificacionList() {
-        return calificacionList;
-    }
-
-    public void setCalificacionList(List<Calificacion> calificacionList) {
-        this.calificacionList = calificacionList;
-    }
-
-    @XmlTransient
-    public List<Calificacion> getCalificacionList1() {
-        return calificacionList1;
-    }
-
-    public void setCalificacionList1(List<Calificacion> calificacionList1) {
-        this.calificacionList1 = calificacionList1;
-    }
-
-    @XmlTransient
-    public List<Cotizacion> getCotizacionList() {
-        return cotizacionList;
-    }
-
-    public void setCotizacionList(List<Cotizacion> cotizacionList) {
-        this.cotizacionList = cotizacionList;
-    }
-
-    @XmlTransient
-    public List<NotificacionProveedor> getNotificacionProveedorList() {
-        return notificacionProveedorList;
-    }
-
-    public void setNotificacionProveedorList(List<NotificacionProveedor> notificacionProveedorList) {
-        this.notificacionProveedorList = notificacionProveedorList;
-    }
-
-    @XmlTransient
-    public List<Solicitud> getSolicitudList() {
-        return solicitudList;
-    }
-
-    public void setSolicitudList(List<Solicitud> solicitudList) {
-        this.solicitudList = solicitudList;
-    }
-
-    @XmlTransient
-    public List<Solicitud> getSolicitudList1() {
-        return solicitudList1;
-    }
-
-    public void setSolicitudList1(List<Solicitud> solicitudList1) {
-        this.solicitudList1 = solicitudList1;
-    }
+//    @XmlTransient
+//    public List<Calificacion> getCalificacionList() {
+//        return calificacionList;
+//    }
+//
+//    public void setCalificacionList(List<Calificacion> calificacionList) {
+//        this.calificacionList = calificacionList;
+//    }
+//
+//    @XmlTransient
+//    public List<Calificacion> getCalificacionList1() {
+//        return calificacionList1;
+//    }
+//
+//    public void setCalificacionList1(List<Calificacion> calificacionList1) {
+//        this.calificacionList1 = calificacionList1;
+//    }
+//
+//    @XmlTransient
+//    public List<Cotizacion> getCotizacionList() {
+//        return cotizacionList;
+//    }
+//
+//    public void setCotizacionList(List<Cotizacion> cotizacionList) {
+//        this.cotizacionList = cotizacionList;
+//    }
+//
+//    @XmlTransient
+//    public List<NotificacionProveedor> getNotificacionProveedorList() {
+//        return notificacionProveedorList;
+//    }
+//
+//    public void setNotificacionProveedorList(List<NotificacionProveedor> notificacionProveedorList) {
+//        this.notificacionProveedorList = notificacionProveedorList;
+//    }
+//
+//    @XmlTransient
+//    public List<Solicitud> getSolicitudList() {
+//        return solicitudList;
+//    }
+//
+//    public void setSolicitudList(List<Solicitud> solicitudList) {
+//        this.solicitudList = solicitudList;
+//    }
+//
+//    @XmlTransient
+//    public List<Solicitud> getSolicitudList1() {
+//        return solicitudList1;
+//    }
+//
+//    public void setSolicitudList1(List<Solicitud> solicitudList1) {
+//        this.solicitudList1 = solicitudList1;
+//    }
 
     public Coordenadas getCoordenadaId() {
         return coordenadaId;

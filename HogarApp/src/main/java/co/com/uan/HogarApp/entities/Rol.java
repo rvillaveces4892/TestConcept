@@ -30,12 +30,15 @@ import javax.validation.constraints.Size;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlTransient;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
 /**
  *
  * @author rvill
  */
 @NamedStoredProcedureQueries({ 
-@NamedStoredProcedureQuery(name = "Rol.findRolesViaProcedure", procedureName = "collect_roles", resultClasses = Rol.class,
+@NamedStoredProcedureQuery(name = "Rol.findRolesViaProcedure", procedureName = "collect_roles", 
 		 parameters = { 
 		@StoredProcedureParameter(mode = ParameterMode.REF_CURSOR, type = void.class) }) 
 })
@@ -48,6 +51,7 @@ import javax.xml.bind.annotation.XmlTransient;
     , @NamedQuery(name = "Rol.findByDescripcion", query = "SELECT r FROM Rol r WHERE r.descripcion = :descripcion")
     , @NamedQuery(name = "Rol.findByFechaCreacion", query = "SELECT r FROM Rol r WHERE r.fechaCreacion = :fechaCreacion")
     , @NamedQuery(name = "Rol.findByEstado", query = "SELECT r FROM Rol r WHERE r.estado = :estado")})
+@JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
 public class Rol implements Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -65,6 +69,8 @@ public class Rol implements Serializable {
     @Size(max = 10)
     @Column(name = "ESTADO")
     private String estado;
+    
+    @JsonBackReference
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "rolId", fetch = FetchType.LAZY)
     private List<Usuario> usuarioList;
 

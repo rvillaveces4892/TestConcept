@@ -7,6 +7,7 @@ package co.com.uan.HogarApp.entities;
 
 import java.io.Serializable;
 import java.util.Date;
+
 import javax.persistence.Basic;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
@@ -23,6 +24,9 @@ import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import javax.xml.bind.annotation.XmlRootElement;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
 /**
  *
  * @author rvill
@@ -37,6 +41,7 @@ import javax.xml.bind.annotation.XmlRootElement;
     , @NamedQuery(name = "Coordenadas.findByLongitud", query = "SELECT c FROM Coordenadas c WHERE c.longitud = :longitud")
     , @NamedQuery(name = "Coordenadas.findByFechaCreacion", query = "SELECT c FROM Coordenadas c WHERE c.fechaCreacion = :fechaCreacion")
     , @NamedQuery(name = "Coordenadas.findByEstado", query = "SELECT c FROM Coordenadas c WHERE c.estado = :estado")})
+@JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
 public class Coordenadas implements Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -63,6 +68,8 @@ public class Coordenadas implements Serializable {
     @Size(min = 1, max = 10)
     @Column(name = "ESTADO")
     private String estado;
+    
+    @JsonBackReference
     @OneToOne(cascade = CascadeType.ALL, mappedBy = "coordenadaId", fetch = FetchType.LAZY)
     private Usuario usuario;
 
