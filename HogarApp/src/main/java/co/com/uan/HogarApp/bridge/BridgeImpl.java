@@ -3,121 +3,151 @@ package co.com.uan.HogarApp.bridge;
 
 import java.util.List;
 
+import co.com.uan.HogarApp.ApplicationContextHolder;
+import co.com.uan.HogarApp.entities.Categoria;
+import co.com.uan.HogarApp.entities.NotificacionProveedor;
+import co.com.uan.HogarApp.entities.Servicio;
+import co.com.uan.HogarApp.entities.Solicitud;
 import co.com.uan.HogarApp.entities.Usuario;
 import co.com.uan.HogarApp.interfaces.ICategoria;
 import co.com.uan.HogarApp.interfaces.ICotizacion;
 import co.com.uan.HogarApp.interfaces.INotificacion;
 import co.com.uan.HogarApp.interfaces.IPersona;
 import co.com.uan.HogarApp.interfaces.IServicio;
+import co.com.uan.HogarApp.interfaces.ISolicitud;
+import co.com.uan.HogarApp.servicesImpl.CategoriaImpl;
+import co.com.uan.HogarApp.servicesImpl.Cliente;
+import co.com.uan.HogarApp.servicesImpl.NotificacionImpl;
+import co.com.uan.HogarApp.servicesImpl.Proveedor;
+import co.com.uan.HogarApp.servicesImpl.ServicioImpl;
+import co.com.uan.HogarApp.servicesImpl.SolicitudImpl;
 
 public class BridgeImpl extends Bridge {
-    
-    private IServicio servicio;
-    private IPersona persona;
-    private ICategoria categoria;
-    private ICotizacion cotizacion;
-    private INotificacion notificacion;
-    
-    
-    public BridgeImpl(IServicio servicio){
-        this.servicio = servicio;
-    }
-    
-    /*
-    public BridgeImpl(IServicio servicio, IPersona persona, ICategoria categoria, ICotizacion cotizacion, INotificacion notificacion){
-        this.servicio = servicio;
-        this.persona = persona;
-        this.categoria = categoria;
-        this.cotizacion = cotizacion;
-        this.notificacion = notificacion;
-    }
-    */
-    
-    public BridgeImpl(IPersona persona){
-        this.persona = persona;
-    }
-    
-    public BridgeImpl(ICategoria categoria){
-        this.categoria = categoria;
-    }
-    
-    public BridgeImpl(ICotizacion cotizacion){
-        this.cotizacion = cotizacion;
-    }
-    
-    public BridgeImpl(INotificacion notificacion){
-        this.notificacion = notificacion;
-    }
-    
 
-    @Override
-    public List obtenerServiciobyID(int idServicio) {
-        return servicio.listarServicio(idServicio);
-    }
+	private IServicio servicio;
+	private IPersona persona;
+	private ICategoria categoria;
+	private ICotizacion cotizacion;
+	private INotificacion notificacion;
+	private ISolicitud solicitudImpl;
 
-    @Override
-    public List obtenerServicios() {
-        return servicio.listarServicios();
-    }
+	public BridgeImpl() {
 
-    @Override
-    public void solicitarServicio(int identificador) {
-        servicio.solicitarServicio(identificador);
-    } 
+	}
 
-    @Override
-    public List obtenerPersonaByID(int idPersona) {
-        return persona.consultarPersona(idPersona);
-    }
+	public BridgeImpl(IServicio servicio) {
+		this.servicio = ApplicationContextHolder.getContext().getBean(servicio.getClass());
+	}
 
-    @Override
-    public List obtenerPersonas() {
-        return persona.consultarPersonas();
-    }
+	public BridgeImpl(IPersona persona) {
+		this.persona = ApplicationContextHolder.getContext().getBean(persona.getClass());
+	}
 
-    @Override
-    public List buscarProveedor(int servicio) {
-        return persona.buscarProveedor(4578);
-    }
+	public BridgeImpl(ISolicitud solicitud) {
+		this.solicitudImpl = ApplicationContextHolder.getContext().getBean(SolicitudImpl.class);
+	}
 
-    @Override
-    public void registrarPersona(List persona) {
-        
-    }
+	public BridgeImpl(ICategoria categoria) {
+		this.categoria = ApplicationContextHolder.getContext().getBean(CategoriaImpl.class);
+	}
 
-    @Override
-    public List obtenerCategoriaByID(int idCategoria) {
-        return categoria.listarCategoriaByID(idCategoria);
-    }
+	public BridgeImpl(ICotizacion cotizacion) {
+		this.cotizacion = cotizacion;
+	}
 
-    @Override
-    public List obtenerCategorias() {
-        return categoria.listarCategorias();
-    }
+	public BridgeImpl(INotificacion notificacion) {
+		this.notificacion = ApplicationContextHolder.getContext().getBean(NotificacionImpl.class);
+	}
 
-    @Override
-    public void notificarProveedor(int servicio) {
-        
-    }
+	
 
-    @Override
-    public List obtenerNotificacionByEstado(String estado) {
-        return notificacion.listarNotificacionByEstado(estado);
-    }
+	@Override
+	public List obtenerPersonaByID(int idPersona) {
+		return persona.consultarPersona(idPersona);
+	}
 
-    @Override
-    public List obtenerCotizacion(int idProveedor) {
-        return cotizacion.listarCotizacion(idProveedor);
-    }
 
-    @Override
-    public void enviarCotizacion(int idCliente) {
-        System.out.println("El proveedor se ha notificado");
-    }
+	@Override
+	public List buscarProveedor(int servicio) {
+		return persona.buscarProveedor(4578);
+	}
+
+	@Override
+	public Usuario registrarPersona(Usuario usuario) {
+		return persona.registrarPersona(usuario);
+	}
+
+	@Override
+	public List<NotificacionProveedor> obtenerNotificacionByEstado(String estado) {
+		return notificacion.listarNotificacionByEstado(estado);
+	}
+
+	@Override
+	public List obtenerCotizacion(int idProveedor) {
+		return cotizacion.listarCotizacion(idProveedor);
+	}
+
+	@Override
+	public void enviarCotizacion(int idCliente) {
+		System.out.println("El proveedor se ha notificado");
+	}
 
 	@Override
 	public List<Usuario> buscarProveedoresCercanos(Long usuarioIdCliente, Long servicioId) {
 		return persona.getProveedoresCercanos(usuarioIdCliente, servicioId);
 	}
-    
+
+	@Override
+	public Solicitud buscarSolicitud(Long solicitudId) {
+		return solicitudImpl.buscarSolicitud(solicitudId);
+	}
+	
+	@Override
+	public Categoria obtenerCategoriaByID(Long idCategoria) {
+		return this.categoria.findCategoriaByID(idCategoria);
+	}
+
+	@Override
+	public List<Categoria> obtenerCategorias() {
+		return this.categoria.listarCategorias();
+	}
+
+	@Override
+	public Solicitud crearSolicitud(Solicitud solicitud) {
+		this.persona = ApplicationContextHolder.getContext().getBean(Cliente.class);
+		this.servicio = ApplicationContextHolder.getContext().getBean(ServicioImpl.class);
+		Usuario cliente = this.persona.buscarPersona(solicitud.getUsuarioIdCliente().getUsuarioId());
+		Servicio servicio = this.servicio.obtenerServiciobyID(solicitud.getServicioId().getServicioId());
+		solicitud.setUsuarioIdCliente(cliente);
+		solicitud.setServicioId(servicio);
+		return solicitudImpl.crearSolicitud(solicitud);
+	}
+
+	@Override
+	public List<NotificacionProveedor> crearNotificaciones(Solicitud solicitud) {
+		this.persona = ApplicationContextHolder.getContext().getBean(Proveedor.class);
+		List<Usuario> proveedores = this.persona.getProveedoresCercanos(solicitud.getUsuarioIdCliente().getUsuarioId(),
+				solicitud.getServicioId().getServicioId());
+		List<NotificacionProveedor> notificaciones = this.notificacion.crearNotificaciones(proveedores, solicitud);
+		return notificaciones;
+	}
+	
+	@Override
+	public List<Servicio> obtenerServicios() {
+		List<Servicio> servicios = this.servicio.obtenerServicios();
+		return servicios;
+	}
+
+	@Override
+	public Servicio obtenerServiciobyID(Long servicioId) {
+		Servicio servicio = this.servicio.obtenerServiciobyID(servicioId);
+		return servicio;
+	}
+
+	@Override
+	public List<Servicio> obtenerServicioPorCategoria(Long categoriaId) {
+		List<Servicio> servicios = this.servicio.obtenerServicioPorCategoria(categoriaId);
+		return servicios;
+	}
+
 }

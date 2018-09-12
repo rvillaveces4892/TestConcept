@@ -23,6 +23,8 @@ import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import javax.xml.bind.annotation.XmlRootElement;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+
 /**
  *
  * @author rvill
@@ -47,12 +49,13 @@ public class NotificacionProveedor implements Serializable {
     private String descripcion;
     @Column(name = "FECHA_CREACION")
     @Temporal(TemporalType.TIMESTAMP)
-    private Date fechaCreacion;
+    private Date fechaCreacion = new Date();
     @Basic(optional = false)
     @NotNull
     @Size(min = 1, max = 10)
     @Column(name = "ESTADO")
-    private String estado;
+    private String estado = "ENVIADA";
+    @JsonBackReference
     @JoinColumn(name = "SOLICITUD_ID", referencedColumnName = "SOLICITUD_ID", insertable = false, updatable = false)
     @ManyToOne(optional = false, fetch = FetchType.LAZY)
     private Solicitud solicitud;

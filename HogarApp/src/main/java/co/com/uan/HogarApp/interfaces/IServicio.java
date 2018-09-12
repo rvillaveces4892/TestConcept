@@ -6,7 +6,8 @@ import java.util.List;
 import co.com.uan.HogarApp.entities.Servicio;
 
 public interface IServicio {
-    public List<Servicio> listarServicio(int identificador);
-    public List<Servicio> listarServicios();
-    public void solicitarServicio(int identificador);
+	public List<Servicio> obtenerServicios();
+    public Servicio obtenerServiciobyID(Long servicioId);
+    public List<Servicio> obtenerServicioPorCategoria(Long categoriaId);
+    
 }

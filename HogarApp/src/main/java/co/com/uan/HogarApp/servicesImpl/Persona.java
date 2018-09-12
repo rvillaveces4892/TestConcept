@@ -1,116 +1,78 @@
 
 package co.com.uan.HogarApp.servicesImpl;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import javax.persistence.EntityManager;
-import javax.persistence.ParameterMode;
-import javax.persistence.StoredProcedureQuery;
+import javax.transaction.Transactional;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
-import org.springframework.transaction.annotation.Transactional;
 
+import co.com.uan.HogarApp.entities.Rol;
 import co.com.uan.HogarApp.entities.Usuario;
 import co.com.uan.HogarApp.interfaces.IPersona;
-import co.com.uan.HogarApp.repositories.UsuarioRepository;
 
-@Component("usuarioService")
-@Transactional
+
+
 public abstract class Persona implements IPersona {
 
 	@Autowired
-	private UsuarioRepository usuarioRepository;
+	private EntityManager em;
 
-	@Autowired
-	private EntityManager entityManager;
+	private Long rolId;
 
-	private String nombres;
-	private String apellidos;
-	private String correo;
-	private String contrasenia;
-	private String telefono;
-	private String latitud;
-	private String longitud;
+	public Persona(Long idRol) {
+		this.rolId = idRol;
+	}
 
-	public Persona() {
+	public Long getRolId() {
+		return rolId;
+	}
 
+	public void setRolId(Long rolId) {
+		this.rolId = rolId;
 	}
 	
+	public Usuario buscarPersona(Long id) {
+		Usuario persona = em.find(Usuario.class, id);
+		return persona;
+	}
+	
+
+	@Transactional
 	@Override
-	public List<Usuario> getProveedoresCercanos(Long usuarioIdCliente, Long servicioId) {
-		StoredProcedureQuery query = entityManager.createStoredProcedureQuery("prc_obtener_proveedores_cercanos")
-				.registerStoredProcedureParameter(1, Long.class, ParameterMode.IN)
-				.registerStoredProcedureParameter(2, Long.class, ParameterMode.IN)
-				.registerStoredProcedureParameter(3, String.class, ParameterMode.OUT).setParameter(1, usuarioIdCliente)
-				.setParameter(2, servicioId);
-
-		query.execute();
-		List<Long> usuarioIds = new ArrayList<>();
-		String commentCount = (String) query.getOutputParameterValue(3);
-		if (commentCount != null && commentCount.length() > 0) {
-			for (String id : commentCount.substring(1, commentCount.length()).split(":")) {
-				usuarioIds.add(Long.valueOf(id));
-			}
-		}
-		return usuarioRepository.findByUsuarioIdIn(usuarioIds);
+	public Usuario registrarPersona(Usuario usuario) {
+		Rol rolProveedor = em.find(Rol.class, getRolId());
+		usuario.setRolId(rolProveedor);
+		System.out.println("Entro!" + getRolId());
+		em.persist(usuario);
+		return usuario;
 	}
 
-	public String getNombres() {
-		return nombres;
+	public EntityManager getEm() {
+		return em;
 	}
 
-	public void setNombres(String nombres) {
-		this.nombres = nombres;
+	public void setEm(EntityManager em) {
+		this.em = em;
 	}
 
-	public String getApellidos() {
-		return apellidos;
+	@Override
+	public List<?> consultarPersona(int identificador) {
+		// TODO Auto-generated method stub
+		return null;
 	}
 
-	public void setApellidos(String apellidos) {
-		this.apellidos = apellidos;
+	@Override
+	public List<?> consultarPersonas() {
+		// TODO Auto-generated method stub
+		return null;
 	}
 
-	public String getCorreo() {
-		return correo;
-	}
-
-	public void setCorreo(String correo) {
-		this.correo = correo;
-	}
-
-	public String getContrasenia() {
-		return contrasenia;
-	}
-
-	public void setContrasenia(String contrasenia) {
-		this.contrasenia = contrasenia;
-	}
-
-	public String getTelefono() {
-		return telefono;
-	}
-
-	public void setTelefono(String telefono) {
-		this.telefono = telefono;
-	}
-
-	public String getLatitud() {
-		return latitud;
-	}
-
-	public void setLatitud(String latitud) {
-		this.latitud = latitud;
-	}
-
-	public String getLongitud() {
-		return longitud;
-	}
-
-	public void setLongitud(String longitud) {
-		this.longitud = longitud;
+	@Override
+	public List<?> buscarProveedor(int servicio) {
+		// TODO Auto-generated method stub
+		return null;
 	}
 
 }

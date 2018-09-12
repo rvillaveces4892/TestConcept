@@ -13,10 +13,13 @@ import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToOne;
+import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
@@ -46,8 +49,10 @@ public class Coordenadas implements Serializable {
 
     private static final long serialVersionUID = 1L;
     @Id
+    @GeneratedValue(strategy=GenerationType.SEQUENCE, generator = "id_Sequence")
+	@SequenceGenerator(name = "id_Sequence", sequenceName = "COORDENADA_ID_SEQ", allocationSize=1)
     @Basic(optional = false)
-    @NotNull
+//    @NotNull
     @Column(name = "COORDENADA_ID")
     private Long coordenadaId;
     @Basic(optional = false)
@@ -62,12 +67,12 @@ public class Coordenadas implements Serializable {
     private String longitud;
     @Column(name = "FECHA_CREACION")
     @Temporal(TemporalType.TIMESTAMP)
-    private Date fechaCreacion;
+    private Date fechaCreacion = new Date();
     @Basic(optional = false)
-    @NotNull
+//    @NotNull
     @Size(min = 1, max = 10)
     @Column(name = "ESTADO")
-    private String estado;
+    private String estado = "ACTIVO";
     
     @JsonBackReference
     @OneToOne(cascade = CascadeType.ALL, mappedBy = "coordenadaId", fetch = FetchType.LAZY)

@@ -113,7 +113,6 @@ public class Rol implements Serializable {
         this.estado = estado;
     }
 
-    @XmlTransient
     public List<Usuario> getUsuarioList() {
         return usuarioList;
     }

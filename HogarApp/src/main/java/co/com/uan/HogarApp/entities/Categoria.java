@@ -37,8 +37,8 @@ import com.fasterxml.jackson.annotation.JsonManagedReference;
 @Table(name = "CATEGORIA")
 @XmlRootElement
 @NamedQueries({
-    @NamedQuery(name = "Categoria.findAll", query = "SELECT c FROM Categoria c")
-    , @NamedQuery(name = "Categoria.findByCategoriaId", query = "SELECT c FROM Categoria c WHERE c.categoriaId = :categoriaId")
+    @NamedQuery(name = "Categoria.findAll", query = "SELECT c FROM Categoria c WHERE c.estado = :estado")
+    , @NamedQuery(name = "Categoria.findByCategoriaId", query = "SELECT c FROM Categoria c WHERE c.categoriaId = :categoriaId AND c.estado = :estado")
     , @NamedQuery(name = "Categoria.findByNombre", query = "SELECT c FROM Categoria c WHERE c.nombre = :nombre")
     , @NamedQuery(name = "Categoria.findByDescripcion", query = "SELECT c FROM Categoria c WHERE c.descripcion = :descripcion")
     , @NamedQuery(name = "Categoria.findByFechaCreacion", query = "SELECT c FROM Categoria c WHERE c.fechaCreacion = :fechaCreacion")
@@ -66,7 +66,7 @@ public class Categoria implements Serializable {
     @NotNull
     @Size(min = 1, max = 10)
     @Column(name = "ESTADO")
-    private String estado;
+    private String estado = "ACTIVO";
 //    @JsonManagedReference
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "categoriaId", fetch = FetchType.LAZY)
     private List<Servicio> servicioList;

@@ -23,6 +23,8 @@ import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import javax.xml.bind.annotation.XmlRootElement;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+
 /**
  *
  * @author rvill
@@ -61,6 +63,7 @@ public class Cotizacion implements Serializable {
     @Size(min = 1, max = 10)
     @Column(name = "ESTADO")
     private String estado;
+    @JsonBackReference
     @JoinColumn(name = "SOLICITUD_ID", referencedColumnName = "SOLICITUD_ID")
     @ManyToOne(optional = false, fetch = FetchType.LAZY)
     private Solicitud solicitudId;

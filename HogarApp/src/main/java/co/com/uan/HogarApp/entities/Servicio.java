@@ -29,6 +29,7 @@ import javax.xml.bind.annotation.XmlTransient;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 
 /**
@@ -39,11 +40,13 @@ import com.fasterxml.jackson.annotation.JsonManagedReference;
 @Table(name = "SERVICIO")
 @XmlRootElement
 @NamedQueries({
-    @NamedQuery(name = "Servicio.findAll", query = "SELECT s FROM Servicio s")
-    , @NamedQuery(name = "Servicio.findByServicioId", query = "SELECT s FROM Servicio s WHERE s.servicioId = :servicioId")
+    @NamedQuery(name = "Servicio.findAll", query = "SELECT s FROM Servicio s WHERE s.estado = :estado")
+    , @NamedQuery(name = "Servicio.findByServicioId", query = "SELECT s FROM Servicio s WHERE s.servicioId = :servicioId AND s.estado = :estado")
     , @NamedQuery(name = "Servicio.findByDescripcion", query = "SELECT s FROM Servicio s WHERE s.descripcion = :descripcion")
     , @NamedQuery(name = "Servicio.findByFechaCreacion", query = "SELECT s FROM Servicio s WHERE s.fechaCreacion = :fechaCreacion")
-    , @NamedQuery(name = "Servicio.findByEstado", query = "SELECT s FROM Servicio s WHERE s.estado = :estado")})
+    , @NamedQuery(name = "Servicio.findByEstado", query = "SELECT s FROM Servicio s WHERE s.estado = :estado")
+    , @NamedQuery(name = "Servicio.findBycategoriaIdAndEstado", query = "SELECT s FROM Servicio s WHERE s.categoriaId.categoriaId = :categoriaId AND s.estado = :estado")})
+@JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
 public class Servicio implements Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -68,6 +71,7 @@ public class Servicio implements Serializable {
     @ManyToOne(optional = false, fetch = FetchType.LAZY)
     private Categoria categoriaId;
 
+    @JsonBackReference
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "servicioId", fetch = FetchType.LAZY)
     private List<Solicitud> solicitudList;
 

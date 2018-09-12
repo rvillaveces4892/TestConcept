@@ -13,12 +13,15 @@ import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
+import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
@@ -43,13 +46,15 @@ import javax.xml.bind.annotation.XmlTransient;
     , @NamedQuery(name = "Solicitud.findByDireccion", query = "SELECT s FROM Solicitud s WHERE s.direccion = :direccion")
     , @NamedQuery(name = "Solicitud.findByFechaSolicitud", query = "SELECT s FROM Solicitud s WHERE s.fechaSolicitud = :fechaSolicitud")
     , @NamedQuery(name = "Solicitud.findByFechaCreacion", query = "SELECT s FROM Solicitud s WHERE s.fechaCreacion = :fechaCreacion")
-    , @NamedQuery(name = "Solicitud.findByEstado", query = "SELECT s FROM Solicitud s WHERE s.estado = :estado")})
+    , @NamedQuery(name = "Solicitud.findByEstadoAndId", query = "SELECT s FROM Solicitud s WHERE s.estado = :estado AND s.solicitudId = :solicitudId")})
 public class Solicitud implements Serializable {
 
     private static final long serialVersionUID = 1L;
     @Id
+    @GeneratedValue(strategy=GenerationType.SEQUENCE, generator = "id_Sequence")
+	@SequenceGenerator(name = "id_Sequence", sequenceName = "SOLICITUD_SOLICITUD_ID_SEQ", allocationSize=1)
     @Basic(optional = false)
-    @NotNull
+//    @NotNull
     @Column(name = "SOLICITUD_ID")
     private Long solicitudId;
     @Size(max = 400)
@@ -69,13 +74,13 @@ public class Solicitud implements Serializable {
     private Date fechaSolicitud;
     @Column(name = "FECHA_CREACION")
     @Temporal(TemporalType.TIMESTAMP)
-    private Date fechaCreacion;
+    private Date fechaCreacion = new Date();
     @Size(max = 10)
     @Column(name = "ESTADO")
-    private String estado;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "solicitudId", fetch = FetchType.LAZY)
+    private String estado = "CREADA";
+    @OneToMany(mappedBy = "solicitudId", fetch = FetchType.LAZY)
     private List<Cotizacion> cotizacionList;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "solicitud", fetch = FetchType.LAZY)
+    @OneToMany(mappedBy = "solicitud", fetch = FetchType.LAZY)
     private List<NotificacionProveedor> notificacionProveedorList;
     @JoinColumn(name = "SERVICIO_ID", referencedColumnName = "SERVICIO_ID")
     @ManyToOne(optional = false, fetch = FetchType.LAZY)
