@@ -50,7 +50,7 @@ public class Coordenadas implements Serializable {
     private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy=GenerationType.SEQUENCE, generator = "id_Sequence")
-	@SequenceGenerator(name = "id_Sequence", sequenceName = "COORDENADA_ID_SEQ", allocationSize=1)
+	@SequenceGenerator(name = "id_Sequence", sequenceName = "COORDENADA_COORDENADA_ID_SEQ", allocationSize=1)
     @Basic(optional = false)
 //    @NotNull
     @Column(name = "COORDENADA_ID")
