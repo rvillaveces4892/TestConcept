@@ -10,52 +10,40 @@ import co.com.uan.HogarApp.entities.Solicitud;
 import co.com.uan.HogarApp.entities.Usuario;
 import co.com.uan.HogarApp.facade.Fachada;
 
-
 public abstract class Bridge implements Fachada {
 
-    // Servicios
+	// Categorías
+	@Override
+	public abstract Categoria obtenerCategoriaByID(Long idCategoria);
+
+	@Override
+	public abstract List<Categoria> obtenerCategorias();
+
+	// Servicios
+	@Override
 	public abstract List<Servicio> obtenerServicios();
-    public abstract Servicio obtenerServiciobyID(Long servicioId);
-    public abstract List<Servicio> obtenerServicioPorCategoria(Long categoriaId);
-    
-    //Personas (Cliente y Proveedor)
 
-    @Override
-    public abstract List obtenerPersonaByID(int idPersona);
+	@Override
+	public abstract Servicio obtenerServiciobyID(Long servicioId);
 
-    
+	@Override
+	public abstract List<Servicio> obtenerServicioPorCategoria(Long categoriaId);
 
+	@Override
+	public abstract Usuario registrarPersona(Usuario usuario);
 
-    @Override
-    public abstract Usuario registrarPersona(Usuario usuario);
-    
-    
-    //Categorías
-    @Override
-    public abstract Categoria obtenerCategoriaByID(Long idCategoria);
+	// solicitud
+	@Override
+	public abstract Solicitud buscarSolicitud(Long solicitudId);
 
-    @Override
-    public abstract List<Categoria> obtenerCategorias();
-    
-    //Notificaciones
-    @Override
-    public abstract List<NotificacionProveedor> obtenerNotificacionByEstado(String estado);
-    
-    @Override
-    public abstract List<NotificacionProveedor> crearNotificaciones(Solicitud solicitud);
-    
-    //Cotizaciones
-    @Override
-    public abstract List obtenerCotizacion(int idProveedor);
+	@Override
+	public abstract Solicitud crearSolicitud(Solicitud solicitud);
 
-    @Override
-    public abstract void enviarCotizacion(int idCliente);
-    
-    //solicitud
-    public abstract Solicitud buscarSolicitud(Long solicitudId);
-    
-    public abstract Solicitud crearSolicitud(Solicitud solicitud); 
-    
-    
-      
+	// Notificaciones
+	@Override
+	public abstract List<NotificacionProveedor> obtenerNotificacionByEstado(String estado);
+
+	@Override
+	public abstract List<NotificacionProveedor> crearNotificaciones(Solicitud solicitud);
+
 }

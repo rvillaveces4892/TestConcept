@@ -10,12 +10,6 @@ import co.com.uan.HogarApp.entities.Solicitud;
 import co.com.uan.HogarApp.entities.Usuario;
 
 public interface Fachada {
-    public List obtenerPersonaByID(int idPersona);
-    public abstract List buscarProveedor(int servicio);    
-    
-    public List obtenerCotizacion(int idProveedor);
-    public void enviarCotizacion(int idCliente);
-    
     //Categoria
     public List<Categoria> obtenerCategorias();
     public Categoria obtenerCategoriaByID(Long idCategoria);
@@ -33,5 +27,6 @@ public interface Fachada {
     public List<NotificacionProveedor> crearNotificaciones(Solicitud solicitud);
     public List<NotificacionProveedor> obtenerNotificacionByEstado(String estado);
     
-    
+    //obtenerPersona
+    //crearCotizacion
 }

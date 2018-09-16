@@ -25,5 +25,6 @@ ALTER TABLE servicio_proveedor
         REFERENCES usuario ( usuario_id )
             ON DELETE CASCADE;
 			
-			
+ALTER TABLE USUARIO
+  ADD IDENTIFICACION VARCHAR2(20);
 			

@@ -25,72 +25,70 @@ import co.com.uan.HogarApp.servicesImpl.SolicitudImpl;
 
 @RestController
 public class PrincipalController {
-	
+
 	@RequestMapping("/findAllCategorias")
-	public List<Categoria> findAllCategorias(){		
+	public List<Categoria> findAllCategorias() {
 		Fachada categoria = new BridgeImpl(new CategoriaImpl());
 		return categoria.obtenerCategorias();
 	}
-	
+
 	@RequestMapping("/findCategoriaById/{id}")
-	public Categoria findCategoriaById(@PathVariable Long id){		
+	public Categoria findCategoriaById(@PathVariable Long id) {
 		Fachada categoria = new BridgeImpl(new CategoriaImpl());
 		return categoria.obtenerCategoriaByID(id);
 	}
-	
+
 	@RequestMapping("/findAllServicios")
-	public List<Servicio> findAllServicios(){		
+	public List<Servicio> findAllServicios() {
 		Fachada servicios = new BridgeImpl(new ServicioImpl());
 		return servicios.obtenerServicios();
 	}
-	
+
 	@RequestMapping("/findServicioById/{id}")
-	public Servicio findServicioById(@PathVariable Long id){		
+	public Servicio findServicioById(@PathVariable Long id) {
 		Fachada servicio = new BridgeImpl(new ServicioImpl());
 		return servicio.obtenerServiciobyID(id);
 	}
-	
+
 	@RequestMapping("/findAllServiciosByCategoriaId/{idCategoria}")
-	public List<Servicio> findAllServiciosByCategoriaId(@PathVariable Long idCategoria){		
+	public List<Servicio> findAllServiciosByCategoriaId(@PathVariable Long idCategoria) {
 		Fachada servicios = new BridgeImpl(new ServicioImpl());
 		return servicios.obtenerServicioPorCategoria(idCategoria);
 	}
-	
+
 	@RequestMapping("/findAllProvedoresCercanos")
 	public List<Usuario> findAllProvedoresCercanos(@RequestParam("usuarioIdCliente") Long usuarioIdCliente,
-												@RequestParam("servicioId") Long servicioId){		
+			@RequestParam("servicioId") Long servicioId) {
 		Fachada proveedor = new BridgeImpl(new Proveedor());
 		return proveedor.buscarProveedoresCercanos(usuarioIdCliente, servicioId);
 	}
-	
+
 	@RequestMapping(value = "/proveedor/create", method = RequestMethod.POST, consumes = "application/json")
-    public Usuario crearProveedor(@RequestBody Usuario usuario){
+	public Usuario crearProveedor(@RequestBody Usuario usuario) {
 		Fachada proveedor = new BridgeImpl(new Proveedor());
-        return proveedor.registrarPersona(usuario);
-    }
-	
+		return proveedor.registrarPersona(usuario);
+	}
+
 	@RequestMapping(value = "/cliente/create", method = RequestMethod.POST, consumes = "application/json")
-    public Usuario crearCliente(@RequestBody Usuario usuario){
+	public Usuario crearCliente(@RequestBody Usuario usuario) {
 		Fachada cliente = new BridgeImpl(new Cliente());
-        return cliente.registrarPersona(usuario);
-    }
-	
+		return cliente.registrarPersona(usuario);
+	}
+
 	@RequestMapping("/solicitud/{id}")
-	public Solicitud buscarSolicitud(@PathVariable Long id){
-		System.out.println("id sol : "+id);
+	public Solicitud buscarSolicitud(@PathVariable Long id) {
 		Fachada solicitud = new BridgeImpl(new SolicitudImpl());
 		return solicitud.buscarSolicitud(id);
 	}
-	
+
 	@RequestMapping(value = "/solicitud/create", method = RequestMethod.POST, consumes = "application/json")
-    public Solicitud crearSolicitud(@RequestBody Solicitud solicitud){
+	public Solicitud crearSolicitud(@RequestBody Solicitud solicitud) {
 		Fachada solicitudImpl = new BridgeImpl(new SolicitudImpl());
-        Solicitud requestSolicitud = solicitudImpl.crearSolicitud(solicitud);
-        
-        Fachada notificacionImpl = new BridgeImpl(new NotificacionImpl());
-        List<NotificacionProveedor> notificaciones = notificacionImpl.crearNotificaciones(solicitud);
-        requestSolicitud.setNotificacionProveedorList(notificaciones);
-        return requestSolicitud;
-    }
+		Solicitud requestSolicitud = solicitudImpl.crearSolicitud(solicitud);
+		Fachada notificacionImpl = new BridgeImpl(new NotificacionImpl());
+		List<NotificacionProveedor> notificaciones = notificacionImpl.crearNotificaciones(solicitud);
+		requestSolicitud.setNotificacionProveedorList(notificaciones);
+		return requestSolicitud;
+	}
 
 }

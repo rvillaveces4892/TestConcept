@@ -80,6 +80,11 @@ public class Usuario implements Serializable {
 	private String password;
 	@Basic(optional = false)
 	@NotNull
+	@Size(min = 1, max = 20)
+	@Column(name = "IDENTIFICACION")
+	private String identificacion;
+	@Basic(optional = false)
+	@NotNull
 	@Size(min = 1, max = 80)
 	@Column(name = "NOMBRES")
 	private String nombres;

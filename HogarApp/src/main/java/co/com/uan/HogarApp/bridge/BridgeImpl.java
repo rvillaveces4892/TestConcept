@@ -1,6 +1,7 @@
 
 package co.com.uan.HogarApp.bridge;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import co.com.uan.HogarApp.ApplicationContextHolder;
@@ -59,49 +60,6 @@ public class BridgeImpl extends Bridge {
 		this.notificacion = ApplicationContextHolder.getContext().getBean(NotificacionImpl.class);
 	}
 
-	
-
-	@Override
-	public List obtenerPersonaByID(int idPersona) {
-		return persona.consultarPersona(idPersona);
-	}
-
-
-	@Override
-	public List buscarProveedor(int servicio) {
-		return persona.buscarProveedor(4578);
-	}
-
-	@Override
-	public Usuario registrarPersona(Usuario usuario) {
-		return persona.registrarPersona(usuario);
-	}
-
-	@Override
-	public List<NotificacionProveedor> obtenerNotificacionByEstado(String estado) {
-		return notificacion.listarNotificacionByEstado(estado);
-	}
-
-	@Override
-	public List obtenerCotizacion(int idProveedor) {
-		return cotizacion.listarCotizacion(idProveedor);
-	}
-
-	@Override
-	public void enviarCotizacion(int idCliente) {
-		System.out.println("El proveedor se ha notificado");
-	}
-
-	@Override
-	public List<Usuario> buscarProveedoresCercanos(Long usuarioIdCliente, Long servicioId) {
-		return persona.getProveedoresCercanos(usuarioIdCliente, servicioId);
-	}
-
-	@Override
-	public Solicitud buscarSolicitud(Long solicitudId) {
-		return solicitudImpl.buscarSolicitud(solicitudId);
-	}
-	
 	@Override
 	public Categoria obtenerCategoriaByID(Long idCategoria) {
 		return this.categoria.findCategoriaByID(idCategoria);
@@ -112,26 +70,6 @@ public class BridgeImpl extends Bridge {
 		return this.categoria.listarCategorias();
 	}
 
-	@Override
-	public Solicitud crearSolicitud(Solicitud solicitud) {
-		this.persona = ApplicationContextHolder.getContext().getBean(Cliente.class);
-		this.servicio = ApplicationContextHolder.getContext().getBean(ServicioImpl.class);
-		Usuario cliente = this.persona.buscarPersona(solicitud.getUsuarioIdCliente().getUsuarioId());
-		Servicio servicio = this.servicio.obtenerServiciobyID(solicitud.getServicioId().getServicioId());
-		solicitud.setUsuarioIdCliente(cliente);
-		solicitud.setServicioId(servicio);
-		return solicitudImpl.crearSolicitud(solicitud);
-	}
-
-	@Override
-	public List<NotificacionProveedor> crearNotificaciones(Solicitud solicitud) {
-		this.persona = ApplicationContextHolder.getContext().getBean(Proveedor.class);
-		List<Usuario> proveedores = this.persona.getProveedoresCercanos(solicitud.getUsuarioIdCliente().getUsuarioId(),
-				solicitud.getServicioId().getServicioId());
-		List<NotificacionProveedor> notificaciones = this.notificacion.crearNotificaciones(proveedores, solicitud);
-		return notificaciones;
-	}
-	
 	@Override
 	public List<Servicio> obtenerServicios() {
 		List<Servicio> servicios = this.servicio.obtenerServicios();
@@ -148,6 +86,51 @@ public class BridgeImpl extends Bridge {
 	public List<Servicio> obtenerServicioPorCategoria(Long categoriaId) {
 		List<Servicio> servicios = this.servicio.obtenerServicioPorCategoria(categoriaId);
 		return servicios;
+	}
+
+	@Override
+	public Usuario registrarPersona(Usuario usuario) {
+		return persona.registrarPersona(usuario);
+	}
+
+	@Override
+	public List<Usuario> buscarProveedoresCercanos(Long usuarioIdCliente, Long servicioId) {
+		return persona.getProveedoresCercanos(usuarioIdCliente, servicioId);
+	}
+
+	@Override
+	public Solicitud buscarSolicitud(Long solicitudId) {
+		return solicitudImpl.buscarSolicitud(solicitudId);
+	}
+
+	@Override
+	public Solicitud crearSolicitud(Solicitud solicitud) {
+		this.persona = ApplicationContextHolder.getContext().getBean(Cliente.class);
+		this.servicio = ApplicationContextHolder.getContext().getBean(ServicioImpl.class);
+		Usuario cliente = this.persona.buscarPersona(solicitud.getUsuarioIdCliente().getUsuarioId());
+		Servicio servicio = this.servicio.obtenerServiciobyID(solicitud.getServicioId().getServicioId());
+		solicitud.setUsuarioIdCliente(cliente);
+		solicitud.setServicioId(servicio);
+		return solicitudImpl.crearSolicitud(solicitud);
+	}
+
+	@Override
+	public List<NotificacionProveedor> obtenerNotificacionByEstado(String estado) {
+		return notificacion.listarNotificacionByEstado(estado);
+	}
+
+	@Override
+	public List<NotificacionProveedor> crearNotificaciones(Solicitud solicitud) {
+		this.persona = ApplicationContextHolder.getContext().getBean(Proveedor.class);
+		List<Usuario> proveedores = new ArrayList<>();
+		if (solicitud.getUsuarioIdProveedor() != null && solicitud.getUsuarioIdProveedor().getUsuarioId() != null) {
+			proveedores.add(this.persona.buscarPersona(solicitud.getUsuarioIdProveedor().getUsuarioId()));
+		} else {
+			proveedores = this.persona.getProveedoresCercanos(solicitud.getUsuarioIdCliente().getUsuarioId(),
+					solicitud.getServicioId().getServicioId());
+		}
+		List<NotificacionProveedor> notificaciones = this.notificacion.crearNotificaciones(proveedores, solicitud);
+		return notificaciones;
 	}
 
 }
