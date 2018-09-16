@@ -6,8 +6,13 @@ import java.util.List;
 import co.com.uan.HogarApp.entities.Cotizacion;
 
 public interface ICotizacion {
-    
-    public List<Cotizacion> listarCotizacion(int idProveedor);
-    public void enviarCotizacion(int idCliente);
-    
+
+	public Cotizacion crearCotizacion(Cotizacion cotizacion);
+
+	public boolean aceptarCotizacion(Long solicitud_id, Long cotizacion_id);
+
+	public List<Cotizacion> buscarCotizacionPorSolicitud(Long solicitud_id);
+
+	public List<Cotizacion> listarCotizacion(Long idProveedor);
+
 }

@@ -6,6 +6,7 @@ import java.util.List;
 
 import co.com.uan.HogarApp.ApplicationContextHolder;
 import co.com.uan.HogarApp.entities.Categoria;
+import co.com.uan.HogarApp.entities.Cotizacion;
 import co.com.uan.HogarApp.entities.NotificacionProveedor;
 import co.com.uan.HogarApp.entities.Servicio;
 import co.com.uan.HogarApp.entities.Solicitud;
@@ -18,6 +19,7 @@ import co.com.uan.HogarApp.interfaces.IServicio;
 import co.com.uan.HogarApp.interfaces.ISolicitud;
 import co.com.uan.HogarApp.servicesImpl.CategoriaImpl;
 import co.com.uan.HogarApp.servicesImpl.Cliente;
+import co.com.uan.HogarApp.servicesImpl.CotizacionImpl;
 import co.com.uan.HogarApp.servicesImpl.NotificacionImpl;
 import co.com.uan.HogarApp.servicesImpl.Proveedor;
 import co.com.uan.HogarApp.servicesImpl.ServicioImpl;
@@ -53,7 +55,7 @@ public class BridgeImpl extends Bridge {
 	}
 
 	public BridgeImpl(ICotizacion cotizacion) {
-		this.cotizacion = cotizacion;
+		this.cotizacion = ApplicationContextHolder.getContext().getBean(CotizacionImpl.class);
 	}
 
 	public BridgeImpl(INotificacion notificacion) {
@@ -86,6 +88,18 @@ public class BridgeImpl extends Bridge {
 	public List<Servicio> obtenerServicioPorCategoria(Long categoriaId) {
 		List<Servicio> servicios = this.servicio.obtenerServicioPorCategoria(categoriaId);
 		return servicios;
+	}
+
+	@Override
+	public Usuario obtenerUsusarioPorID(Long usuario_id) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public Usuario obtenerUsusarioPorCorreo(String correo) {
+		// TODO Auto-generated method stub
+		return null;
 	}
 
 	@Override
@@ -131,6 +145,30 @@ public class BridgeImpl extends Bridge {
 		}
 		List<NotificacionProveedor> notificaciones = this.notificacion.crearNotificaciones(proveedores, solicitud);
 		return notificaciones;
+	}
+
+	@Override
+	public Cotizacion crearCotizacion(Cotizacion cotizacion) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public boolean aceptarCotizacion(Long solicitud_id, Long cotizacion_id) {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
+	@Override
+	public List<Cotizacion> buscarCotizacionPorSolicitud(Long solicitud_id) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public List<Cotizacion> listarCotizacion(Long idProveedor) {
+		// TODO Auto-generated method stub
+		return null;
 	}
 
 }

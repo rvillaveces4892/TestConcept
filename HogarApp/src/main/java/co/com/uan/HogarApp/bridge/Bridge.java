@@ -4,6 +4,7 @@ package co.com.uan.HogarApp.bridge;
 import java.util.List;
 
 import co.com.uan.HogarApp.entities.Categoria;
+import co.com.uan.HogarApp.entities.Cotizacion;
 import co.com.uan.HogarApp.entities.NotificacionProveedor;
 import co.com.uan.HogarApp.entities.Servicio;
 import co.com.uan.HogarApp.entities.Solicitud;
@@ -28,7 +29,17 @@ public abstract class Bridge implements Fachada {
 
 	@Override
 	public abstract List<Servicio> obtenerServicioPorCategoria(Long categoriaId);
-
+	
+	//Personas
+	@Override
+	public abstract Usuario obtenerUsusarioPorID(Long usuario_id);
+	
+	@Override
+    public abstract Usuario obtenerUsusarioPorCorreo(String correo);
+	
+	@Override
+    public abstract List<Usuario> buscarProveedoresCercanos(Long usuarioIdCliente, Long servicioId);
+    
 	@Override
 	public abstract Usuario registrarPersona(Usuario usuario);
 
@@ -46,4 +57,16 @@ public abstract class Bridge implements Fachada {
 	@Override
 	public abstract List<NotificacionProveedor> crearNotificaciones(Solicitud solicitud);
 
+	//Cotizacion
+	@Override
+	public abstract Cotizacion crearCotizacion(Cotizacion cotizacion);
+
+	@Override
+	public abstract boolean aceptarCotizacion(Long solicitud_id, Long cotizacion_id);
+	
+	@Override
+	public abstract List<Cotizacion> buscarCotizacionPorSolicitud(Long solicitud_id);
+
+	@Override
+	public abstract List<Cotizacion> listarCotizacion(Long idProveedor);
 }
