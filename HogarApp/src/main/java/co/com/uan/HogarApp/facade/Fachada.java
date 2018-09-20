@@ -19,15 +19,15 @@ public interface Fachada {
     public Servicio obtenerServiciobyID(Long servicioId);
     public List<Servicio> obtenerServicioPorCategoria(Long categoriaId);
     //Usuario
-    public Usuario obtenerUsusarioPorID(Long usuario_id);
+    public Usuario obtenerUsusarioPorID(Long usuario_id) throws Exception;
     public Usuario obtenerUsusarioPorCorreo(String correo);
     public List<Usuario> buscarProveedoresCercanos(Long usuarioIdCliente, Long servicioId);
     public Usuario registrarPersona(Usuario usuario);
     //Solicitud
     public Solicitud buscarSolicitud(Long solicitudId);
-    public Solicitud crearSolicitud(Solicitud solicitud); 
+    public Solicitud crearSolicitud(Solicitud solicitud) throws Exception; 
     //Notificaciones
-    public List<NotificacionProveedor> crearNotificaciones(Solicitud solicitud);
+    public List<NotificacionProveedor> crearNotificaciones(Solicitud solicitud) throws Exception;
     public List<NotificacionProveedor> obtenerNotificacionByEstado(String estado);
     
     //cotizacion

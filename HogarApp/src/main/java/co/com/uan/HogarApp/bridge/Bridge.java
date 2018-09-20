@@ -32,7 +32,7 @@ public abstract class Bridge implements Fachada {
 	
 	//Personas
 	@Override
-	public abstract Usuario obtenerUsusarioPorID(Long usuario_id);
+	public abstract Usuario obtenerUsusarioPorID(Long usuario_id) throws Exception;
 	
 	@Override
     public abstract Usuario obtenerUsusarioPorCorreo(String correo);
@@ -48,14 +48,14 @@ public abstract class Bridge implements Fachada {
 	public abstract Solicitud buscarSolicitud(Long solicitudId);
 
 	@Override
-	public abstract Solicitud crearSolicitud(Solicitud solicitud);
+	public abstract Solicitud crearSolicitud(Solicitud solicitud) throws Exception;
 
 	// Notificaciones
 	@Override
 	public abstract List<NotificacionProveedor> obtenerNotificacionByEstado(String estado);
 
 	@Override
-	public abstract List<NotificacionProveedor> crearNotificaciones(Solicitud solicitud);
+	public abstract List<NotificacionProveedor> crearNotificaciones(Solicitud solicitud) throws Exception;
 
 	//Cotizacion
 	@Override

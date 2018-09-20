@@ -91,15 +91,15 @@ public class BridgeImpl extends Bridge {
 	}
 
 	@Override
-	public Usuario obtenerUsusarioPorID(Long usuario_id) {
-		// TODO Auto-generated method stub
-		return null;
+	public Usuario obtenerUsusarioPorID(Long usuario_id) throws Exception {
+		Usuario usuario = this.persona.buscarPersona(usuario_id);
+		return usuario;
 	}
 
 	@Override
 	public Usuario obtenerUsusarioPorCorreo(String correo) {
-		// TODO Auto-generated method stub
-		return null;
+		Usuario usuario = this.persona.obtenerUsusarioPorCorreo(correo);
+		return usuario;
 	}
 
 	@Override
@@ -118,7 +118,7 @@ public class BridgeImpl extends Bridge {
 	}
 
 	@Override
-	public Solicitud crearSolicitud(Solicitud solicitud) {
+	public Solicitud crearSolicitud(Solicitud solicitud) throws Exception {
 		this.persona = ApplicationContextHolder.getContext().getBean(Cliente.class);
 		this.servicio = ApplicationContextHolder.getContext().getBean(ServicioImpl.class);
 		Usuario cliente = this.persona.buscarPersona(solicitud.getUsuarioIdCliente().getUsuarioId());
@@ -134,7 +134,7 @@ public class BridgeImpl extends Bridge {
 	}
 
 	@Override
-	public List<NotificacionProveedor> crearNotificaciones(Solicitud solicitud) {
+	public List<NotificacionProveedor> crearNotificaciones(Solicitud solicitud) throws Exception {
 		this.persona = ApplicationContextHolder.getContext().getBean(Proveedor.class);
 		List<Usuario> proveedores = new ArrayList<>();
 		if (solicitud.getUsuarioIdProveedor() != null && solicitud.getUsuarioIdProveedor().getUsuarioId() != null) {

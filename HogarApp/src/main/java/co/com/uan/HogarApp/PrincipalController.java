@@ -25,6 +25,25 @@ import co.com.uan.HogarApp.servicesImpl.SolicitudImpl;
 
 @RestController
 public class PrincipalController {
+    
+    @RequestMapping("/buscarUsuarioPorID/{id}")
+    public Usuario buscarUsuarioPorID(@PathVariable Long id) {
+        Fachada persona = new BridgeImpl(new Cliente());
+        Usuario usuario = new Usuario();
+        try{
+            usuario = persona.obtenerUsusarioPorID(id);
+            return usuario;
+        }
+        catch(Exception e){
+           return usuario;
+        }
+    }
+    
+    @RequestMapping("/buscarUsuarioPorCorreo/{correo}")
+    public Usuario buscarUsuarioPorCorreo(@PathVariable String correo) {
+        Fachada usuario = new BridgeImpl(new Cliente());
+        return usuario.obtenerUsusarioPorCorreo(correo);
+    }
 
 	@RequestMapping("/findAllCategorias")
 	public List<Categoria> findAllCategorias() {
@@ -82,13 +101,20 @@ public class PrincipalController {
 	}
 
 	@RequestMapping(value = "/solicitud/create", method = RequestMethod.POST, consumes = "application/json")
-	public Solicitud crearSolicitud(@RequestBody Solicitud solicitud) {
+	public Solicitud crearSolicitud(@RequestBody Solicitud solicitud)  {
 		Fachada solicitudImpl = new BridgeImpl(new SolicitudImpl());
-		Solicitud requestSolicitud = solicitudImpl.crearSolicitud(solicitud);
-		Fachada notificacionImpl = new BridgeImpl(new NotificacionImpl());
-		List<NotificacionProveedor> notificaciones = notificacionImpl.crearNotificaciones(solicitud);
-		requestSolicitud.setNotificacionProveedorList(notificaciones);
-		return requestSolicitud;
+		Solicitud requestSolicitud= new Solicitud();
+        try{
+            requestSolicitud=solicitudImpl.crearSolicitud(solicitud);
+            Fachada notificacionImpl = new BridgeImpl(new NotificacionImpl());
+            List<NotificacionProveedor> notificaciones = notificacionImpl.crearNotificaciones(solicitud);
+            requestSolicitud.setNotificacionProveedorList(notificaciones);
+            return requestSolicitud;
+        }
+        catch(Exception e){
+            return requestSolicitud;
+        }
+		
 	}
 
 }
