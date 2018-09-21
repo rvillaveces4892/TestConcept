@@ -3,6 +3,8 @@ package co.com.uan.HogarApp.facade;
 
 import java.util.List;
 
+import javax.ws.rs.NotFoundException;
+
 import co.com.uan.HogarApp.entities.Categoria;
 import co.com.uan.HogarApp.entities.Cotizacion;
 import co.com.uan.HogarApp.entities.NotificacionProveedor;
@@ -22,7 +24,7 @@ public interface Fachada {
     public Usuario obtenerUsusarioPorID(Long usuario_id) throws Exception;
     public Usuario obtenerUsusarioPorCorreo(String correo);
     public List<Usuario> buscarProveedoresCercanos(Long usuarioIdCliente, Long servicioId);
-    public Usuario registrarPersona(Usuario usuario);
+    public Usuario registrarPersona(Usuario usuario) throws NotFoundException, Exception;
     //Solicitud
     public Solicitud buscarSolicitud(Long solicitudId);
     public Solicitud crearSolicitud(Solicitud solicitud) throws Exception; 

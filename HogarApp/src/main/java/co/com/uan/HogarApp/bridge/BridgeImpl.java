@@ -4,6 +4,8 @@ package co.com.uan.HogarApp.bridge;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.ws.rs.NotFoundException;
+
 import co.com.uan.HogarApp.ApplicationContextHolder;
 import co.com.uan.HogarApp.entities.Categoria;
 import co.com.uan.HogarApp.entities.Cotizacion;
@@ -103,7 +105,7 @@ public class BridgeImpl extends Bridge {
 	}
 
 	@Override
-	public Usuario registrarPersona(Usuario usuario) {
+	public Usuario registrarPersona(Usuario usuario) throws NotFoundException, Exception {
 		return persona.registrarPersona(usuario);
 	}
 

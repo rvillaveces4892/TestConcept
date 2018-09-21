@@ -3,6 +3,8 @@ package co.com.uan.HogarApp.bridge;
 
 import java.util.List;
 
+import javax.ws.rs.NotFoundException;
+
 import co.com.uan.HogarApp.entities.Categoria;
 import co.com.uan.HogarApp.entities.Cotizacion;
 import co.com.uan.HogarApp.entities.NotificacionProveedor;
@@ -41,7 +43,7 @@ public abstract class Bridge implements Fachada {
     public abstract List<Usuario> buscarProveedoresCercanos(Long usuarioIdCliente, Long servicioId);
     
 	@Override
-	public abstract Usuario registrarPersona(Usuario usuario);
+	public abstract Usuario registrarPersona(Usuario usuario) throws NotFoundException, Exception;
 
 	// solicitud
 	@Override

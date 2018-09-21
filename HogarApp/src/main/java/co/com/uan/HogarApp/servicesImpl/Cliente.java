@@ -20,31 +20,6 @@ public class Cliente extends Persona {
 		super(idrol);
 	}
 
-	@Override
-	public List<Cliente> consultarPersona(int identificador) {
-		List<Cliente> cliente = new ArrayList<>();
-//		setNombres("Eduardo");
-//		setApellidos("Michaela");
-		cliente.add(this);
-		return cliente;
-	}
-
-	@Override
-	public List<Cliente> consultarPersonas() {
-		List<Cliente> cliente = new ArrayList<>();
-//		setNombres("Eduardo");
-//		setApellidos("Michaela");
-		cliente.add(this);
-//		setNombres("Martina");
-//		setApellidos("Mendez");
-		cliente.add(this);
-		return cliente;
-	}
-
-	@Override
-	public List buscarProveedor(int servicio) {
-		throw new UnsupportedOperationException("No es aplicable");
-	}
 
 	@Override
 	public List<Usuario> getProveedoresCercanos(Long usuarioIdCliente, Long servicioId) {

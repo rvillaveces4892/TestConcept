@@ -2,6 +2,9 @@ package co.com.uan.HogarApp;
 
 import java.util.List;
 
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -25,26 +28,26 @@ import co.com.uan.HogarApp.servicesImpl.SolicitudImpl;
 
 @RestController
 public class PrincipalController {
-    
-    @RequestMapping("/buscarUsuarioPorID/{id}")
-    public Usuario buscarUsuarioPorID(@PathVariable Long id) {
-        Fachada persona = new BridgeImpl(new Cliente());
-        Usuario usuario = new Usuario();
-        try{
-            usuario = persona.obtenerUsusarioPorID(id);
-            return usuario;
-        }
-        catch(Exception e){
-           return usuario;
-        }
-    }
-    
-    @RequestMapping("/buscarUsuarioPorCorreo/{correo}")
-    public Usuario buscarUsuarioPorCorreo(@PathVariable String correo) {
-        Fachada usuario = new BridgeImpl(new Cliente());
-        return usuario.obtenerUsusarioPorCorreo(correo);
-    }
 
+	@RequestMapping("/buscarUsuarioPorID/{id}")
+	public Usuario buscarUsuarioPorID(@PathVariable Long id) {
+		Fachada persona = new BridgeImpl(new Cliente());
+		Usuario usuario = new Usuario();
+		try {
+			usuario = persona.obtenerUsusarioPorID(id);
+			return usuario;
+		} catch (Exception e) {
+			return usuario;
+		}
+	}
+
+	@RequestMapping("/buscarUsuarioPorCorreo/{correo}")
+	public Usuario buscarUsuarioPorCorreo(@PathVariable String correo) {
+		Fachada usuario = new BridgeImpl(new Cliente());
+		return usuario.obtenerUsusarioPorCorreo(correo);
+	}
+
+	@CrossOrigin(origins = "*")
 	@RequestMapping("/findAllCategorias")
 	public List<Categoria> findAllCategorias() {
 		Fachada categoria = new BridgeImpl(new CategoriaImpl());
@@ -83,15 +86,29 @@ public class PrincipalController {
 	}
 
 	@RequestMapping(value = "/proveedor/create", method = RequestMethod.POST, consumes = "application/json")
-	public Usuario crearProveedor(@RequestBody Usuario usuario) {
+	public ResponseEntity<?> crearProveedor(@RequestBody Usuario usuario) {
 		Fachada proveedor = new BridgeImpl(new Proveedor());
-		return proveedor.registrarPersona(usuario);
+		Usuario proveedorCreated;
+		try {
+			proveedorCreated = proveedor.registrarPersona(usuario);
+			return new ResponseEntity<>(proveedorCreated, HttpStatus.OK);
+		} catch (Exception e) {
+			return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
+		}
 	}
 
 	@RequestMapping(value = "/cliente/create", method = RequestMethod.POST, consumes = "application/json")
-	public Usuario crearCliente(@RequestBody Usuario usuario) {
+	public ResponseEntity<?> crearCliente(@RequestBody Usuario usuario) {
 		Fachada cliente = new BridgeImpl(new Cliente());
-		return cliente.registrarPersona(usuario);
+		Usuario clienteCreated;
+		try {
+			clienteCreated = cliente.registrarPersona(usuario);
+			return new ResponseEntity<>(clienteCreated, HttpStatus.OK);
+		} catch (Exception e) {
+			System.out.println("exception message : "+e.getMessage());
+			return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
+		}
+
 	}
 
 	@RequestMapping("/solicitud/{id}")
@@ -101,20 +118,19 @@ public class PrincipalController {
 	}
 
 	@RequestMapping(value = "/solicitud/create", method = RequestMethod.POST, consumes = "application/json")
-	public Solicitud crearSolicitud(@RequestBody Solicitud solicitud)  {
+	public Solicitud crearSolicitud(@RequestBody Solicitud solicitud) {
 		Fachada solicitudImpl = new BridgeImpl(new SolicitudImpl());
-		Solicitud requestSolicitud= new Solicitud();
-        try{
-            requestSolicitud=solicitudImpl.crearSolicitud(solicitud);
-            Fachada notificacionImpl = new BridgeImpl(new NotificacionImpl());
-            List<NotificacionProveedor> notificaciones = notificacionImpl.crearNotificaciones(solicitud);
-            requestSolicitud.setNotificacionProveedorList(notificaciones);
-            return requestSolicitud;
-        }
-        catch(Exception e){
-            return requestSolicitud;
-        }
-		
+		Solicitud requestSolicitud = new Solicitud();
+		try {
+			requestSolicitud = solicitudImpl.crearSolicitud(solicitud);
+			Fachada notificacionImpl = new BridgeImpl(new NotificacionImpl());
+			List<NotificacionProveedor> notificaciones = notificacionImpl.crearNotificaciones(solicitud);
+			requestSolicitud.setNotificacionProveedorList(notificaciones);
+			return requestSolicitud;
+		} catch (Exception e) {
+			return requestSolicitud;
+		}
+
 	}
 
 }

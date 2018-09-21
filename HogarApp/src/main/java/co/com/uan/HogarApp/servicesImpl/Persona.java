@@ -5,6 +5,7 @@ import java.util.List;
 
 import javax.persistence.EntityManager;
 import javax.transaction.Transactional;
+import javax.ws.rs.NotFoundException;
 
 import org.springframework.beans.factory.annotation.Autowired;
 
@@ -32,25 +33,37 @@ public abstract class Persona implements IPersona{
         this.rolId=rolId;
     }
 
-    public Usuario buscarPersona(Long id) throws Exception{
+    public Usuario buscarPersona(Long id) throws NotFoundException,Exception{
         Usuario persona=new Usuario();
         try{
             persona=em.find(Usuario.class,id);
             return persona;
         }
         catch(Exception e){
-            throw e;
+            throw new NotFoundException();
         }
     }
 
     @Transactional
     @Override
-    public Usuario registrarPersona(Usuario usuario){
-        Rol rolProveedor=em.find(Rol.class,getRolId());
-        usuario.setRolId(rolProveedor);
-        System.out.println("Entro!"+getRolId());
-        em.persist(usuario);
-        return usuario;
+    public Usuario registrarPersona(Usuario usuario) throws NotFoundException, Exception{
+    	Usuario existUsuario = new Usuario();
+        try {
+        	existUsuario = this.buscarPersona(usuario.getUsuarioId());
+        	if(existUsuario != null && existUsuario.getUsuarioId()!=null) {
+        		throw new NotFoundException("El usuario ya existe");
+        	}
+			Rol rolProveedor=em.find(Rol.class,getRolId());
+			usuario.setRolId(rolProveedor);
+			System.out.println("Entro!"+getRolId());
+			em.persist(usuario);
+			return usuario;
+		}catch (NotFoundException e) {
+			throw new NotFoundException("El usuario ya existe");
+		} 
+        catch (Exception e) {
+			throw e;
+		}
     }
 
     @Override
