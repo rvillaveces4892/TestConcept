@@ -54,7 +54,7 @@ public abstract class Bridge implements Fachada {
 
 	// Notificaciones
 	@Override
-	public abstract List<NotificacionProveedor> obtenerNotificacionByEstado(String estado);
+	public abstract List<NotificacionProveedor> obtenerNotificacionesByEstado(String estado);
 
 	@Override
 	public abstract List<NotificacionProveedor> crearNotificaciones(Solicitud solicitud) throws Exception;
@@ -67,7 +67,7 @@ public abstract class Bridge implements Fachada {
 	public abstract boolean aceptarCotizacion(Long solicitud_id, Long cotizacion_id);
 	
 	@Override
-	public abstract List<Cotizacion> buscarCotizacionPorSolicitud(Long solicitud_id);
+	public abstract List<Cotizacion> buscarCotizacionesPorSolicitud(Long solicitud_id);
 
 	@Override
 	public abstract List<Cotizacion> listarCotizacion(Long idProveedor);

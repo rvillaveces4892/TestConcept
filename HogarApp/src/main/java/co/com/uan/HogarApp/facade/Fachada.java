@@ -28,13 +28,15 @@ public interface Fachada {
     //Solicitud
     public Solicitud buscarSolicitud(Long solicitudId);
     public Solicitud crearSolicitud(Solicitud solicitud) throws Exception; 
+    public List<Solicitud> buscarSolicitudesDelCliente(Long usuario_id);
     //Notificaciones
     public List<NotificacionProveedor> crearNotificaciones(Solicitud solicitud) throws Exception;
-    public List<NotificacionProveedor> obtenerNotificacionByEstado(String estado);
+    public List<NotificacionProveedor> obtenerNotificacionesByEstado(String estado);
     
     //cotizacion
     public Cotizacion crearCotizacion(Cotizacion cotizacion);
 	public boolean aceptarCotizacion(Long solicitud_id, Long cotizacion_id);
-	public List<Cotizacion> buscarCotizacionPorSolicitud(Long solicitud_id);
+	public boolean rechazarCotizacion(Long cotizacion_id);
+	public List<Cotizacion> buscarCotizacionesPorSolicitud(Long solicitud_id);
 	public List<Cotizacion> listarCotizacion(Long idProveedor);
 }

@@ -1,8 +1,6 @@
 
 package co.com.uan.HogarApp.servicesImpl;
 
-import java.util.List;
-
 import javax.persistence.EntityManager;
 import javax.transaction.Transactional;
 import javax.ws.rs.NotFoundException;
@@ -10,7 +8,6 @@ import javax.ws.rs.NotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import co.com.uan.HogarApp.entities.Rol;
-import co.com.uan.HogarApp.entities.Solicitud;
 import co.com.uan.HogarApp.entities.Usuario;
 import co.com.uan.HogarApp.interfaces.IPersona;
 
@@ -64,18 +61,6 @@ public abstract class Persona implements IPersona{
         catch (Exception e) {
 			throw e;
 		}
-    }
-
-    @Override
-    public List<Usuario> consultarPersona(int identificador){
-        // TODO Auto-generated method stub
-        return null;
-    }
-
-    @Override
-    public List<Usuario> consultarPersonas(){
-        // TODO Auto-generated method stub
-        return null;
     }
 
     @Override
