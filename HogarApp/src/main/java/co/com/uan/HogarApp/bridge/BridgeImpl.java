@@ -131,7 +131,7 @@ public class BridgeImpl extends Bridge {
 	}
 
 	@Override
-	public List<NotificacionProveedor> obtenerNotificacionByEstado(String estado) {
+	public List<NotificacionProveedor> obtenerNotificacionesByEstado(String estado) {
 		return notificacion.listarNotificacionByEstado(estado);
 	}
 
@@ -162,7 +162,7 @@ public class BridgeImpl extends Bridge {
 	}
 
 	@Override
-	public List<Cotizacion> buscarCotizacionPorSolicitud(Long solicitud_id) {
+	public List<Cotizacion> buscarCotizacionesPorSolicitud(Long solicitud_id) {
 		// TODO Auto-generated method stub
 		return null;
 	}
