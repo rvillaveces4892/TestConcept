@@ -18,10 +18,7 @@ public class Cliente extends Persona{
         super(idrol);
     }
 
-    @Override
-    public List<Usuario> getProveedoresCercanos(Long usuarioIdCliente,Long servicioId){
-        // TODO Auto-generated method stub
-        return null;
-    }
+	
+
 
 }

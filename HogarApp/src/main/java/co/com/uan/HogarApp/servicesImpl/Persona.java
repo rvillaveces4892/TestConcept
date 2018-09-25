@@ -1,9 +1,13 @@
 
 package co.com.uan.HogarApp.servicesImpl;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.persistence.EntityManager;
+import javax.persistence.ParameterMode;
+import javax.persistence.Query;
+import javax.persistence.StoredProcedureQuery;
 import javax.transaction.Transactional;
 import javax.ws.rs.NotFoundException;
 
@@ -32,6 +36,7 @@ public abstract class Persona implements IPersona{
         this.rolId=rolId;
     }
 
+    
     public Usuario buscarPersona(Long id) throws NotFoundException,Exception{
         Usuario persona=new Usuario();
         try{
@@ -42,16 +47,43 @@ public abstract class Persona implements IPersona{
             throw new NotFoundException();
         }
     }
+    
+    @Override
+	public List<Usuario> getProveedoresCercanos(String longitud, String latitud, Long servicioId) {
+		StoredProcedureQuery query = getEm().createStoredProcedureQuery("prc_obtener_proveedores_cercanos")
+				.registerStoredProcedureParameter(1, String.class, ParameterMode.IN)
+				.registerStoredProcedureParameter(2, String.class, ParameterMode.IN)
+				.registerStoredProcedureParameter(3, Long.class, ParameterMode.IN)
+				.registerStoredProcedureParameter(4, String.class, ParameterMode.OUT)
+				.setParameter(1, longitud)
+				.setParameter(2, latitud)
+				.setParameter(3, servicioId);
+
+		query.execute();
+		List<Long> usuarioIds = new ArrayList<>();
+		String commentCount = (String) query.getOutputParameterValue(4);
+		if (commentCount != null && commentCount.length() > 0) {
+			for (String id : commentCount.substring(1, commentCount.length()).split(":")) {
+				usuarioIds.add(Long.valueOf(id));
+			}
+		}
+
+		Query findByUsuarioIdIn = getEm().createNamedQuery("Usuario.findByUsuarioIdIn");
+		findByUsuarioIdIn.setParameter("usuarioIds", usuarioIds);
+		return (List<Usuario>) findByUsuarioIdIn.getResultList();
+
+	}
+
 
     @Transactional
     @Override
     public Usuario registrarPersona(Usuario usuario) throws NotFoundException, Exception{
     	Usuario existUsuario = new Usuario();
         try {
-        	existUsuario = this.buscarPersona(usuario.getUsuarioId());
-        	if(existUsuario != null && existUsuario.getUsuarioId()!=null) {
-        		throw new NotFoundException("El usuario ya existe");
-        	}
+//        	existUsuario = this.buscarPersona(usuario.getUsuarioId());
+//        	if(existUsuario != null && existUsuario.getUsuarioId()!=null) {
+//        		throw new NotFoundException("El usuario ya existe");
+//        	}
 			Rol rolProveedor=em.find(Rol.class,getRolId());
 			usuario.setRolId(rolProveedor);
 			System.out.println("Entro!"+getRolId());
@@ -61,6 +93,7 @@ public abstract class Persona implements IPersona{
 			throw new NotFoundException("El usuario ya existe");
 		} 
         catch (Exception e) {
+        	e.printStackTrace();
 			throw e;
 		}
     }
