@@ -110,8 +110,8 @@ public class BridgeImpl extends Bridge {
 	}
 
 	@Override
-	public List<Usuario> buscarProveedoresCercanos(Long usuarioIdCliente, Long servicioId) {
-		return persona.getProveedoresCercanos(usuarioIdCliente, servicioId);
+	public List<Usuario> buscarProveedoresCercanos(String longitud, String latitud, Long servicioId) {
+		return persona.getProveedoresCercanos(longitud, latitud, servicioId);
 	}
 
 	@Override
@@ -142,7 +142,7 @@ public class BridgeImpl extends Bridge {
 		if (solicitud.getUsuarioIdProveedor() != null && solicitud.getUsuarioIdProveedor().getUsuarioId() != null) {
 			proveedores.add(this.persona.buscarPersona(solicitud.getUsuarioIdProveedor().getUsuarioId()));
 		} else {
-			proveedores = this.persona.getProveedoresCercanos(solicitud.getUsuarioIdCliente().getUsuarioId(),
+			proveedores = this.persona.getProveedoresCercanos(solicitud.getLongitud(),solicitud.getLatitud(),
 					solicitud.getServicioId().getServicioId());
 		}
 		List<NotificacionProveedor> notificaciones = this.notificacion.crearNotificaciones(proveedores, solicitud);

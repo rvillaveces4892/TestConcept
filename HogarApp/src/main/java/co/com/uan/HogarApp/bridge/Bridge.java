@@ -40,7 +40,7 @@ public abstract class Bridge implements Fachada {
     public abstract Usuario obtenerUsusarioPorCorreo(String correo);
 	
 	@Override
-    public abstract List<Usuario> buscarProveedoresCercanos(Long usuarioIdCliente, Long servicioId);
+    public abstract List<Usuario> buscarProveedoresCercanos(String longitud, String latitud, Long servicioId);
     
 	@Override
 	public abstract Usuario registrarPersona(Usuario usuario) throws NotFoundException, Exception;

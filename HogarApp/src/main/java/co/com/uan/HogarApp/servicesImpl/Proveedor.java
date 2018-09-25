@@ -24,16 +24,19 @@ public class Proveedor extends Persona {
 	}
 
 	@Override
-	public List<Usuario> getProveedoresCercanos(Long usuarioIdCliente, Long servicioId) {
+	public List<Usuario> getProveedoresCercanos(String longitud, String latitud, Long servicioId) {
 		StoredProcedureQuery query = getEm().createStoredProcedureQuery("prc_obtener_proveedores_cercanos")
-				.registerStoredProcedureParameter(1, Long.class, ParameterMode.IN)
-				.registerStoredProcedureParameter(2, Long.class, ParameterMode.IN)
-				.registerStoredProcedureParameter(3, String.class, ParameterMode.OUT).setParameter(1, usuarioIdCliente)
-				.setParameter(2, servicioId);
+				.registerStoredProcedureParameter(1, String.class, ParameterMode.IN)
+				.registerStoredProcedureParameter(2, String.class, ParameterMode.IN)
+				.registerStoredProcedureParameter(3, Long.class, ParameterMode.IN)
+				.registerStoredProcedureParameter(4, String.class, ParameterMode.OUT)
+				.setParameter(1, longitud)
+				.setParameter(2, latitud)
+				.setParameter(3, servicioId);
 
 		query.execute();
 		List<Long> usuarioIds = new ArrayList<>();
-		String commentCount = (String) query.getOutputParameterValue(3);
+		String commentCount = (String) query.getOutputParameterValue(4);
 		if (commentCount != null && commentCount.length() > 0) {
 			for (String id : commentCount.substring(1, commentCount.length()).split(":")) {
 				usuarioIds.add(Long.valueOf(id));
