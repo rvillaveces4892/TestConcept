@@ -1,6 +1,8 @@
 
 package co.com.uan.HogarApp.servicesImpl;
 
+import java.util.List;
+
 import javax.persistence.EntityManager;
 import javax.transaction.Transactional;
 import javax.ws.rs.NotFoundException;
@@ -68,6 +70,19 @@ public abstract class Persona implements IPersona{
         Usuario usuario = em.createNamedQuery("Usuario.findByCorreo", Usuario.class)
                 .setParameter("correo", correo).setParameter("estado", "ACTIVO").getSingleResult();
         return usuario;
+    }
+    
+    @Override
+    public List<Usuario> consultarPersona(int identificador){
+        // TODO Auto-generated method stub
+        return null;
+    }
+
+
+    @Override
+    public List<Usuario> consultarPersonas(){
+        // TODO Auto-generated method stub
+        return null;
     }
 
     public EntityManager getEm(){

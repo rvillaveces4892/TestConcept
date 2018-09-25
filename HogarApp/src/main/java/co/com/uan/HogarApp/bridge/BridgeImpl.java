@@ -173,4 +173,16 @@ public class BridgeImpl extends Bridge {
 		return null;
 	}
 
+    @Override
+    public List<Solicitud> buscarSolicitudesDelCliente(Long usuario_id){
+        // TODO Auto-generated method stub
+        return null;
+    }
+
+    @Override
+    public boolean rechazarCotizacion(Long cotizacion_id){
+        // TODO Auto-generated method stub
+        return false;
+    }
+
 }
