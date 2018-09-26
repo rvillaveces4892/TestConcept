@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import javax.persistence.EntityManager;
+import javax.persistence.NoResultException;
 import javax.persistence.ParameterMode;
 import javax.persistence.Query;
 import javax.persistence.StoredProcedureQuery;
@@ -80,17 +81,17 @@ public abstract class Persona implements IPersona{
     public Usuario registrarPersona(Usuario usuario) throws NotFoundException, Exception{
     	Usuario existUsuario = new Usuario();
         try {
-//        	existUsuario = this.buscarPersona(usuario.getUsuarioId());
-//        	if(existUsuario != null && existUsuario.getUsuarioId()!=null) {
-//        		throw new NotFoundException("El usuario ya existe");
-//        	}
+        	existUsuario = this.obtenerUsusarioPorCorreo(usuario.getCorreo());
+        	if(existUsuario!=null&&existUsuario.getUsuarioId()!=null) {
+        		throw new NoResultException();
+        	}
 			Rol rolProveedor=em.find(Rol.class,getRolId());
 			usuario.setRolId(rolProveedor);
 			System.out.println("Entro!"+getRolId());
 			em.persist(usuario);
 			return usuario;
-		}catch (NotFoundException e) {
-			throw new NotFoundException("El usuario ya existe");
+		}catch (NoResultException e) {
+			throw new NoResultException("El usuario ya existe con ese correo");
 		} 
         catch (Exception e) {
         	e.printStackTrace();
@@ -100,9 +101,14 @@ public abstract class Persona implements IPersona{
 
     @Override
     public Usuario obtenerUsusarioPorCorreo(String correo){
-        Usuario usuario = em.createNamedQuery("Usuario.findByCorreo", Usuario.class)
-                .setParameter("correo", correo).setParameter("estado", "ACTIVO").getSingleResult();
-        return usuario;
+    	Usuario usuario = new Usuario();
+        try {
+			usuario = em.createNamedQuery("Usuario.findByCorreo", Usuario.class)
+			        .setParameter("correo", correo.trim()).setParameter("estado", "ACTIVO").getSingleResult();
+			return usuario;
+		} catch (NoResultException e) {
+			return usuario;
+		}
     }
     
     @Override
