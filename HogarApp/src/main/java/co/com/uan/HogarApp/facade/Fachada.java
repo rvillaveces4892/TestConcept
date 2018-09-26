@@ -23,7 +23,7 @@ public interface Fachada {
     //Usuario
     public Usuario obtenerUsusarioPorID(Long usuario_id) throws Exception;
     public Usuario obtenerUsusarioPorCorreo(String correo);
-    public List<Usuario> buscarProveedoresCercanos(Long usuarioIdCliente, Long servicioId);
+    public List<Usuario> buscarProveedoresCercanos(String longitud, String latitud, Long servicioId);
     public Usuario registrarPersona(Usuario usuario) throws NotFoundException, Exception;
     //Solicitud
     public Solicitud buscarSolicitud(Long solicitudId);

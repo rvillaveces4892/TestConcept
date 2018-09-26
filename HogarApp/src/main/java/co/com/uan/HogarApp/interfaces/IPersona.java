@@ -14,6 +14,6 @@ public interface IPersona {
    public Usuario obtenerUsusarioPorCorreo(String correo);
    public Usuario buscarPersona(Long id) throws Exception;
    public Usuario registrarPersona(Usuario usuario) throws NotFoundException, Exception;
-   public List<Usuario> getProveedoresCercanos(Long usuarioIdCliente, Long servicioId);
+   public List<Usuario> getProveedoresCercanos(String longitud, String latitud, Long servicioId);
    
 }

@@ -79,10 +79,10 @@ public class PrincipalController {
 	}
 
 	@RequestMapping("/findAllProvedoresCercanos")
-	public List<Usuario> findAllProvedoresCercanos(@RequestParam("usuarioIdCliente") Long usuarioIdCliente,
+	public List<Usuario> findAllProvedoresCercanos(@RequestParam("longitud") String longitud,@RequestParam("latitud") String latitud,
 			@RequestParam("servicioId") Long servicioId) {
 		Fachada proveedor = new BridgeImpl(new Proveedor());
-		return proveedor.buscarProveedoresCercanos(usuarioIdCliente, servicioId);
+		return proveedor.buscarProveedoresCercanos(longitud, latitud, servicioId);
 	}
 
 	@RequestMapping(value = "/proveedor/create", method = RequestMethod.POST, consumes = "application/json")
