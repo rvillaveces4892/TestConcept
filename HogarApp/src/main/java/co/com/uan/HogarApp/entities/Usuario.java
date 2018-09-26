@@ -115,6 +115,8 @@ public class Usuario implements Serializable {
 	@Size(max = 10)
 	@Column(name = "ESTADO")
 	private String estado = "ACTIVO";
+//	@OneToMany(cascade = CascadeType.ALL, mappedBy = "usuarioIdCalificador", fetch = FetchType.LAZY)
+//	private List<> calificacionList;
 //    @OneToMany(cascade = CascadeType.ALL, mappedBy = "usuarioIdCalificador", fetch = FetchType.LAZY)
 //    private List<Calificacion> calificacionList;
 //    @OneToMany(cascade = CascadeType.ALL, mappedBy = "usuarioIdCalificado", fetch = FetchType.LAZY)
