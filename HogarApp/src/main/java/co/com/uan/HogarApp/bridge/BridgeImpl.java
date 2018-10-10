@@ -151,25 +151,24 @@ public class BridgeImpl extends Bridge {
 
 	@Override
 	public Cotizacion crearCotizacion(Cotizacion cotizacion) {
-		// TODO Auto-generated method stub
-		return null;
+		Cotizacion cotizacionCreated = this.cotizacion.crearCotizacion(cotizacion);
+		return cotizacionCreated;
 	}
 
 	@Override
 	public boolean aceptarCotizacion(Long solicitud_id, Long cotizacion_id) {
-		// TODO Auto-generated method stub
-		return false;
+		return this.cotizacion.aceptarCotizacion(solicitud_id, cotizacion_id);
 	}
 
 	@Override
 	public List<Cotizacion> buscarCotizacionesPorSolicitud(Long solicitud_id) {
-		// TODO Auto-generated method stub
-		return null;
+		List<Cotizacion> list = this.cotizacion.buscarCotizacionPorSolicitud(solicitud_id);
+		return list;
 	}
 
 	@Override
 	public List<Cotizacion> listarCotizacion(Long idProveedor) {
-		// TODO Auto-generated method stub
+		
 		return null;
 	}
 
