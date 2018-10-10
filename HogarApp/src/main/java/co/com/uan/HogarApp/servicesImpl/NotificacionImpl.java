@@ -13,12 +13,9 @@ import org.springframework.stereotype.Component;
 
 import co.com.uan.HogarApp.entities.NotificacionProveedor;
 import co.com.uan.HogarApp.entities.NotificacionProveedorPK;
-import co.com.uan.HogarApp.entities.Rol;
-import co.com.uan.HogarApp.entities.Servicio;
 import co.com.uan.HogarApp.entities.Solicitud;
 import co.com.uan.HogarApp.entities.Usuario;
 import co.com.uan.HogarApp.interfaces.INotificacion;
-import co.com.uan.HogarApp.interfaces.ISolicitud;
 
 @Component
 @Configuration
@@ -31,7 +28,7 @@ public class NotificacionImpl implements INotificacion {
 	}
 
 	@Override
-	public List<NotificacionProveedor> listarNotificacionByEstado(String estado) {
+	public List<NotificacionProveedor> obtenerNotificacionesPorEstado(String estado) {
 		// TODO Auto-generated method stub
 		return null;
 	}

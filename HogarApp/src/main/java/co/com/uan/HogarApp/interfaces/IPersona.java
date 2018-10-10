@@ -9,11 +9,9 @@ import co.com.uan.HogarApp.entities.Usuario;
 
 public interface IPersona {
     
-   public List<Usuario> consultarPersona(int identificador);
-   public List<Usuario> consultarPersonas();
    public Usuario obtenerUsusarioPorCorreo(String correo);
-   public Usuario buscarPersona(Long id) throws Exception;
+   public Usuario obtenerPersona(Long id) throws Exception;
    public Usuario registrarPersona(Usuario usuario) throws NotFoundException, Exception;
-   public List<Usuario> getProveedoresCercanos(String longitud, String latitud, Long servicioId);
+   public List<Usuario> obtenerProveedoresCercanos(String longitud, String latitud, Long servicioId);
    
 }

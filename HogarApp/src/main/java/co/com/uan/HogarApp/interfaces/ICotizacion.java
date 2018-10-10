@@ -11,10 +11,8 @@ public interface ICotizacion {
 
 	public boolean aceptarCotizacion(Long solicitud_id, Long cotizacion_id);
 	
-	public boolean rechazarCotizacion(Long solicitud_id, Long cotizacion_id);
+	public boolean rechazarCotizacion(Long cotizacion_id);
 
-	public List<Cotizacion> buscarCotizacionPorSolicitud(Long solicitud_id);
-
-	public List<Cotizacion> listarCotizacion(Long idProveedor);
+	public List<Cotizacion> obtenerCotizacionPorSolicitud(Long solicitud_id);
 
 }

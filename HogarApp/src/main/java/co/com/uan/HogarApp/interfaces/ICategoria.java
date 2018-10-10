@@ -7,6 +7,6 @@ import co.com.uan.HogarApp.entities.Categoria;
 
 public interface ICategoria {
     
-    public List<Categoria> listarCategorias();
-    public Categoria findCategoriaByID(Long idCategoria);
+    public List<Categoria> obtenerCategorias();
+    public Categoria obtenerCategoriaPorId(Long categoria_id);
 }

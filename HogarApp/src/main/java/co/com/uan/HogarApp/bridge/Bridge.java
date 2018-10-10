@@ -13,62 +13,54 @@ import co.com.uan.HogarApp.entities.Solicitud;
 import co.com.uan.HogarApp.entities.Usuario;
 import co.com.uan.HogarApp.facade.Fachada;
 
-public abstract class Bridge implements Fachada {
+public abstract class Bridge implements Fachada{
 
-	// Categorías
-	@Override
-	public abstract Categoria obtenerCategoriaByID(Long idCategoria);
+    // Categorías
+    @Override
+    public abstract Categoria obtenerCategoriaPorId(Long idCategoria);
+    @Override
+    public abstract List<Categoria> obtenerCategorias();
 
-	@Override
-	public abstract List<Categoria> obtenerCategorias();
+    // Servicios
+    @Override
+    public abstract Servicio obtenerServicioPorId(Long servicioId);
+    @Override
+    public abstract List<Servicio> obtenerServicios();
+    @Override
+    public abstract List<Servicio> obtenerServicioPorCategoria(Long categoriaId);
 
-	// Servicios
-	@Override
-	public abstract List<Servicio> obtenerServicios();
-
-	@Override
-	public abstract Servicio obtenerServiciobyID(Long servicioId);
-
-	@Override
-	public abstract List<Servicio> obtenerServicioPorCategoria(Long categoriaId);
-	
-	//Personas
-	@Override
-	public abstract Usuario obtenerUsusarioPorID(Long usuario_id) throws Exception;
-	
-	@Override
+    // Personas
+    @Override
+    public abstract Usuario obtenerUsusarioPorId(Long usuario_id) throws Exception;
+    @Override
     public abstract Usuario obtenerUsusarioPorCorreo(String correo);
-	
-	@Override
-    public abstract List<Usuario> buscarProveedoresCercanos(String longitud, String latitud, Long servicioId);
-    
-	@Override
-	public abstract Usuario registrarPersona(Usuario usuario) throws NotFoundException, Exception;
+    @Override
+    public abstract Usuario registrarPersona(Usuario usuario) throws NotFoundException,Exception;
+    @Override
+    public abstract List<Usuario> obtenerProveedoresCercanos(String longitud,String latitud,Long servicioId);
 
-	// solicitud
-	@Override
-	public abstract Solicitud buscarSolicitud(Long solicitudId);
+    // solicitud
+    @Override
+    public abstract Solicitud obtenerSolicitudPorId(Long solicitudId);
+    @Override
+    public abstract Solicitud crearSolicitud(Solicitud solicitud) throws Exception;
+    @Override
+    public abstract List<Solicitud> obtenerSolicitudesDelCliente(Long usuario_id);
 
-	@Override
-	public abstract Solicitud crearSolicitud(Solicitud solicitud) throws Exception;
+    // Notificaciones
+    @Override
+    public abstract List<NotificacionProveedor> obtenerNotificacionesPorEstado(String estado);
+    @Override
+    public abstract List<NotificacionProveedor> crearNotificaciones(Solicitud solicitud) throws Exception;
 
-	// Notificaciones
-	@Override
-	public abstract List<NotificacionProveedor> obtenerNotificacionesByEstado(String estado);
+    // Cotizacion
+    @Override
+    public abstract Cotizacion crearCotizacion(Cotizacion cotizacion);
+    @Override
+    public abstract boolean aceptarCotizacion(Long solicitud_id,Long cotizacion_id);
+    @Override
+    public abstract boolean rechazarCotizacion(Long cotizacion_id);
+    @Override
+    public abstract List<Cotizacion> obtenerCotizacionesPorSolicitud(Long solicitud_id);
 
-	@Override
-	public abstract List<NotificacionProveedor> crearNotificaciones(Solicitud solicitud) throws Exception;
-
-	//Cotizacion
-	@Override
-	public abstract Cotizacion crearCotizacion(Cotizacion cotizacion);
-
-	@Override
-	public abstract boolean aceptarCotizacion(Long solicitud_id, Long cotizacion_id);
-	
-	@Override
-	public abstract List<Cotizacion> buscarCotizacionesPorSolicitud(Long solicitud_id);
-
-	@Override
-	public abstract List<Cotizacion> listarCotizacion(Long idProveedor);
 }

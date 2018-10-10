@@ -30,24 +30,24 @@ import com.fasterxml.jackson.annotation.JsonBackReference;
  * @author rvill
  */
 @Entity
-@Table(name = "NOTIFICACION_PROVEEDOR")
+@Table(name = "SERVICIO_PROVEEDOR")
 @XmlRootElement
 @NamedQueries({
-    @NamedQuery(name = "NotificacionProveedor.findAll", query = "SELECT n FROM NotificacionProveedor n")
-    , @NamedQuery(name = "NotificacionProveedor.findByProveedorId", query = "SELECT n FROM NotificacionProveedor n WHERE n.notificacionProveedorPK.proveedorId = :proveedorId")
-    , @NamedQuery(name = "NotificacionProveedor.findBySolicitudId", query = "SELECT n FROM NotificacionProveedor n WHERE n.notificacionProveedorPK.solicitudId = :solicitudId")
-    , @NamedQuery(name = "NotificacionProveedor.findByDescripcion", query = "SELECT n FROM NotificacionProveedor n WHERE n.descripcion = :descripcion")
-    , @NamedQuery(name = "NotificacionProveedor.findByFechaCreacion", query = "SELECT n FROM NotificacionProveedor n WHERE n.fechaCreacion = :fechaCreacion")
-    , @NamedQuery(name = "NotificacionProveedor.findByEstado", query = "SELECT n FROM NotificacionProveedor n WHERE n.estado = :estado")})
+    @NamedQuery(name = "ServicioProveedor.findAll", query = "SELECT n FROM NotificacionProveedor n")
+    , @NamedQuery(name = "ServicioProveedor.findByProveedorId", query = "SELECT n FROM NotificacionProveedor n WHERE n.notificacionProveedorPK.proveedorId = :proveedorId")
+    , @NamedQuery(name = "ServicioProveedor.findBySolicitudId", query = "SELECT n FROM NotificacionProveedor n WHERE n.notificacionProveedorPK.solicitudId = :solicitudId")
+    , @NamedQuery(name = "ServicioProveedor.findByDescripcion", query = "SELECT n FROM NotificacionProveedor n WHERE n.descripcion = :descripcion")
+    , @NamedQuery(name = "ServicioProveedor.findByFechaCreacion", query = "SELECT n FROM NotificacionProveedor n WHERE n.fechaCreacion = :fechaCreacion")
+    , @NamedQuery(name = "ServicioProveedor.findByEstado", query = "SELECT n FROM NotificacionProveedor n WHERE n.estado = :estado")})
 public class ServicioProveedor implements Serializable {
 
     private static final long serialVersionUID = 1L;
     @EmbeddedId
     protected ServicioProveedorPK servicioProveedorPK;
     @JsonBackReference
-    @JoinColumn(name = "SOLICITUD_ID", referencedColumnName = "SOLICITUD_ID", insertable = false, updatable = false)
+    @JoinColumn(name = "SERVICIO_ID", referencedColumnName = "SERVICIO_ID", insertable = false, updatable = false)
     @ManyToOne(optional = false, fetch = FetchType.LAZY)
-    private Servicio solicitud;
+    private Servicio servicio;
     @JoinColumn(name = "PROVEEDOR_ID", referencedColumnName = "USUARIO_ID", insertable = false, updatable = false)
     @ManyToOne(optional = false, fetch = FetchType.LAZY)
     private Usuario usuario;
