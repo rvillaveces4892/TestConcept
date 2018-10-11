@@ -27,60 +27,54 @@ import co.com.uan.HogarApp.servicesImpl.SolicitudImpl;
 @RestController
 public class PrincipalController{
 
-    @RequestMapping("/buscarUsuarioPorID/{id}")
-    public Usuario buscarUsuarioPorID(@PathVariable Long id){
-        Fachada persona=new BridgeImpl(new Cliente());
-        Usuario usuario=new Usuario();
-        try{
-            usuario=persona.obtenerUsusarioPorId(id);
-            return usuario;
-        }
-        catch(Exception e){
-            return usuario;
-        }
-    }
-
-    @RequestMapping("/buscarUsuarioPorCorreo/{correo}")
-    public Usuario buscarUsuarioPorCorreo(@PathVariable String correo){
-        Fachada usuario=new BridgeImpl(new Cliente());
-        return usuario.obtenerUsusarioPorCorreo(correo);
-    }
-
-    @CrossOrigin(origins="*")
-    @RequestMapping("/findAllCategorias")
-    public List<Categoria> findAllCategorias(){
-        Fachada categoria=new BridgeImpl(new CategoriaImpl());
-        return categoria.obtenerCategorias();
-    }
-
     @RequestMapping("/findCategoriaById/{id}")
-    public Categoria findCategoriaById(@PathVariable Long id){
+    public Categoria obtenerCategoriaPorId(@PathVariable Long id){
         Fachada categoria=new BridgeImpl(new CategoriaImpl());
         return categoria.obtenerCategoriaPorId(id);
     }
 
-    @RequestMapping("/findAllServicios")
-    public List<Servicio> findAllServicios(){
-        Fachada servicios=new BridgeImpl(new ServicioImpl());
-        return servicios.obtenerServicios();
+    @CrossOrigin(origins="*")
+    @RequestMapping("/findAllCategorias")
+    public List<Categoria> obtenerCategorias(){
+        Fachada categoria=new BridgeImpl(new CategoriaImpl());
+        return categoria.obtenerCategorias();
     }
 
     @RequestMapping("/findServicioById/{id}")
-    public Servicio findServicioById(@PathVariable Long id){
+    public Servicio obtenerServicioPorId(@PathVariable Long id){
         Fachada servicio=new BridgeImpl(new ServicioImpl());
         return servicio.obtenerServicioPorId(id);
     }
 
+    @RequestMapping("/findAllServicios")
+    public List<Servicio> obtenerServicios(){
+        Fachada servicios=new BridgeImpl(new ServicioImpl());
+        return servicios.obtenerServicios();
+    }
+
     @RequestMapping("/findAllServiciosByCategoriaId/{idCategoria}")
-    public List<Servicio> findAllServiciosByCategoriaId(@PathVariable Long idCategoria){
+    public List<Servicio> obtenerServicioPorCategoria(@PathVariable Long idCategoria){
         Fachada servicios=new BridgeImpl(new ServicioImpl());
         return servicios.obtenerServicioPorCategoria(idCategoria);
     }
 
-    @RequestMapping("/findAllProvedoresCercanos")
-    public List<Usuario> findAllProvedoresCercanos(@RequestParam("longitud") String longitud,@RequestParam("latitud") String latitud,@RequestParam("servicioId") Long servicioId){
-        Fachada proveedor=new BridgeImpl(new Proveedor());
-        return proveedor.obtenerProveedoresCercanos(longitud,latitud,servicioId);
+    @RequestMapping("/buscarUsuarioPorID/{id}")
+    public ResponseEntity<?> obtenerUsusarioPorId(@PathVariable Long id){
+        Fachada persona=new BridgeImpl(new Cliente());
+        Usuario usuario=new Usuario();
+        try{
+            usuario=persona.obtenerUsusarioPorId(id);
+            return new ResponseEntity<>(usuario,HttpStatus.OK);
+        }
+        catch(Exception e){
+            return new ResponseEntity<>(e.getMessage(),HttpStatus.BAD_REQUEST);
+        }
+    }
+
+    @RequestMapping("/buscarUsuarioPorCorreo/{correo}")
+    public Usuario obtenerUsusarioPorCorreo(@PathVariable String correo){
+        Fachada usuario=new BridgeImpl(new Cliente());
+        return usuario.obtenerUsusarioPorCorreo(correo);
     }
 
     @RequestMapping(value="/proveedor/create",method=RequestMethod.POST,consumes="application/json")
@@ -105,31 +99,33 @@ public class PrincipalController{
             return new ResponseEntity<>(clienteCreated,HttpStatus.OK);
         }
         catch(Exception e){
-            System.out.println("exception message : "+e.getMessage());
             return new ResponseEntity<>(e.getMessage(),HttpStatus.BAD_REQUEST);
         }
 
     }
+    
+    @RequestMapping("/findAllProvedoresCercanos")
+    public List<Usuario> obtenerProveedoresCercanos(@RequestParam("longitud") String longitud,@RequestParam("latitud") String latitud,@RequestParam("servicioId") Long servicioId){
+        Fachada proveedor=new BridgeImpl(new Proveedor());
+        return proveedor.obtenerProveedoresCercanos(longitud,latitud,servicioId);
+    }
 
     @RequestMapping("/solicitud/{id}")
-    public Solicitud buscarSolicitud(@PathVariable Long id){
+    public Solicitud obtenerSolicitudPorId(@PathVariable Long id){
         Fachada solicitud=new BridgeImpl(new SolicitudImpl());
         return solicitud.obtenerSolicitudPorId(id);
     }
 
     @RequestMapping(value="/solicitud/create",method=RequestMethod.POST,consumes="application/json")
-    public Solicitud crearSolicitud(@RequestBody Solicitud solicitud){
+    public ResponseEntity<?> crearSolicitud(@RequestBody Solicitud solicitud){
         Fachada solicitudImpl=new BridgeImpl(new SolicitudImpl());
         Solicitud requestSolicitud=new Solicitud();
         try{
             requestSolicitud=solicitudImpl.crearSolicitud(solicitud);
-//			Fachada notificacionImpl = new BridgeImpl(new NotificacionImpl());
-//			List<NotificacionProveedor> notificaciones = notificacionImpl.crearNotificaciones(solicitud);
-//			requestSolicitud.setNotificacionProveedorList(notificaciones);
-            return requestSolicitud;
+            return new ResponseEntity<>(requestSolicitud,HttpStatus.OK);
         }
         catch(Exception e){
-            return requestSolicitud;
+            return new ResponseEntity<>(e.getMessage(),HttpStatus.BAD_REQUEST);
         }
 
     }
