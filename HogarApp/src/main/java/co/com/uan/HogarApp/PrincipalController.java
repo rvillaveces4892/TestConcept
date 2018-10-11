@@ -27,38 +27,38 @@ import co.com.uan.HogarApp.servicesImpl.SolicitudImpl;
 @RestController
 public class PrincipalController{
 
-    @RequestMapping("/findCategoriaById/{id}")
+    @RequestMapping("/obtenerCategoriaPorId/{id}")
     public Categoria obtenerCategoriaPorId(@PathVariable Long id){
         Fachada categoria=new BridgeImpl(new CategoriaImpl());
         return categoria.obtenerCategoriaPorId(id);
     }
 
     @CrossOrigin(origins="*")
-    @RequestMapping("/findAllCategorias")
+    @RequestMapping("/obtenerCategorias")
     public List<Categoria> obtenerCategorias(){
         Fachada categoria=new BridgeImpl(new CategoriaImpl());
         return categoria.obtenerCategorias();
     }
 
-    @RequestMapping("/findServicioById/{id}")
+    @RequestMapping("/obtenerServicioPorId/{id}")
     public Servicio obtenerServicioPorId(@PathVariable Long id){
         Fachada servicio=new BridgeImpl(new ServicioImpl());
         return servicio.obtenerServicioPorId(id);
     }
 
-    @RequestMapping("/findAllServicios")
+    @RequestMapping("/obtenerServicios")
     public List<Servicio> obtenerServicios(){
         Fachada servicios=new BridgeImpl(new ServicioImpl());
         return servicios.obtenerServicios();
     }
 
-    @RequestMapping("/findAllServiciosByCategoriaId/{idCategoria}")
+    @RequestMapping("/obtenerServicioPorCategoria/{idCategoria}")
     public List<Servicio> obtenerServicioPorCategoria(@PathVariable Long idCategoria){
         Fachada servicios=new BridgeImpl(new ServicioImpl());
         return servicios.obtenerServicioPorCategoria(idCategoria);
     }
 
-    @RequestMapping("/buscarUsuarioPorID/{id}")
+    @RequestMapping("/obtenerUsusarioPorId/{id}")
     public ResponseEntity<?> obtenerUsusarioPorId(@PathVariable Long id){
         Fachada persona=new BridgeImpl(new Cliente());
         Usuario usuario=new Usuario();
@@ -77,7 +77,7 @@ public class PrincipalController{
         return usuario.obtenerUsusarioPorCorreo(correo);
     }
 
-    @RequestMapping(value="/proveedor/create",method=RequestMethod.POST,consumes="application/json")
+    @RequestMapping(value="/crearProveedor",method=RequestMethod.POST,consumes="application/json")
     public ResponseEntity<?> crearProveedor(@RequestBody Usuario usuario){
         Fachada proveedor=new BridgeImpl(new Proveedor());
         Usuario proveedorCreated;
@@ -90,7 +90,7 @@ public class PrincipalController{
         }
     }
 
-    @RequestMapping(value="/cliente/create",method=RequestMethod.POST,consumes="application/json")
+    @RequestMapping(value="/crearCliente",method=RequestMethod.POST,consumes="application/json")
     public ResponseEntity<?> crearCliente(@RequestBody Usuario usuario){
         Fachada cliente=new BridgeImpl(new Cliente());
         Usuario clienteCreated;
@@ -104,19 +104,19 @@ public class PrincipalController{
 
     }
     
-    @RequestMapping("/findAllProvedoresCercanos")
+    @RequestMapping("/obtenerProveedoresCercanos")
     public List<Usuario> obtenerProveedoresCercanos(@RequestParam("longitud") String longitud,@RequestParam("latitud") String latitud,@RequestParam("servicioId") Long servicioId){
         Fachada proveedor=new BridgeImpl(new Proveedor());
         return proveedor.obtenerProveedoresCercanos(longitud,latitud,servicioId);
     }
 
-    @RequestMapping("/solicitud/{id}")
+    @RequestMapping("/obtenerSolicitudPorId/{id}")
     public Solicitud obtenerSolicitudPorId(@PathVariable Long id){
         Fachada solicitud=new BridgeImpl(new SolicitudImpl());
         return solicitud.obtenerSolicitudPorId(id);
     }
 
-    @RequestMapping(value="/solicitud/create",method=RequestMethod.POST,consumes="application/json")
+    @RequestMapping(value="/crearSolicitud",method=RequestMethod.POST,consumes="application/json")
     public ResponseEntity<?> crearSolicitud(@RequestBody Solicitud solicitud){
         Fachada solicitudImpl=new BridgeImpl(new SolicitudImpl());
         Solicitud requestSolicitud=new Solicitud();
