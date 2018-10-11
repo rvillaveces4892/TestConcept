@@ -14,16 +14,21 @@ import org.springframework.web.bind.annotation.RestController;
 
 import co.com.uan.HogarApp.bridge.BridgeImpl;
 import co.com.uan.HogarApp.entities.Categoria;
+import co.com.uan.HogarApp.entities.Cotizacion;
+import co.com.uan.HogarApp.entities.NotificacionProveedor;
 import co.com.uan.HogarApp.entities.Servicio;
 import co.com.uan.HogarApp.entities.Solicitud;
 import co.com.uan.HogarApp.entities.Usuario;
 import co.com.uan.HogarApp.facade.Fachada;
 import co.com.uan.HogarApp.servicesImpl.CategoriaImpl;
 import co.com.uan.HogarApp.servicesImpl.Cliente;
+import co.com.uan.HogarApp.servicesImpl.CotizacionImpl;
+import co.com.uan.HogarApp.servicesImpl.NotificacionImpl;
 import co.com.uan.HogarApp.servicesImpl.Proveedor;
 import co.com.uan.HogarApp.servicesImpl.ServicioImpl;
 import co.com.uan.HogarApp.servicesImpl.SolicitudImpl;
 
+@CrossOrigin(origins="*")
 @RestController
 public class PrincipalController{
 
@@ -33,7 +38,6 @@ public class PrincipalController{
         return categoria.obtenerCategoriaPorId(id);
     }
 
-    @CrossOrigin(origins="*")
     @RequestMapping("/obtenerCategorias")
     public List<Categoria> obtenerCategorias(){
         Fachada categoria=new BridgeImpl(new CategoriaImpl());
@@ -129,5 +133,73 @@ public class PrincipalController{
         }
 
     }
+    
+    @RequestMapping("/obtenerSolicitudesDelCliente/{id}")
+    public ResponseEntity<?> obtenerSolicitudesDelCliente(@PathVariable Long id){
+        try {
+			Fachada solicitud=new BridgeImpl(new SolicitudImpl());
+			List<Solicitud> solicitudes = solicitud.obtenerSolicitudesDelCliente(id);
+			return new ResponseEntity<>(solicitudes,HttpStatus.OK);
+		} catch (Exception e) {
+			return new ResponseEntity<>(e.getMessage(),HttpStatus.BAD_REQUEST);
+		}
+    }
+    
+    @RequestMapping("/obtenerNotificacionesPorEstado/{estado}")
+    public ResponseEntity<?> obtenerNotificacionesPorEstado(@PathVariable String estado){
+        try {
+			Fachada notificacion=new BridgeImpl(new NotificacionImpl());
+			List<NotificacionProveedor> notificacionesProveedor = notificacion.obtenerNotificacionesPorEstado(estado);
+			return new ResponseEntity<>(notificacionesProveedor,HttpStatus.OK);
+		} catch (Exception e) {
+			return new ResponseEntity<>(e.getMessage(),HttpStatus.BAD_REQUEST);
+		}
+    }
+    
+    @RequestMapping(value="/crearCotizacion",method=RequestMethod.POST,consumes="application/json")
+    public ResponseEntity<?> crearCotizacion(@RequestBody Cotizacion cotizacion){
+        Fachada cotizacionImpl=new BridgeImpl(new CotizacionImpl());
+        Cotizacion requestCotizacion=new Cotizacion();
+        try{
+        	requestCotizacion=cotizacionImpl.crearCotizacion(cotizacion);
+            return new ResponseEntity<>(requestCotizacion,HttpStatus.OK);
+        }
+        catch(Exception e){
+            return new ResponseEntity<>(e.getMessage(),HttpStatus.BAD_REQUEST);
+        }
 
+    }
+    
+    @RequestMapping("/aceptarCotizacion/{id}")
+    public ResponseEntity<?> aceptarCotizacion(@RequestParam("solicitud_id") Long solicitud_id,@RequestParam("cotizacion_id") Long cotizacion_id){
+        try {
+			Fachada cotizacionImpl=new BridgeImpl(new CotizacionImpl());
+			boolean aceptada = cotizacionImpl.aceptarCotizacion(solicitud_id,cotizacion_id);
+			return new ResponseEntity<>(aceptada,HttpStatus.OK);
+		} catch (Exception e) {
+			return new ResponseEntity<>(e.getMessage(),HttpStatus.BAD_REQUEST);
+		}
+    }
+    
+    @RequestMapping("/rechazarCotizacion/{id}")
+    public ResponseEntity<?> rechazarCotizacion(@RequestParam("cotizacion_id") Long cotizacion_id){
+        try {
+			Fachada cotizacionImpl=new BridgeImpl(new CotizacionImpl());
+			boolean rechazada = cotizacionImpl.rechazarCotizacion(cotizacion_id);
+			return new ResponseEntity<>(rechazada,HttpStatus.OK);
+		} catch (Exception e) {
+			return new ResponseEntity<>(e.getMessage(),HttpStatus.BAD_REQUEST);
+		}
+    }
+
+    @RequestMapping("/obtenerCotizacionesPorSolicitud/{id}")
+    public ResponseEntity<?> obtenerCotizacionesPorSolicitud(@PathVariable Long id){
+        try {
+			Fachada cotizacion=new BridgeImpl(new NotificacionImpl());
+			List<Cotizacion> cotizaciones = cotizacion.obtenerCotizacionesPorSolicitud(id);
+			return new ResponseEntity<>(cotizaciones,HttpStatus.OK);
+		} catch (Exception e) {
+			return new ResponseEntity<>(e.getMessage(),HttpStatus.BAD_REQUEST);
+		}
+    }
 }
