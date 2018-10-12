@@ -333,9 +333,6 @@ public class Usuario implements Serializable {
 	}
 
 	public List<Long> getServicesId() {
-		servicesId.add(1L);
-		servicesId.add(2L);
-		servicesId.add(3L);
 		return servicesId;
 	}
 
