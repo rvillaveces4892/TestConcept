@@ -6,6 +6,7 @@
 package co.com.uan.HogarApp.entities;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -30,9 +31,11 @@ import javax.persistence.StoredProcedureParameter;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
+import javax.persistence.Transient;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import javax.xml.bind.annotation.XmlRootElement;
+import javax.xml.bind.annotation.XmlTransient;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
@@ -124,7 +127,9 @@ public class Usuario implements Serializable {
 //    @OneToMany(cascade = CascadeType.ALL, mappedBy = "usuarioIdProveedor", fetch = FetchType.LAZY)
 //    private List<Cotizacion> cotizacionList;
 //    @OneToMany(cascade = CascadeType.ALL, mappedBy = "usuario", fetch = FetchType.LAZY)
-//    private List<NotificacionProveedor> notificacionProveedorList;
+//    private List<ServicioProveedor> servicioProveedorList;
+	@Transient
+	private List<Long> servicesId = new ArrayList<>();
 //    @OneToMany(mappedBy = "usuarioIdProveedor", fetch = FetchType.LAZY)
 //    private List<Solicitud> solicitudList;
 //    @OneToMany(cascade = CascadeType.ALL, mappedBy = "usuarioIdCliente", fetch = FetchType.LAZY)
@@ -305,13 +310,37 @@ public class Usuario implements Serializable {
 //    public void setSolicitudList1(List<Solicitud> solicitudList1) {
 //        this.solicitudList1 = solicitudList1;
 //    }
+	
+	
 
 	public Coordenadas getCoordenadaId() {
 		return coordenadaId;
 	}
 
+//	@XmlTransient
+//	public List<ServicioProveedor> getServicioProveedorList() {
+//		return servicioProveedorList;
+//	}
+//
+//	public void setServicioProveedorList(List<ServicioProveedor> servicioProveedorList) {
+//		this.servicioProveedorList = servicioProveedorList;
+//	}
+	
+	
+
 	public void setCoordenadaId(Coordenadas coordenadaId) {
 		this.coordenadaId = coordenadaId;
+	}
+
+	public List<Long> getServicesId() {
+		servicesId.add(1L);
+		servicesId.add(2L);
+		servicesId.add(3L);
+		return servicesId;
+	}
+
+	public void setServicesId(List<Long> servicesId) {
+		this.servicesId = servicesId;
 	}
 
 	public Rol getRolId() {

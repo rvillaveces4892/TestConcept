@@ -30,6 +30,8 @@ import javax.validation.constraints.Size;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlTransient;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
+
 /**
  *
  * @author rvill
@@ -74,15 +76,20 @@ public class Solicitud implements Serializable {
     @Temporal(TemporalType.TIMESTAMP)
     private Date fechaSolicitud;
     @Column(name = "FECHA_CREACION")
+    
     @Temporal(TemporalType.TIMESTAMP)
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern="dd/MM/yyyy")
     private Date fechaCreacion = new Date();
+    
     @Size(max = 10)
     @Column(name = "ESTADO")
     private String estado = "CREADA";
     @OneToMany(mappedBy = "solicitudId", fetch = FetchType.LAZY)
     private List<Cotizacion> cotizacionList;
+    
     @OneToMany(mappedBy = "solicitud", fetch = FetchType.LAZY)
     private List<NotificacionProveedor> notificacionProveedorList;
+    
     @JoinColumn(name = "SERVICIO_ID", referencedColumnName = "SERVICIO_ID")
     @ManyToOne(optional = false, fetch = FetchType.LAZY)
     private Servicio servicioId;

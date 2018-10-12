@@ -93,7 +93,7 @@ public class BridgeImpl extends Bridge{
     }
 
     @Override
-    public Usuario obtenerUsusarioPorId(Long usuario_id) throws Exception{
+    public Usuario obtenerUsuarioPorId(Long usuario_id) throws Exception{
         Usuario usuario=this.persona.obtenerPersona(usuario_id);
         return usuario;
     }

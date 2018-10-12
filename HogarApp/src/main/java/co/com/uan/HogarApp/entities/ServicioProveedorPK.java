@@ -18,70 +18,70 @@ import javax.validation.constraints.NotNull;
 @Embeddable
 public class ServicioProveedorPK implements Serializable {
 
-    /**
+	/**
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
 	@Basic(optional = false)
-    @NotNull
-    @Column(name = "PROVEEDOR_ID")
-    private long proveedorId;
-    @Basic(optional = false)
-    @NotNull
-    @Column(name = "SOLICITUD_ID")
-    private long solicitudId;
+	@NotNull
+	@Column(name = "USUARIO_ID_PROVEEDOR")
+	private long usuarioIdProveedor;
+	@Basic(optional = false)
+	@NotNull
+	@Column(name = "SERVICIO_ID")
+	private long servicioId;
 
-    public ServicioProveedorPK() {
-    }
+	public ServicioProveedorPK() {
+	}
 
-    public ServicioProveedorPK(long proveedorId, long solicitudId) {
-        this.proveedorId = proveedorId;
-        this.solicitudId = solicitudId;
-    }
+	public ServicioProveedorPK(long usuarioIdProveedor, long servicioId) {
+		this.usuarioIdProveedor = usuarioIdProveedor;
+		this.servicioId = servicioId;
+	}
 
-    public long getProveedorId() {
-        return proveedorId;
-    }
+	public long getUsuarioIdProveedor() {
+		return usuarioIdProveedor;
+	}
 
-    public void setProveedorId(long proveedorId) {
-        this.proveedorId = proveedorId;
-    }
+	public void setUsuarioIdProveedor(long usuarioIdProveedor) {
+		this.usuarioIdProveedor = usuarioIdProveedor;
+	}
 
-    public long getSolicitudId() {
-        return solicitudId;
-    }
+	public long getServicioId() {
+		return servicioId;
+	}
 
-    public void setSolicitudId(long solicitudId) {
-        this.solicitudId = solicitudId;
-    }
+	public void setServicioId(long servicioId) {
+		this.servicioId = servicioId;
+	}
 
-    @Override
-    public int hashCode() {
-        int hash = 0;
-        hash += (int) proveedorId;
-        hash += (int) solicitudId;
-        return hash;
-    }
+	@Override
+	public int hashCode() {
+		int hash = 0;
+		hash += (int) usuarioIdProveedor;
+		hash += (int) servicioId;
+		return hash;
+	}
 
-    @Override
-    public boolean equals(Object object) {
-        // TODO: Warning - this method won't work in the case the id fields are not set
-        if (!(object instanceof ServicioProveedorPK)) {
-            return false;
-        }
-        ServicioProveedorPK other = (ServicioProveedorPK) object;
-        if (this.proveedorId != other.proveedorId) {
-            return false;
-        }
-        if (this.solicitudId != other.solicitudId) {
-            return false;
-        }
-        return true;
-    }
+	@Override
+	public boolean equals(Object object) {
+		// TODO: Warning - this method won't work in the case the id fields are not set
+		if (!(object instanceof ServicioProveedorPK)) {
+			return false;
+		}
+		ServicioProveedorPK other = (ServicioProveedorPK) object;
+		if (this.usuarioIdProveedor != other.usuarioIdProveedor) {
+			return false;
+		}
+		if (this.servicioId != other.servicioId) {
+			return false;
+		}
+		return true;
+	}
 
-    @Override
-    public String toString() {
-        return "app.NotificacionProveedorPK[ proveedorId=" + proveedorId + ", solicitudId=" + solicitudId + " ]";
-    }
-    
+	@Override
+	public String toString() {
+		return "app.NotificacionProveedorPK[ usuarioIdProveedor=" + usuarioIdProveedor + ", servicioId=" + servicioId + " ]";
+	}
+
 }

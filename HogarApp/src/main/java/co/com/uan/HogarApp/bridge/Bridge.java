@@ -31,7 +31,7 @@ public abstract class Bridge implements Fachada{
 
     // Personas
     @Override
-    public abstract Usuario obtenerUsusarioPorId(Long usuario_id) throws Exception;
+    public abstract Usuario obtenerUsuarioPorId(Long usuario_id) throws Exception;
     @Override
     public abstract Usuario obtenerUsusarioPorCorreo(String correo);
     @Override

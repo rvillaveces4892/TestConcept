@@ -21,7 +21,7 @@ public interface Fachada {
     public List<Servicio> obtenerServicios();
     public List<Servicio> obtenerServicioPorCategoria(Long categoriaId);
     //Usuario
-    public Usuario obtenerUsusarioPorId(Long usuario_id) throws Exception;
+    public Usuario obtenerUsuarioPorId(Long usuario_id) throws Exception;
     public Usuario obtenerUsusarioPorCorreo(String correo);
     public Usuario registrarPersona(Usuario usuario) throws NotFoundException, Exception;
     public List<Usuario> obtenerProveedoresCercanos(String longitud, String latitud, Long servicioId);
