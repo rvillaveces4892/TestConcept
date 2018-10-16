@@ -113,11 +113,11 @@ public class PrincipalController {
 			Fachada proveedor = new BridgeImpl(new Proveedor());
 			List<Usuario> proveedores = new ArrayList<>();
 			proveedores = proveedor.obtenerProveedoresCercanos(longitud, latitud, servicioId);
-			if(proveedores!=null&&!proveedores.isEmpty()) {
+//			if(proveedores!=null&&!proveedores.isEmpty()) {
 				return new ResponseEntity<>(proveedores, HttpStatus.OK);
-			} else {
-				return new ResponseEntity<>("No se encontraron proveedores cerncanos", HttpStatus.OK);
-			}
+//			} else {
+//				return new ResponseEntity<>("No se encontraron proveedores cercanos", HttpStatus.OK);
+//			}
 		} catch (Exception e) {
 			return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
 		}
