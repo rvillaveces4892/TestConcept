@@ -49,6 +49,7 @@ public abstract class Persona implements IPersona {
 
 	@Override
 	public List<Usuario> obtenerProveedoresCercanos(String longitud, String latitud, Long servicioId) {
+		List<Usuario> listreturn= new  ArrayList<>();
 		StoredProcedureQuery query = getEm().createStoredProcedureQuery("proveedores_cercanos")
 				.registerStoredProcedureParameter(1, String.class, ParameterMode.IN)
 				.registerStoredProcedureParameter(2, String.class, ParameterMode.IN)
@@ -63,11 +64,12 @@ public abstract class Persona implements IPersona {
 			for (String id : commentCount.substring(1, commentCount.length()).split(":")) {
 				usuarioIds.add(Long.valueOf(id));
 			}
+			Query findByUsuarioIdIn = getEm().createNamedQuery("Usuario.findByUsuarioIdIn");
+			findByUsuarioIdIn.setParameter("usuarioIds", usuarioIds);
+			listreturn = (List<Usuario>) findByUsuarioIdIn.getResultList();
 		}
 
-		Query findByUsuarioIdIn = getEm().createNamedQuery("Usuario.findByUsuarioIdIn");
-		findByUsuarioIdIn.setParameter("usuarioIds", usuarioIds);
-		return (List<Usuario>) findByUsuarioIdIn.getResultList();
+		return listreturn;
 
 	}
 
