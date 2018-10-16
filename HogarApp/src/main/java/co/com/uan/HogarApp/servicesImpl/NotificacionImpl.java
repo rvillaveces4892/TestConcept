@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import javax.persistence.EntityManager;
+import javax.persistence.NoResultException;
 import javax.transaction.Transactional;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -29,8 +30,15 @@ public class NotificacionImpl implements INotificacion {
 
 	@Override
 	public List<NotificacionProveedor> obtenerNotificacionesPorEstado(String estado) {
-		List<NotificacionProveedor> notificacionProveedor=em.createNamedQuery("NotificacionProveedor.findByEstado",NotificacionProveedor.class).setParameter("estado",estado).getResultList();
-		return notificacionProveedor;
+		List<NotificacionProveedor> notificacionProveedor = new ArrayList<>();
+		try {
+			notificacionProveedor = em
+					.createNamedQuery("NotificacionProveedor.findByEstado", NotificacionProveedor.class)
+					.setParameter("estado", estado).getResultList();
+			return notificacionProveedor;
+		} catch (NoResultException e) {
+			return notificacionProveedor;
+		}
 	}
 
 	@Transactional
@@ -40,7 +48,8 @@ public class NotificacionImpl implements INotificacion {
 		if (proveedores != null && !proveedores.isEmpty()) {
 			for (Usuario proveedor : proveedores) {
 				NotificacionProveedor notificacion = new NotificacionProveedor();
-				NotificacionProveedorPK notificacionProveedorPK = new NotificacionProveedorPK(proveedor.getUsuarioId(), solicitud.getSolicitudId());
+				NotificacionProveedorPK notificacionProveedorPK = new NotificacionProveedorPK(proveedor.getUsuarioId(),
+						solicitud.getSolicitudId());
 				notificacion.setNotificacionProveedorPK(notificacionProveedorPK);
 				notificacion.setSolicitud(solicitud);
 				notificacion.setUsuario(proveedor);
@@ -48,7 +57,7 @@ public class NotificacionImpl implements INotificacion {
 				notificaciones.add(notificacion);
 			}
 		}
-		
+
 		return notificaciones;
 	}
 
