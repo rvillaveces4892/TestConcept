@@ -29,8 +29,8 @@ public class NotificacionImpl implements INotificacion {
 
 	@Override
 	public List<NotificacionProveedor> obtenerNotificacionesPorEstado(String estado) {
-		// TODO Auto-generated method stub
-		return null;
+		List<NotificacionProveedor> notificacionProveedor=em.createNamedQuery("NotificacionProveedor.findByEstado",NotificacionProveedor.class).setParameter("estado",estado).getResultList();
+		return notificacionProveedor;
 	}
 
 	@Transactional
