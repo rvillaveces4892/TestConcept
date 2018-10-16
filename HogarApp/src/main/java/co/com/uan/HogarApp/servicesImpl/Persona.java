@@ -49,7 +49,7 @@ public abstract class Persona implements IPersona {
 
 	@Override
 	public List<Usuario> obtenerProveedoresCercanos(String longitud, String latitud, Long servicioId) {
-		StoredProcedureQuery query = getEm().createStoredProcedureQuery("prc_obtener_proveedores_cercanos")
+		StoredProcedureQuery query = getEm().createStoredProcedureQuery("proveedores_cercanos")
 				.registerStoredProcedureParameter(1, String.class, ParameterMode.IN)
 				.registerStoredProcedureParameter(2, String.class, ParameterMode.IN)
 				.registerStoredProcedureParameter(3, Long.class, ParameterMode.IN)
