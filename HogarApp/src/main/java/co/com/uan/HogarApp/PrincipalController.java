@@ -1,5 +1,6 @@
 package co.com.uan.HogarApp;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.http.HttpStatus;
@@ -106,10 +107,20 @@ public class PrincipalController {
 	}
 
 	@RequestMapping("/obtenerProveedoresCercanos")
-	public List<Usuario> obtenerProveedoresCercanos(@RequestParam("longitud") String longitud,
+	public ResponseEntity<?> obtenerProveedoresCercanos(@RequestParam("longitud") String longitud,
 			@RequestParam("latitud") String latitud, @RequestParam("servicioId") Long servicioId) {
-		Fachada proveedor = new BridgeImpl(new Proveedor());
-		return proveedor.obtenerProveedoresCercanos(longitud, latitud, servicioId);
+		try {
+			Fachada proveedor = new BridgeImpl(new Proveedor());
+			List<Usuario> proveedores = new ArrayList<>();
+			proveedores = proveedor.obtenerProveedoresCercanos(longitud, latitud, servicioId);
+			if(proveedores!=null&&!proveedores.isEmpty()) {
+				return new ResponseEntity<>(proveedores, HttpStatus.OK);
+			} else {
+				return new ResponseEntity<>("No se encontraron proveedores cerncanos", HttpStatus.OK);
+			}
+		} catch (Exception e) {
+			return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
+		}
 	}
 
 	@RequestMapping("/obtenerSolicitudPorId/{id}")
