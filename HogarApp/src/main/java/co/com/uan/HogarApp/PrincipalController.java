@@ -17,6 +17,7 @@ import co.com.uan.HogarApp.bridge.BridgeImpl;
 import co.com.uan.HogarApp.entities.Categoria;
 import co.com.uan.HogarApp.entities.Cotizacion;
 import co.com.uan.HogarApp.entities.NotificacionProveedor;
+import co.com.uan.HogarApp.entities.NotificacionProveedorPK;
 import co.com.uan.HogarApp.entities.Servicio;
 import co.com.uan.HogarApp.entities.Solicitud;
 import co.com.uan.HogarApp.entities.Usuario;
@@ -165,6 +166,29 @@ public class PrincipalController {
 			List<NotificacionProveedor> notificacionesProveedor = notificacion.obtenerNotificacionesPorEstado(estado);
 			return new ResponseEntity<>(notificacionesProveedor, HttpStatus.OK);
 		} catch (Exception e) {
+			return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
+		}
+	}
+	
+	@RequestMapping("/obtenerNotificacionesPorEstadoYIdProveedor")
+	public ResponseEntity<?> obtenerNotificacionesPorEstadoYIdProveedor(@RequestParam("estado") String estado,@RequestParam("idProveedor") Long idProveedor) {
+		try {
+			Fachada notificacion = new BridgeImpl(new NotificacionImpl());
+			List<NotificacionProveedor> notificacionesProveedor = notificacion.obtenerNotificacionesPorEstadoYIdProveedor(estado, idProveedor);
+			return new ResponseEntity<>(notificacionesProveedor, HttpStatus.OK);
+		} catch (Exception e) {
+			return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
+		}
+	}
+	
+	@RequestMapping(value="/cambioEstadoNotificacion", method = RequestMethod.POST, consumes = "application/json")
+	public ResponseEntity<?> cambioEstadoNotificacion(@RequestBody NotificacionProveedorPK notificacionProveedorPK) {
+		try {
+			Fachada notificacion = new BridgeImpl(new NotificacionImpl());
+			notificacion.cambioEstadoNotificacion(notificacionProveedorPK);
+			return new ResponseEntity<>(HttpStatus.OK);
+		} catch (Exception e) {
+			e.printStackTrace();
 			return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
 		}
 	}

@@ -8,6 +8,7 @@ import javax.ws.rs.NotFoundException;
 import co.com.uan.HogarApp.entities.Categoria;
 import co.com.uan.HogarApp.entities.Cotizacion;
 import co.com.uan.HogarApp.entities.NotificacionProveedor;
+import co.com.uan.HogarApp.entities.NotificacionProveedorPK;
 import co.com.uan.HogarApp.entities.Servicio;
 import co.com.uan.HogarApp.entities.Solicitud;
 import co.com.uan.HogarApp.entities.Usuario;
@@ -51,7 +52,11 @@ public abstract class Bridge implements Fachada{
     @Override
     public abstract List<NotificacionProveedor> obtenerNotificacionesPorEstado(String estado);
     @Override
+    public abstract List<NotificacionProveedor> obtenerNotificacionesPorEstadoYIdProveedor(String estado, Long idProveedor);
+    @Override
     public abstract List<NotificacionProveedor> crearNotificaciones(Solicitud solicitud) throws Exception;
+    @Override
+    public abstract void cambioEstadoNotificacion(NotificacionProveedorPK notificacionProveedorPK) throws Exception;
 
     // Cotizacion
     @Override

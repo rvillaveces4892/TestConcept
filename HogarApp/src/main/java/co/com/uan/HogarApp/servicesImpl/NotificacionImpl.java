@@ -40,6 +40,20 @@ public class NotificacionImpl implements INotificacion {
 			return notificacionProveedor;
 		}
 	}
+	
+	@Override
+	public List<NotificacionProveedor> obtenerNotificacionesPorEstadoYIdProveedor(String estado,Long idProveedor) {
+		List<NotificacionProveedor> notificacionProveedor = new ArrayList<>();
+		try {
+			notificacionProveedor = em
+					.createNamedQuery("NotificacionProveedor.findByEstadoAndIdProveedor", NotificacionProveedor.class)
+					.setParameter("estado", estado).setParameter("proveedorId", idProveedor).getResultList();
+			
+			return notificacionProveedor;
+		} catch (NoResultException e) {
+			return notificacionProveedor;
+		}
+	}
 
 	@Transactional
 	@Override
@@ -59,6 +73,19 @@ public class NotificacionImpl implements INotificacion {
 		}
 
 		return notificaciones;
+	}
+
+	@Transactional
+	@Override
+	public void cambioEstadoNotificacion(NotificacionProveedorPK notificacionProveedorPK) throws Exception {
+		try {
+			NotificacionProveedor objTmp = em.find(NotificacionProveedor.class, notificacionProveedorPK);
+			objTmp.setEstado("LEIDA");
+			em.merge(objTmp);
+		} catch (Exception e) {
+			e.printStackTrace();
+			throw new Exception();
+		}
 	}
 
 }

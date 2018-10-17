@@ -8,6 +8,7 @@ import javax.ws.rs.NotFoundException;
 import co.com.uan.HogarApp.entities.Categoria;
 import co.com.uan.HogarApp.entities.Cotizacion;
 import co.com.uan.HogarApp.entities.NotificacionProveedor;
+import co.com.uan.HogarApp.entities.NotificacionProveedorPK;
 import co.com.uan.HogarApp.entities.Servicio;
 import co.com.uan.HogarApp.entities.Solicitud;
 import co.com.uan.HogarApp.entities.Usuario;
@@ -32,6 +33,8 @@ public interface Fachada {
     //Notificaciones
     public List<NotificacionProveedor> crearNotificaciones(Solicitud solicitud) throws Exception;
     public List<NotificacionProveedor> obtenerNotificacionesPorEstado(String estado);
+    public List<NotificacionProveedor> obtenerNotificacionesPorEstadoYIdProveedor(String estado, Long idProveedor);
+    public void cambioEstadoNotificacion(NotificacionProveedorPK notificacionProveedorPK) throws Exception;
     //cotizacion
     public Cotizacion crearCotizacion(Cotizacion cotizacion);
 	public boolean aceptarCotizacion(Long solicitud_id, Long cotizacion_id);

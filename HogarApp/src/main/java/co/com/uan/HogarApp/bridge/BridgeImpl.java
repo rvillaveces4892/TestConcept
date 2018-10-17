@@ -10,6 +10,7 @@ import co.com.uan.HogarApp.ApplicationContextHolder;
 import co.com.uan.HogarApp.entities.Categoria;
 import co.com.uan.HogarApp.entities.Cotizacion;
 import co.com.uan.HogarApp.entities.NotificacionProveedor;
+import co.com.uan.HogarApp.entities.NotificacionProveedorPK;
 import co.com.uan.HogarApp.entities.Servicio;
 import co.com.uan.HogarApp.entities.Solicitud;
 import co.com.uan.HogarApp.entities.Usuario;
@@ -142,6 +143,16 @@ public class BridgeImpl extends Bridge{
     @Override
     public List<NotificacionProveedor> obtenerNotificacionesPorEstado(String estado){
         return notificacion.obtenerNotificacionesPorEstado(estado);
+    }
+    
+    @Override
+    public List<NotificacionProveedor> obtenerNotificacionesPorEstadoYIdProveedor(String estado, Long idProveedor){
+        return notificacion.obtenerNotificacionesPorEstadoYIdProveedor(estado, idProveedor);
+    }
+    
+    @Override
+    public void cambioEstadoNotificacion(NotificacionProveedorPK notificacionProveedorPK) throws Exception{
+        notificacion.cambioEstadoNotificacion(notificacionProveedorPK);
     }
 
     @Override
