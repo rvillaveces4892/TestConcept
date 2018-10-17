@@ -181,7 +181,7 @@ public class PrincipalController {
 		}
 	}
 	
-	@RequestMapping(value="/cambioEstadoNotificacion", method = RequestMethod.POST, consumes = "application/json")
+	@RequestMapping(value="/cambioEstadoNotificacion", method = RequestMethod.PUT, consumes = "application/json")
 	public ResponseEntity<?> cambioEstadoNotificacion(@RequestBody NotificacionProveedorPK notificacionProveedorPK) {
 		try {
 			Fachada notificacion = new BridgeImpl(new NotificacionImpl());
