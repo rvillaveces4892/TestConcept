@@ -58,6 +58,9 @@ public class Servicio implements Serializable {
     @Size(max = 200)
     @Column(name = "DESCRIPCION")
     private String descripcion;
+    @Size(max = 50)
+    @Column(name = "NOMBRE")
+    private String nombre;
     @Column(name = "FECHA_CREACION")
     @Temporal(TemporalType.TIMESTAMP)
     private Date fechaCreacion;
@@ -102,8 +105,16 @@ public class Servicio implements Serializable {
     public void setDescripcion(String descripcion) {
         this.descripcion = descripcion;
     }
+    
+    public String getNombre() {
+		return nombre;
+	}
 
-    public Date getFechaCreacion() {
+	public void setNombre(String nombre) {
+		this.nombre = nombre;
+	}
+
+	public Date getFechaCreacion() {
         return fechaCreacion;
     }
 
