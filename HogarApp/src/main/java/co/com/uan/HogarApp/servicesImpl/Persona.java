@@ -6,9 +6,6 @@ import java.util.List;
 
 import javax.persistence.EntityManager;
 import javax.persistence.NoResultException;
-import javax.persistence.ParameterMode;
-import javax.persistence.Query;
-import javax.persistence.StoredProcedureQuery;
 import javax.transaction.Transactional;
 import javax.ws.rs.NotFoundException;
 
@@ -17,6 +14,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import co.com.uan.HogarApp.entities.Rol;
 import co.com.uan.HogarApp.entities.Usuario;
 import co.com.uan.HogarApp.interfaces.IPersona;
+import co.com.uan.HogarApp.utils.s.Encriptor;
 
 public abstract class Persona implements IPersona {
 
@@ -41,36 +39,11 @@ public abstract class Persona implements IPersona {
 		Usuario persona = new Usuario();
 		try {
 			persona = em.find(Usuario.class, id);
+			persona.setPassword(Encriptor.decrypt(persona.getPassword()));
 			return persona;
 		} catch (Exception e) {
 			throw new NotFoundException();
 		}
-	}
-
-	@Override
-	public List<Usuario> obtenerProveedoresCercanos(String longitud, String latitud, Long servicioId) {
-		List<Usuario> listreturn= new  ArrayList<>();
-		StoredProcedureQuery query = getEm().createStoredProcedureQuery("proveedores_cercanos")
-				.registerStoredProcedureParameter(1, String.class, ParameterMode.IN)
-				.registerStoredProcedureParameter(2, String.class, ParameterMode.IN)
-				.registerStoredProcedureParameter(3, Long.class, ParameterMode.IN)
-				.registerStoredProcedureParameter(4, String.class, ParameterMode.OUT).setParameter(1, longitud)
-				.setParameter(2, latitud).setParameter(3, servicioId);
-
-		query.execute();
-		List<Long> usuarioIds = new ArrayList<>();
-		String commentCount = (String) query.getOutputParameterValue(4);
-		if (commentCount != null && commentCount.length() > 0) {
-			for (String id : commentCount.substring(1, commentCount.length()).split(":")) {
-				usuarioIds.add(Long.valueOf(id));
-			}
-			Query findByUsuarioIdIn = getEm().createNamedQuery("Usuario.findByUsuarioIdIn");
-			findByUsuarioIdIn.setParameter("usuarioIds", usuarioIds);
-			listreturn = (List<Usuario>) findByUsuarioIdIn.getResultList();
-		}
-
-		return listreturn;
-
 	}
 
 	@Transactional
@@ -86,12 +59,13 @@ public abstract class Persona implements IPersona {
 			idServices.addAll(usuario.getServicesId());
 			Rol rolProveedor = em.find(Rol.class, getRolId());
 			usuario.setRolId(rolProveedor);
-			System.out.println("Entro!" + getRolId());
+			usuario.setPassword(Encriptor.encrypt(usuario.getPassword()));
 			em.persist(usuario);
-			if (getRolId()==2L&&idServices != null && !idServices.isEmpty()) {
+			if (getRolId() == 2L && idServices != null && !idServices.isEmpty()) {
 				for (Long idSer : idServices) {
-					em.createNativeQuery("Insert into SERVICIO_PROVEEDOR (SERVICIO_ID,USUARIO_ID_PROVEEDOR) values (:a,:b)")
-					.setParameter("a", idSer).setParameter("b", usuario.getUsuarioId()).executeUpdate();
+					em.createNativeQuery(
+							"Insert into SERVICIO_PROVEEDOR (SERVICIO_ID,USUARIO_ID_PROVEEDOR) values (:a,:b)")
+							.setParameter("a", idSer).setParameter("b", usuario.getUsuarioId()).executeUpdate();
 				}
 			}
 			return usuario;
@@ -109,8 +83,11 @@ public abstract class Persona implements IPersona {
 		try {
 			usuario = em.createNamedQuery("Usuario.findByCorreo", Usuario.class).setParameter("correo", correo.trim())
 					.setParameter("estado", "ACTIVO").getSingleResult();
+			usuario.setPassword(Encriptor.decrypt(usuario.getPassword()));
 			return usuario;
 		} catch (NoResultException e) {
+			return usuario;
+		} catch (Exception e) {
 			return usuario;
 		}
 	}
@@ -122,4 +99,11 @@ public abstract class Persona implements IPersona {
 	public void setEm(EntityManager em) {
 		this.em = em;
 	}
+
+	public List<Usuario> obtenerProveedoresCercanos(String longitud, String latitud, Long servicioId) {
+		return null;
+	}
+
+	
+	
 }
