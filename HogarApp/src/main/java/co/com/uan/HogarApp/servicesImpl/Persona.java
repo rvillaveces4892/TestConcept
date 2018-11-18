@@ -68,6 +68,7 @@ public abstract class Persona implements IPersona {
 							.setParameter("a", idSer).setParameter("b", usuario.getUsuarioId()).executeUpdate();
 				}
 			}
+			usuario.setPassword(Encriptor.decrypt(usuario.getPassword()));
 			return usuario;
 		} catch (NoResultException e) {
 			throw new NoResultException("El usuario ya existe con ese correo");

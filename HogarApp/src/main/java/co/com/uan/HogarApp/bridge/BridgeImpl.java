@@ -123,13 +123,9 @@ public class BridgeImpl extends Bridge{
 
     @Override
     public Solicitud crearSolicitud(Solicitud solicitud) throws Exception{
-        this.persona=ApplicationContextHolder.getContext().getBean(Cliente.class);
         this.servicio=ApplicationContextHolder.getContext().getBean(ServicioImpl.class);
         this.notificacion=ApplicationContextHolder.getContext().getBean(INotificacion.class);
-        Usuario cliente=this.persona.obtenerPersona(solicitud.getUsuarioIdCliente().getUsuarioId());
         Servicio servicio=this.servicio.obtenerServicioPorId(solicitud.getServicioId().getServicioId());
-        cliente.setPassword(Encriptor.encrypt(cliente.getPassword()));
-        solicitud.setUsuarioIdCliente(cliente);
         solicitud.setServicioId(servicio);
         Solicitud solicitudCreated=solicitudImpl.crearSolicitud(solicitud);
         List<NotificacionProveedor> notificaciones=crearNotificaciones(solicitud);

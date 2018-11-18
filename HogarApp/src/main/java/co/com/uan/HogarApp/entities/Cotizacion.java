@@ -11,11 +11,14 @@ import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
+import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
@@ -39,13 +42,24 @@ import com.fasterxml.jackson.annotation.JsonBackReference;
 		@NamedQuery(name = "Cotizacion.findByFechaEstimada", query = "SELECT c FROM Cotizacion c WHERE c.fechaEstimada = :fechaEstimada"),
 		@NamedQuery(name = "Cotizacion.findByDuracion", query = "SELECT c FROM Cotizacion c WHERE c.duracion = :duracion"),
 		@NamedQuery(name = "Cotizacion.findByFechaCreacion", query = "SELECT c FROM Cotizacion c WHERE c.fechaCreacion = :fechaCreacion"),
-		@NamedQuery(name = "Cotizacion.findByEstado", query = "SELECT c FROM Cotizacion c WHERE c.estado = :estado") })
+		@NamedQuery(name = "Cotizacion.findByEstado", query = "SELECT c FROM Cotizacion c WHERE c.estado = :estado"),
+		@NamedQuery(name = "Cotizacion.updateEstadoById", query = "UPDATE Cotizacion c SET c.estado = ? WHERE c.cotizacionId = ?"),
+		@NamedQuery(name = "Cotizacion.aceptarCotizacion", query = "UPDATE Cotizacion c SET c.estado = ? WHERE c.solicitudId = ? AND c.cotizacionId != ? ") })
 public class Cotizacion implements Serializable {
+
+	public static final String UPDATE_IDPROVEEDOR_SOLICITUD = "UPDATE SOLICITUD S SET S.USUARIO_ID_PROVEEDOR = (SELECT C.USUARIO_ID_PROVEEDOR FROM COTIZACION C WHERE C.COTIZACION_ID = ? AND C.SOLICITUD_ID = ?)";
+	public static final String SOLICITUD_ID = "solicitudId";
+	public static final String ESTADO_ACEPTADA = "ACEPTADA";
+	public static final String ESTADO_RECHAZADA = "RECHAZADA";
+	public static final String UPDATE_ESTADO_BY_ID = "Cotizacion.updateEstadoById";
+	public static final String FIND_COTIZACIONS_BY_SOLICITUD = "Cotizacion.findCotizacionsBySolicitud";
+	public static final String ACEPTAR_COTIZACION = "Cotizacion.aceptarCotizacion";
 
 	private static final long serialVersionUID = 1L;
 	@Id
+	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "id_Sequence")
+	@SequenceGenerator(name = "id_Sequence", sequenceName = "COTIZACION_COTIZACION_ID_SEQ", allocationSize = 1)
 	@Basic(optional = false)
-	@NotNull
 	@Column(name = "COTIZACION_ID")
 	private Long cotizacionId;
 	@Column(name = "VALOR")
@@ -57,12 +71,12 @@ public class Cotizacion implements Serializable {
 	private Integer duracion;
 	@Column(name = "FECHA_CREACION")
 	@Temporal(TemporalType.TIMESTAMP)
-	private Date fechaCreacion;
+	private Date fechaCreacion = new Date();
 	@Basic(optional = false)
 	@NotNull
 	@Size(min = 1, max = 10)
 	@Column(name = "ESTADO")
-	private String estado;
+	private String estado = "CREADA";
 	@JsonBackReference
 	@JoinColumn(name = "SOLICITUD_ID", referencedColumnName = "SOLICITUD_ID")
 	@ManyToOne(optional = false, fetch = FetchType.LAZY)

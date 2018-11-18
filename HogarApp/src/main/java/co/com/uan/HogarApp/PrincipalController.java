@@ -114,11 +114,12 @@ public class PrincipalController {
 			Fachada proveedor = new BridgeImpl(new Proveedor());
 			List<Usuario> proveedores = new ArrayList<>();
 			proveedores = proveedor.obtenerProveedoresCercanos(longitud, latitud, servicioId);
-//			if(proveedores!=null&&!proveedores.isEmpty()) {
-				return new ResponseEntity<>(proveedores, HttpStatus.OK);
-//			} else {
-//				return new ResponseEntity<>("No se encontraron proveedores cercanos", HttpStatus.OK);
-//			}
+			// if(proveedores!=null&&!proveedores.isEmpty()) {
+			return new ResponseEntity<>(proveedores, HttpStatus.OK);
+			// } else {
+			// return new ResponseEntity<>("No se encontraron proveedores cercanos",
+			// HttpStatus.OK);
+			// }
 		} catch (Exception e) {
 			return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
 		}
@@ -170,19 +171,21 @@ public class PrincipalController {
 			return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
 		}
 	}
-	
+
 	@RequestMapping("/obtenerNotificacionesPorEstadoYIdProveedor")
-	public ResponseEntity<?> obtenerNotificacionesPorEstadoYIdProveedor(@RequestParam("estado") String estado,@RequestParam("idProveedor") Long idProveedor) {
+	public ResponseEntity<?> obtenerNotificacionesPorEstadoYIdProveedor(@RequestParam("estado") String estado,
+			@RequestParam("idProveedor") Long idProveedor) {
 		try {
 			Fachada notificacion = new BridgeImpl(new NotificacionImpl());
-			List<NotificacionProveedor> notificacionesProveedor = notificacion.obtenerNotificacionesPorEstadoYIdProveedor(estado, idProveedor);
+			List<NotificacionProveedor> notificacionesProveedor = notificacion
+					.obtenerNotificacionesPorEstadoYIdProveedor(estado, idProveedor);
 			return new ResponseEntity<>(notificacionesProveedor, HttpStatus.OK);
 		} catch (Exception e) {
 			return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
 		}
 	}
-	
-	@RequestMapping(value="/cambioEstadoNotificacion", method = RequestMethod.PUT, consumes = "application/json")
+
+	@RequestMapping(value = "/cambioEstadoNotificacion", method = RequestMethod.PUT, consumes = "application/json")
 	public ResponseEntity<?> cambioEstadoNotificacion(@RequestBody NotificacionProveedorPK notificacionProveedorPK) {
 		try {
 			Fachada notificacion = new BridgeImpl(new NotificacionImpl());
@@ -207,24 +210,24 @@ public class PrincipalController {
 
 	}
 
-	@RequestMapping("/aceptarCotizacion/{id}")
+	@RequestMapping(value = "/aceptarCotizacion", method = RequestMethod.PUT, consumes = "application/json")
 	public ResponseEntity<?> aceptarCotizacion(@RequestParam("solicitud_id") Long solicitud_id,
 			@RequestParam("cotizacion_id") Long cotizacion_id) {
 		try {
 			Fachada cotizacionImpl = new BridgeImpl(new CotizacionImpl());
-			boolean aceptada = cotizacionImpl.aceptarCotizacion(solicitud_id, cotizacion_id);
-			return new ResponseEntity<>(aceptada, HttpStatus.OK);
+			cotizacionImpl.aceptarCotizacion(solicitud_id, cotizacion_id);
+			return new ResponseEntity<>(HttpStatus.OK);
 		} catch (Exception e) {
 			return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
 		}
 	}
 
-	@RequestMapping("/rechazarCotizacion/{id}")
+	@RequestMapping(value = "/rechazarCotizacion", method = RequestMethod.PUT, consumes = "application/json")
 	public ResponseEntity<?> rechazarCotizacion(@RequestParam("cotizacion_id") Long cotizacion_id) {
 		try {
 			Fachada cotizacionImpl = new BridgeImpl(new CotizacionImpl());
-			boolean rechazada = cotizacionImpl.rechazarCotizacion(cotizacion_id);
-			return new ResponseEntity<>(rechazada, HttpStatus.OK);
+			cotizacionImpl.rechazarCotizacion(cotizacion_id);
+			return new ResponseEntity<>(HttpStatus.OK);
 		} catch (Exception e) {
 			return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
 		}
