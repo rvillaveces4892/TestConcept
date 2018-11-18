@@ -61,6 +61,7 @@ public abstract class Persona implements IPersona {
 			usuario.setRolId(rolProveedor);
 			usuario.setPassword(Encriptor.encrypt(usuario.getPassword()));
 			em.persist(usuario);
+			em.flush();
 			if (getRolId() == 2L && idServices != null && !idServices.isEmpty()) {
 				for (Long idSer : idServices) {
 					em.createNativeQuery(
@@ -68,7 +69,6 @@ public abstract class Persona implements IPersona {
 							.setParameter("a", idSer).setParameter("b", usuario.getUsuarioId()).executeUpdate();
 				}
 			}
-			usuario.setPassword(Encriptor.decrypt(usuario.getPassword()));
 			return usuario;
 		} catch (NoResultException e) {
 			throw new NoResultException("El usuario ya existe con ese correo");

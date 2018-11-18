@@ -71,7 +71,7 @@ public class Rol implements Serializable {
     private String estado;
     
     @JsonBackReference
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "rolId", fetch = FetchType.LAZY)
+    @OneToMany(mappedBy = "rolId", fetch = FetchType.LAZY)
     private List<Usuario> usuarioList;
 
     public Rol() {

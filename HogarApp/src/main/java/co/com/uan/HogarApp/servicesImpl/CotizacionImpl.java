@@ -28,6 +28,7 @@ public class CotizacionImpl implements ICotizacion {
 	@Transactional
 	@Override
 	public Cotizacion crearCotizacion(Cotizacion cotizacion) {
+		//TODO: se debe validar que el proveedor ya cotizo o que la solicitud este en estado = CREADA
 		em.persist(cotizacion);
 		return cotizacion;
 	}
@@ -36,15 +37,16 @@ public class CotizacionImpl implements ICotizacion {
 	@Override
 	public boolean aceptarCotizacion(Long solicitud_id, Long cotizacion_id) {
 		try {
-			em.createNativeQuery(Cotizacion.ACEPTAR_COTIZACION).setParameter(1, Cotizacion.ESTADO_RECHAZADA)
+			em.createNamedQuery(Cotizacion.ACEPTAR_COTIZACION).setParameter(1, Cotizacion.ESTADO_RECHAZADA)
 					.setParameter(2, solicitud_id).setParameter(3, cotizacion_id).executeUpdate();
 			em.createNamedQuery(Cotizacion.UPDATE_ESTADO_BY_ID).setParameter(1, Cotizacion.ESTADO_ACEPTADA)
 					.setParameter(2, cotizacion_id).executeUpdate();
 			em.createNativeQuery(
 					Cotizacion.UPDATE_IDPROVEEDOR_SOLICITUD)
-					.setParameter(1, cotizacion_id).setParameter(2, solicitud_id).executeUpdate();
+					.setParameter(1, cotizacion_id).setParameter(2, solicitud_id).setParameter(3, solicitud_id).executeUpdate();
 			return true;
 		} catch (Exception e) {
+			e.printStackTrace();
 			return false;
 		}
 	}

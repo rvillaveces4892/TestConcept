@@ -44,10 +44,10 @@ import com.fasterxml.jackson.annotation.JsonBackReference;
 		@NamedQuery(name = "Cotizacion.findByFechaCreacion", query = "SELECT c FROM Cotizacion c WHERE c.fechaCreacion = :fechaCreacion"),
 		@NamedQuery(name = "Cotizacion.findByEstado", query = "SELECT c FROM Cotizacion c WHERE c.estado = :estado"),
 		@NamedQuery(name = "Cotizacion.updateEstadoById", query = "UPDATE Cotizacion c SET c.estado = ? WHERE c.cotizacionId = ?"),
-		@NamedQuery(name = "Cotizacion.aceptarCotizacion", query = "UPDATE Cotizacion c SET c.estado = ? WHERE c.solicitudId = ? AND c.cotizacionId != ? ") })
+		@NamedQuery(name = "Cotizacion.aceptarCotizacion", query = "UPDATE Cotizacion c SET c.estado = ? WHERE c.solicitudId.solicitudId = ? AND c.cotizacionId != ? ") })
 public class Cotizacion implements Serializable {
 
-	public static final String UPDATE_IDPROVEEDOR_SOLICITUD = "UPDATE SOLICITUD S SET S.USUARIO_ID_PROVEEDOR = (SELECT C.USUARIO_ID_PROVEEDOR FROM COTIZACION C WHERE C.COTIZACION_ID = ? AND C.SOLICITUD_ID = ?)";
+	public static final String UPDATE_IDPROVEEDOR_SOLICITUD = "UPDATE SOLICITUD S SET S.ESTADO = 'ACEPTADA', S.USUARIO_ID_PROVEEDOR = (SELECT C.USUARIO_ID_PROVEEDOR FROM COTIZACION C WHERE C.COTIZACION_ID = ? AND C.SOLICITUD_ID = ?) WHERE S.SOLICITUD_ID = ? ";
 	public static final String SOLICITUD_ID = "solicitudId";
 	public static final String ESTADO_ACEPTADA = "ACEPTADA";
 	public static final String ESTADO_RECHAZADA = "RECHAZADA";

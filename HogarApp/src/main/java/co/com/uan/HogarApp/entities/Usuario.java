@@ -63,13 +63,13 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 		@NamedQuery(name = "Usuario.findByFechaCreacion", query = "SELECT u FROM Usuario u WHERE u.fechaCreacion = :fechaCreacion"),
 		@NamedQuery(name = "Usuario.findByEstado", query = "SELECT u FROM Usuario u WHERE u.estado = :estado"),
 		@NamedQuery(name = "Usuario.findByUsuarioIdIn", query = "SELECT u FROM Usuario u WHERE u.usuarioId IN (:usuarioIds)") })
-@JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
+@JsonIgnoreProperties({ "hibernateLazyInitializer", "handler" })
 public class Usuario implements Serializable {
 
 	private static final long serialVersionUID = 1L;
 	@Id
-	@GeneratedValue(strategy=GenerationType.SEQUENCE, generator = "id_Sequence")
-	@SequenceGenerator(name = "id_Sequence", sequenceName = "USUARIO_USUARIO_ID_SEQ", allocationSize=1)
+	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "id_Sequence")
+	@SequenceGenerator(name = "id_Sequence", sequenceName = "USUARIO_USUARIO_ID_SEQ", allocationSize = 1)
 	@Basic(optional = false)
 	@Column(name = "USUARIO_ID")
 	private Long usuarioId;
@@ -112,31 +112,18 @@ public class Usuario implements Serializable {
 	@Size(max = 1000)
 	@Column(name = "DESCRIPCION_PERFIL")
 	private String descripcionPerfil;
-	@Column(name = "FECHA_CREACION",columnDefinition="FECHA_CREACION DEFAULT CURRENT_TIMESTAMP")
+	@Column(name = "FECHA_CREACION", columnDefinition = "FECHA_CREACION DEFAULT CURRENT_TIMESTAMP")
 	@Temporal(TemporalType.TIMESTAMP)
 	private Date fechaCreacion = new Date();
 	@Size(max = 10)
 	@Column(name = "ESTADO")
 	private String estado = "ACTIVO";
-//	@OneToMany(cascade = CascadeType.ALL, mappedBy = "usuarioIdCalificador", fetch = FetchType.LAZY)
-//	private List<> calificacionList;
-//    @OneToMany(cascade = CascadeType.ALL, mappedBy = "usuarioIdCalificador", fetch = FetchType.LAZY)
-//    private List<Calificacion> calificacionList;
-//    @OneToMany(cascade = CascadeType.ALL, mappedBy = "usuarioIdCalificado", fetch = FetchType.LAZY)
-//    private List<Calificacion> calificacionList1;
-//    @OneToMany(cascade = CascadeType.ALL, mappedBy = "usuarioIdProveedor", fetch = FetchType.LAZY)
-//    private List<Cotizacion> cotizacionList;
-//    @OneToMany(cascade = CascadeType.ALL, mappedBy = "usuario", fetch = FetchType.LAZY)
-//    private List<ServicioProveedor> servicioProveedorList;
+
 	@Transient
 	private List<Long> servicesId = new ArrayList<>();
-//    @OneToMany(mappedBy = "usuarioIdProveedor", fetch = FetchType.LAZY)
-//    private List<Solicitud> solicitudList;
-//    @OneToMany(cascade = CascadeType.ALL, mappedBy = "usuarioIdCliente", fetch = FetchType.LAZY)
-//    private List<Solicitud> solicitudList1;
 
 	@JoinColumn(name = "COORDENADA_ID", referencedColumnName = "COORDENADA_ID")
-	@OneToOne(cascade=CascadeType.ALL ,fetch = FetchType.LAZY)
+	@OneToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
 	private Coordenadas coordenadaId;
 
 	@JoinColumn(name = "ROL_ID", referencedColumnName = "ROL_ID")
@@ -182,8 +169,6 @@ public class Usuario implements Serializable {
 	public void setPassword(String password) {
 		this.password = password;
 	}
-	
-	
 
 	public String getIdentificacion() {
 		return identificacion;
@@ -257,76 +242,74 @@ public class Usuario implements Serializable {
 		this.estado = estado;
 	}
 
-//    @XmlTransient
-//    public List<Calificacion> getCalificacionList() {
-//        return calificacionList;
-//    }
-//
-//    public void setCalificacionList(List<Calificacion> calificacionList) {
-//        this.calificacionList = calificacionList;
-//    }
-//
-//    @XmlTransient
-//    public List<Calificacion> getCalificacionList1() {
-//        return calificacionList1;
-//    }
-//
-//    public void setCalificacionList1(List<Calificacion> calificacionList1) {
-//        this.calificacionList1 = calificacionList1;
-//    }
-//
-//    @XmlTransient
-//    public List<Cotizacion> getCotizacionList() {
-//        return cotizacionList;
-//    }
-//
-//    public void setCotizacionList(List<Cotizacion> cotizacionList) {
-//        this.cotizacionList = cotizacionList;
-//    }
-//
-//    @XmlTransient
-//    public List<NotificacionProveedor> getNotificacionProveedorList() {
-//        return notificacionProveedorList;
-//    }
-//
-//    public void setNotificacionProveedorList(List<NotificacionProveedor> notificacionProveedorList) {
-//        this.notificacionProveedorList = notificacionProveedorList;
-//    }
-//
-//    @XmlTransient
-//    public List<Solicitud> getSolicitudList() {
-//        return solicitudList;
-//    }
-//
-//    public void setSolicitudList(List<Solicitud> solicitudList) {
-//        this.solicitudList = solicitudList;
-//    }
-//
-//    @XmlTransient
-//    public List<Solicitud> getSolicitudList1() {
-//        return solicitudList1;
-//    }
-//
-//    public void setSolicitudList1(List<Solicitud> solicitudList1) {
-//        this.solicitudList1 = solicitudList1;
-//    }
-	
-	
+	// @XmlTransient
+	// public List<Calificacion> getCalificacionList() {
+	// return calificacionList;
+	// }
+	//
+	// public void setCalificacionList(List<Calificacion> calificacionList) {
+	// this.calificacionList = calificacionList;
+	// }
+	//
+	// @XmlTransient
+	// public List<Calificacion> getCalificacionList1() {
+	// return calificacionList1;
+	// }
+	//
+	// public void setCalificacionList1(List<Calificacion> calificacionList1) {
+	// this.calificacionList1 = calificacionList1;
+	// }
+	//
+	// @XmlTransient
+	// public List<Cotizacion> getCotizacionList() {
+	// return cotizacionList;
+	// }
+	//
+	// public void setCotizacionList(List<Cotizacion> cotizacionList) {
+	// this.cotizacionList = cotizacionList;
+	// }
+	//
+	// @XmlTransient
+	// public List<NotificacionProveedor> getNotificacionProveedorList() {
+	// return notificacionProveedorList;
+	// }
+	//
+	// public void setNotificacionProveedorList(List<NotificacionProveedor>
+	// notificacionProveedorList) {
+	// this.notificacionProveedorList = notificacionProveedorList;
+	// }
+	//
+	// @XmlTransient
+	// public List<Solicitud> getSolicitudList() {
+	// return solicitudList;
+	// }
+	//
+	// public void setSolicitudList(List<Solicitud> solicitudList) {
+	// this.solicitudList = solicitudList;
+	// }
+	//
+	// @XmlTransient
+	// public List<Solicitud> getSolicitudList1() {
+	// return solicitudList1;
+	// }
+	//
+	// public void setSolicitudList1(List<Solicitud> solicitudList1) {
+	// this.solicitudList1 = solicitudList1;
+	// }
 
 	public Coordenadas getCoordenadaId() {
 		return coordenadaId;
 	}
 
-//	@XmlTransient
-//	public List<ServicioProveedor> getServicioProveedorList() {
-//		return servicioProveedorList;
-//	}
-//
-//	public void setServicioProveedorList(List<ServicioProveedor> servicioProveedorList) {
-//		this.servicioProveedorList = servicioProveedorList;
-//	}
-	
-	
+	// @XmlTransient
+	// public List<ServicioProveedor> getServicioProveedorList() {
+	// return servicioProveedorList;
+	// }
+	//
+	// public void setServicioProveedorList(List<ServicioProveedor>
+	// servicioProveedorList) {
+	// this.servicioProveedorList = servicioProveedorList;
+	// }
 
 	public void setCoordenadaId(Coordenadas coordenadaId) {
 		this.coordenadaId = coordenadaId;

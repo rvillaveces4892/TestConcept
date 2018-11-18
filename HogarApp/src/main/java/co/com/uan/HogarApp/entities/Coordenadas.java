@@ -75,7 +75,7 @@ public class Coordenadas implements Serializable {
     private String estado = "ACTIVO";
     
     @JsonBackReference
-    @OneToOne(cascade = CascadeType.ALL, mappedBy = "coordenadaId", fetch = FetchType.LAZY)
+    @OneToOne(mappedBy = "coordenadaId", fetch = FetchType.LAZY)
     private Usuario usuario;
 
     public Coordenadas() {

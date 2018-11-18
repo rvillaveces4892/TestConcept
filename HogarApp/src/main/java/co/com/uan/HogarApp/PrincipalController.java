@@ -141,6 +141,7 @@ public class PrincipalController {
 		Fachada solicitudImpl = new BridgeImpl(new SolicitudImpl());
 		Solicitud requestSolicitud = new Solicitud();
 		try {
+			//TODO: validar si el formato del correo es valido
 			requestSolicitud = solicitudImpl.crearSolicitud(solicitud);
 			return new ResponseEntity<>(requestSolicitud, HttpStatus.OK);
 		} catch (Exception e) {

@@ -108,7 +108,9 @@ public class BridgeImpl extends Bridge{
 
     @Override
     public Usuario registrarPersona(Usuario usuario) throws NotFoundException,Exception{
-        return persona.registrarPersona(usuario);
+        Usuario usuarioCreated = persona.registrarPersona(usuario);
+        usuarioCreated.setPassword(Encriptor.decrypt(usuarioCreated.getPassword()));
+        return usuarioCreated;
     }
 
     @Override
