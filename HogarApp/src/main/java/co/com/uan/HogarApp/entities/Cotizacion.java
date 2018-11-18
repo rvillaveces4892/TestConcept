@@ -43,7 +43,8 @@ import com.fasterxml.jackson.annotation.JsonBackReference;
 		@NamedQuery(name = "Cotizacion.findByDuracion", query = "SELECT c FROM Cotizacion c WHERE c.duracion = :duracion"),
 		@NamedQuery(name = "Cotizacion.findByFechaCreacion", query = "SELECT c FROM Cotizacion c WHERE c.fechaCreacion = :fechaCreacion"),
 		@NamedQuery(name = "Cotizacion.findByEstado", query = "SELECT c FROM Cotizacion c WHERE c.estado = :estado"),
-		@NamedQuery(name = "Cotizacion.updateEstadoById", query = "UPDATE Cotizacion c SET c.estado = ? WHERE c.cotizacionId = ?"),
+		@NamedQuery(name = "Cotizacion.findCotizacionsBySolicitudAndUser", query = "SELECT c FROM Cotizacion c WHERE c.solicitudId.solicitudId = ? AND c.usuarioIdProveedor.usuarioId = ? AND c.estado in ('CREADA','ACEPTADA') "),
+		@NamedQuery(name = "Cotizacion.updateEstadoById", query = "UPDATE Cotizacion c SET c.estado = ? WHERE c.cotizacionId = ? "),
 		@NamedQuery(name = "Cotizacion.aceptarCotizacion", query = "UPDATE Cotizacion c SET c.estado = ? WHERE c.solicitudId.solicitudId = ? AND c.cotizacionId != ? ") })
 public class Cotizacion implements Serializable {
 
@@ -54,6 +55,7 @@ public class Cotizacion implements Serializable {
 	public static final String UPDATE_ESTADO_BY_ID = "Cotizacion.updateEstadoById";
 	public static final String FIND_COTIZACIONS_BY_SOLICITUD = "Cotizacion.findCotizacionsBySolicitud";
 	public static final String ACEPTAR_COTIZACION = "Cotizacion.aceptarCotizacion";
+	public static final String FIND_COTIZACIONS_BY_SOLICITUDAND_USER = "Cotizacion.findCotizacionsBySolicitudAndUser";
 
 	private static final long serialVersionUID = 1L;
 	@Id

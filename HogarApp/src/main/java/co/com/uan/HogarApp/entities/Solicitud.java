@@ -49,9 +49,12 @@ import com.fasterxml.jackson.annotation.JsonFormat;
     , @NamedQuery(name = "Solicitud.findByDireccion", query = "SELECT s FROM Solicitud s WHERE s.direccion = :direccion")
     , @NamedQuery(name = "Solicitud.findByFechaSolicitud", query = "SELECT s FROM Solicitud s WHERE s.fechaSolicitud = :fechaSolicitud")
     , @NamedQuery(name = "Solicitud.findByFechaCreacion", query = "SELECT s FROM Solicitud s WHERE s.fechaCreacion = :fechaCreacion")
-    , @NamedQuery(name = "Solicitud.findByEstadoAndId", query = "SELECT s FROM Solicitud s WHERE s.estado = :estado AND s.solicitudId = :solicitudId")})
+    , @NamedQuery(name = "Solicitud.findByEstadoAndId", query = "SELECT s FROM Solicitud s WHERE s.estado = ? AND s.solicitudId = ?")})
 public class Solicitud implements Serializable {
 
+	public static final String SOLICITUD_ID = "solicitudId";
+	public static final String FIND_BY_SOLICITUDID = "Solicitud.findBySolicitudId";
+	public static final String FIND_BY_ESTADO_AND_ID = "Solicitud.findByEstadoAndId";
     private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy=GenerationType.SEQUENCE, generator = "id_Sequence")

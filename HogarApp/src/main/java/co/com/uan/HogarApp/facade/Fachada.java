@@ -36,7 +36,7 @@ public interface Fachada {
     public List<NotificacionProveedor> obtenerNotificacionesPorEstadoYIdProveedor(String estado, Long idProveedor);
     public void cambioEstadoNotificacion(NotificacionProveedorPK notificacionProveedorPK) throws Exception;
     //cotizacion
-    public Cotizacion crearCotizacion(Cotizacion cotizacion);
+    public Cotizacion crearCotizacion(Cotizacion cotizacion) throws Exception;
 	public boolean aceptarCotizacion(Long solicitud_id, Long cotizacion_id);
 	public boolean rechazarCotizacion(Long cotizacion_id);
 	public List<Cotizacion> obtenerCotizacionesPorSolicitud(Long solicitud_id);
