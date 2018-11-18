@@ -27,6 +27,7 @@ import co.com.uan.HogarApp.servicesImpl.NotificacionImpl;
 import co.com.uan.HogarApp.servicesImpl.Proveedor;
 import co.com.uan.HogarApp.servicesImpl.ServicioImpl;
 import co.com.uan.HogarApp.servicesImpl.SolicitudImpl;
+import co.com.uan.HogarApp.utils.s.Encriptor;
 
 public class BridgeImpl extends Bridge{
 
@@ -127,6 +128,7 @@ public class BridgeImpl extends Bridge{
         this.notificacion=ApplicationContextHolder.getContext().getBean(INotificacion.class);
         Usuario cliente=this.persona.obtenerPersona(solicitud.getUsuarioIdCliente().getUsuarioId());
         Servicio servicio=this.servicio.obtenerServicioPorId(solicitud.getServicioId().getServicioId());
+        cliente.setPassword(Encriptor.encrypt(cliente.getPassword()));
         solicitud.setUsuarioIdCliente(cliente);
         solicitud.setServicioId(servicio);
         Solicitud solicitudCreated=solicitudImpl.crearSolicitud(solicitud);

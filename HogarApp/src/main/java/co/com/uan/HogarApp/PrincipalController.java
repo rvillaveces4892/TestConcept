@@ -143,6 +143,7 @@ public class PrincipalController {
 			requestSolicitud = solicitudImpl.crearSolicitud(solicitud);
 			return new ResponseEntity<>(requestSolicitud, HttpStatus.OK);
 		} catch (Exception e) {
+			e.printStackTrace();
 			return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
 		}
 

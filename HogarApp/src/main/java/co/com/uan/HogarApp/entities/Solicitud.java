@@ -93,10 +93,10 @@ public class Solicitud implements Serializable {
     @JoinColumn(name = "SERVICIO_ID", referencedColumnName = "SERVICIO_ID")
     @ManyToOne(optional = false, fetch = FetchType.LAZY)
     private Servicio servicioId;
-    @JoinColumn(name = "USUARIO_ID_PROVEEDOR", referencedColumnName = "USUARIO_ID")
+    @JoinColumn(name = "USUARIO_ID_PROVEEDOR", referencedColumnName = "USUARIO_ID",updatable=false)
     @ManyToOne(fetch = FetchType.LAZY)
     private Usuario usuarioIdProveedor;
-    @JoinColumn(name = "USUARIO_ID_CLIENTE", referencedColumnName = "USUARIO_ID")
+    @JoinColumn(name = "USUARIO_ID_CLIENTE", referencedColumnName = "USUARIO_ID",updatable=false)
     @ManyToOne(optional = false, fetch = FetchType.LAZY)
     private Usuario usuarioIdCliente;
 

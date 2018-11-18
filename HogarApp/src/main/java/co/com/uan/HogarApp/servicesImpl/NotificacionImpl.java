@@ -17,6 +17,7 @@ import co.com.uan.HogarApp.entities.NotificacionProveedorPK;
 import co.com.uan.HogarApp.entities.Solicitud;
 import co.com.uan.HogarApp.entities.Usuario;
 import co.com.uan.HogarApp.interfaces.INotificacion;
+import co.com.uan.HogarApp.utils.s.Encriptor;
 
 @Component
 @Configuration
@@ -66,6 +67,11 @@ public class NotificacionImpl implements INotificacion {
 						solicitud.getSolicitudId());
 				notificacion.setNotificacionProveedorPK(notificacionProveedorPK);
 				notificacion.setSolicitud(solicitud);
+				try {
+					proveedor.setPassword(Encriptor.encrypt(proveedor.getPassword()));
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
 				notificacion.setUsuario(proveedor);
 				em.persist(notificacion);
 				notificaciones.add(notificacion);
