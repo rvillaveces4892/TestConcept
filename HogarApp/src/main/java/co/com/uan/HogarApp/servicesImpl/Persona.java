@@ -42,7 +42,7 @@ public abstract class Persona implements IPersona {
 			persona.setPassword(Encriptor.decrypt(persona.getPassword()));
 			return persona;
 		} catch (Exception e) {
-			throw new NotFoundException("EL usuario ["+id+"] con el que intenta crear la solicitud no existe."+e);
+			throw new NotFoundException("EL usuario ["+id+"] no existe.");
 		}
 	}
 
