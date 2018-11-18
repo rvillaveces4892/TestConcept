@@ -34,7 +34,7 @@ public class SolicitudImpl implements ISolicitud{
 
     @Override
     public Solicitud obtenerSolicitud(Long solicitudId){
-        Solicitud solicitud=em.createNamedQuery("Solicitud.findByEstadoAndId",Solicitud.class).setParameter("solicitudId",solicitudId).setParameter("estado","CREADA").getSingleResult();
+        Solicitud solicitud=em.find(Solicitud.class, solicitudId);
         return solicitud;
 
     }
