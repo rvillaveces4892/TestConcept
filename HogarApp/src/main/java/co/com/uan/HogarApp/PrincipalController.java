@@ -215,8 +215,12 @@ public class PrincipalController {
 			@RequestParam("cotizacion_id") Long cotizacion_id) {
 		try {
 			Fachada cotizacionImpl = new BridgeImpl(new CotizacionImpl());
-			cotizacionImpl.aceptarCotizacion(solicitud_id, cotizacion_id);
-			return new ResponseEntity<>(HttpStatus.OK);
+			boolean resp = cotizacionImpl.aceptarCotizacion(solicitud_id, cotizacion_id);
+			if (resp == true) {
+				return new ResponseEntity<>(HttpStatus.OK);
+			} else {
+				return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+			}
 		} catch (Exception e) {
 			return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
 		}
@@ -226,8 +230,12 @@ public class PrincipalController {
 	public ResponseEntity<?> rechazarCotizacion(@RequestParam("cotizacion_id") Long cotizacion_id) {
 		try {
 			Fachada cotizacionImpl = new BridgeImpl(new CotizacionImpl());
-			cotizacionImpl.rechazarCotizacion(cotizacion_id);
-			return new ResponseEntity<>(HttpStatus.OK);
+			boolean resp = cotizacionImpl.rechazarCotizacion(cotizacion_id);
+			if (resp == true) {
+				return new ResponseEntity<>(HttpStatus.OK);
+			} else {
+				return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+			}
 		} catch (Exception e) {
 			return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
 		}

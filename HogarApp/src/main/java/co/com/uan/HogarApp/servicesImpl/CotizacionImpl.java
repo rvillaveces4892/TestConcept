@@ -45,7 +45,6 @@ public class CotizacionImpl implements ICotizacion {
 					.setParameter(1, cotizacion_id).setParameter(2, solicitud_id).executeUpdate();
 			return true;
 		} catch (Exception e) {
-			e.printStackTrace();
 			return false;
 		}
 	}
@@ -66,7 +65,6 @@ public class CotizacionImpl implements ICotizacion {
 					.setParameter(2, cotizacion_id).executeUpdate();
 			return true;
 		} catch (Exception e) {
-			e.printStackTrace();
 			return false;
 		}
 	}
