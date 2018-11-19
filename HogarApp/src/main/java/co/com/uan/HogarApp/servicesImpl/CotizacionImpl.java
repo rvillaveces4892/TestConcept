@@ -52,6 +52,11 @@ public class CotizacionImpl implements ICotizacion {
 				throw new Exception("La solicitud [" + cotizacion.getSolicitudId().getSolicitudId() + "] no existe.");
 			}
 			em.persist(cotizacion);
+			NotificacionProveedor noti = em.find(NotificacionProveedor.class, new NotificacionProveedorPK(cotizacion.getUsuarioIdProveedor().getUsuarioId(), cotizacion.getSolicitudId().getSolicitudId()));
+			noti.setDescripcion("¡La solicitud fue atendida!");
+			noti.setEstado("LEIDA");
+			noti.setFechaCreacion(new Date());
+			em.merge(noti);
 			return cotizacion;
 		} catch (Exception e) {
 			throw new Exception(e.getMessage());
