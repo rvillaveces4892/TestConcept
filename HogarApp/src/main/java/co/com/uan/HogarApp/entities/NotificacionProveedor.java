@@ -38,7 +38,7 @@ import com.fasterxml.jackson.annotation.JsonBackReference;
     , @NamedQuery(name = "NotificacionProveedor.findBySolicitudId", query = "SELECT n FROM NotificacionProveedor n WHERE n.notificacionProveedorPK.solicitudId = :solicitudId")
     , @NamedQuery(name = "NotificacionProveedor.findByDescripcion", query = "SELECT n FROM NotificacionProveedor n WHERE n.descripcion = :descripcion")
     , @NamedQuery(name = "NotificacionProveedor.findByFechaCreacion", query = "SELECT n FROM NotificacionProveedor n WHERE n.fechaCreacion = :fechaCreacion")
-    , @NamedQuery(name = "NotificacionProveedor.findByEstadoAndIdProveedor", query = "SELECT n FROM NotificacionProveedor n WHERE n.estado = :estado and n.notificacionProveedorPK.proveedorId = :proveedorId")
+    , @NamedQuery(name = "NotificacionProveedor.findByEstadoAndIdProveedor", query = "SELECT n FROM NotificacionProveedor n WHERE n.estado = :estado and n.notificacionProveedorPK.proveedorId = :proveedorId order by n.fechaCreacion desc")
     , @NamedQuery(name = "NotificacionProveedor.findByEstado", query = "SELECT n FROM NotificacionProveedor n WHERE n.estado = :estado")})
 public class NotificacionProveedor implements Serializable {
 

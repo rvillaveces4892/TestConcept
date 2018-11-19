@@ -34,25 +34,25 @@ CREATE TABLE calificacion (
 );
 
 COMMENT ON COLUMN calificacion.calificacion_id IS
-    'IDENTIFICACDOR DE LA CALIFICACIÓN';
+    'IDENTIFICACDOR DE LA CALIFICACIï¿½N';
 
 COMMENT ON COLUMN calificacion.usuario_id_calificado IS
-    'LLAVE FORÁNEA DE CLIENTE';
+    'LLAVE FORï¿½NEA DE CLIENTE';
 
 COMMENT ON COLUMN calificacion.usuario_id_calificador IS
-    'LLAVE FORÁNEA DE PROVEEDOR';
+    'LLAVE FORï¿½NEA DE PROVEEDOR';
 
 COMMENT ON COLUMN calificacion.comentario IS
-    'COMENTARIO DE LA CALIFICACIÓN';
+    'COMENTARIO DE LA CALIFICACIï¿½N';
 
 COMMENT ON COLUMN calificacion.valor IS
     'PUNTOS OBTENIDOS MEDIDOS EN ESTRELLAS';
 
 COMMENT ON COLUMN calificacion.fecha_creacion IS
-    'FECHA DE CREACIÓN DE LA CALIFICACIÓN';
+    'FECHA DE CREACIï¿½N DE LA CALIFICACIï¿½N';
 
 COMMENT ON COLUMN calificacion.estado IS
-    'ESTADO DE LA CALIFICACIÓN';
+    'ESTADO DE LA CALIFICACIï¿½N';
 
 CREATE INDEX calificacion_pk ON
     calificacion (
@@ -76,7 +76,7 @@ COMMENT ON COLUMN categoria.nombre IS
     'NOMBRE DE LA CATEGORIA';
 
 COMMENT ON COLUMN categoria.fecha_creacion IS
-    'FECHA DE CREACIÓN DE LA CATEGORIA';
+    'FECHA DE CREACIï¿½N DE LA CATEGORIA';
 
 COMMENT ON COLUMN categoria.estado IS
     'ESTADO DE LA CATEGORIA';
@@ -145,10 +145,10 @@ CREATE TABLE notificacion_proveedor (
 );
 
 COMMENT ON COLUMN notificacion_proveedor.proveedor_id IS
-    'LLAVE FORÁNEA DE PROVEEDOR';
+    'LLAVE FORï¿½NEA DE PROVEEDOR';
 
 COMMENT ON COLUMN notificacion_proveedor.solicitud_id IS
-    'LLAVE FORÁNEA DE NOTIFICACIÓN';
+    'LLAVE FORï¿½NEA DE NOTIFICACIï¿½N';
 
 CREATE INDEX notificacion_proveedor_pk ON
     notificacion_proveedor (
@@ -199,7 +199,7 @@ COMMENT ON COLUMN servicio.descripcion IS
     'DETALLE DEL SERVICIO';
 
 COMMENT ON COLUMN servicio.fecha_creacion IS
-    'FECHA DE CREACIÓN DE LA CATEGORIA';
+    'FECHA DE CREACIï¿½N DE LA CATEGORIA';
 
 COMMENT ON COLUMN servicio.estado IS
     'ESTADO DEL SERVICIO';
@@ -229,10 +229,10 @@ COMMENT ON COLUMN solicitud.solicitud_id IS
     'IDENTIFICADOR DE LA SOLICITUD';
 
 COMMENT ON COLUMN solicitud.servicio_id IS
-    'LLAVE FORÁNEA DEL SERVICIO';
+    'LLAVE FORï¿½NEA DEL SERVICIO';
 
 COMMENT ON COLUMN solicitud.usuario_id_cliente IS
-    'LLAVE FORÁNEA DEL CLIENTE';
+    'LLAVE FORï¿½NEA DEL CLIENTE';
 
 COMMENT ON COLUMN solicitud.fecha_solicitud IS
     'FECHA EN QUE QUIERE QUE SE REALIZE EL SERVICIO';
@@ -265,7 +265,7 @@ COMMENT ON COLUMN usuario.usuario_id IS
     'IDENTIFICADOR DEL USUARIO';
 
 COMMENT ON COLUMN usuario.coordenada_id IS
-    'LLAVE FORÁNEA DE COORDENADAS';
+    'LLAVE FORï¿½NEA DE COORDENADAS';
 
 COMMENT ON COLUMN usuario.password IS
     'CONTRASENIA DEL USUARIO';
@@ -385,14 +385,14 @@ BEGIN
 END;
 /
 
-CREATE SEQUENCE coordenadas_coordenada_id_seq START WITH 1 NOCACHE ORDER;
+CREATE SEQUENCE coordenada_coordenada_id_seq START WITH 1 NOCACHE ORDER;
 
-CREATE OR REPLACE TRIGGER coordenadas_coordenada_id_trg BEFORE
+CREATE OR REPLACE TRIGGER coordenada_coordenada_id_trg BEFORE
     INSERT ON coordenadas
     FOR EACH ROW
     WHEN ( new.coordenada_id IS NULL )
 BEGIN
-    :new.coordenada_id := coordenadas_coordenada_id_seq.nextval;
+    :new.coordenada_id := coordenada_coordenada_id_seq.nextval;
 END;
 /
 
