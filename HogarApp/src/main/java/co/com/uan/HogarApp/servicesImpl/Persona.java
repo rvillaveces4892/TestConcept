@@ -61,7 +61,6 @@ public abstract class Persona implements IPersona {
 			usuario.setRolId(rolProveedor);
 			usuario.setPassword(Encriptor.encrypt(usuario.getPassword()));
 			em.persist(usuario);
-			em.flush();
 			if (getRolId() == 2L && idServices != null && !idServices.isEmpty()) {
 				for (Long idSer : idServices) {
 					em.createNativeQuery(
