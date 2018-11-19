@@ -46,10 +46,10 @@ public class CotizacionImpl implements ICotizacion {
 					}
 				} else {
 					throw new IllegalArgumentException(
-							"La solicitud [" + cotizacion.getSolicitudId().getSolicitudId() + "] ya fue confirmada.");
+							"La solicitud ya fue aceptada.");
 				}
 			} else {
-				throw new IllegalArgumentException("La solicitud [" + cotizacion.getSolicitudId().getSolicitudId() + "] no existe.");
+				throw new IllegalArgumentException("La solicitud no existe.");
 			}
 			em.persist(cotizacion);
 			NotificacionProveedor noti = em.find(NotificacionProveedor.class, new NotificacionProveedorPK(cotizacion.getUsuarioIdProveedor().getUsuarioId(), cotizacion.getSolicitudId().getSolicitudId()));
