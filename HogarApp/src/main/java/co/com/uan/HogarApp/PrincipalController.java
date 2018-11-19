@@ -227,10 +227,10 @@ public class PrincipalController {
 	}
 
 	@RequestMapping(value = "/rechazarCotizacion", method = RequestMethod.PUT, consumes = "application/json")
-	public ResponseEntity<?> rechazarCotizacion(@RequestParam("cotizacion_id") Long cotizacion_id) {
+	public ResponseEntity<?> rechazarCotizacion(@RequestBody Cotizacion cotizacion) {
 		try {
 			Fachada cotizacionImpl = new BridgeImpl(new CotizacionImpl());
-			boolean resp = cotizacionImpl.rechazarCotizacion(cotizacion_id);
+			boolean resp = cotizacionImpl.rechazarCotizacion(cotizacion.getCotizacionId());
 			if (resp == true) {
 				return new ResponseEntity<>(HttpStatus.OK);
 			} else {
