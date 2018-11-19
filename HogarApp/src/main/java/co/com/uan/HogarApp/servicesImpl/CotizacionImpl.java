@@ -1,17 +1,21 @@
 
 package co.com.uan.HogarApp.servicesImpl;
 
+import java.util.Date;
 import java.util.List;
 
 import javax.persistence.EntityManager;
 import javax.persistence.Query;
 import javax.transaction.Transactional;
 
+import org.hibernate.boot.model.source.spi.EmbeddableMapping;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.stereotype.Component;
 
 import co.com.uan.HogarApp.entities.Cotizacion;
+import co.com.uan.HogarApp.entities.NotificacionProveedor;
+import co.com.uan.HogarApp.entities.NotificacionProveedorPK;
 import co.com.uan.HogarApp.entities.Solicitud;
 import co.com.uan.HogarApp.interfaces.ICotizacion;
 
@@ -66,6 +70,12 @@ public class CotizacionImpl implements ICotizacion {
 						.setParameter(2, cotizacion_id).executeUpdate();
 				em.createNativeQuery(Cotizacion.UPDATE_IDPROVEEDOR_SOLICITUD).setParameter(1, cotizacion_id)
 						.setParameter(2, solicitud_id).setParameter(3, solicitud_id).executeUpdate();
+				Cotizacion cotizacion = em.find(Cotizacion.class, cotizacion_id);
+				NotificacionProveedor noti = em.find(NotificacionProveedor.class, new NotificacionProveedor(cotizacion.getUsuarioIdProveedor().getUsuarioId(), solicitud_id));
+				noti.setDescripcion("¡Solicitud y cotización aceptada!");
+				noti.setEstado("ACEPTADA");
+				noti.setFechaCreacion(new Date());
+				em.merge(noti);
 			}
 			return true;
 		} catch (Exception e) {
@@ -90,6 +100,11 @@ public class CotizacionImpl implements ICotizacion {
 			if(solicitud!=null&&solicitud.getEstado().equals("CREADA")) {
 				em.createNamedQuery(Cotizacion.UPDATE_ESTADO_BY_ID).setParameter(1, Cotizacion.ESTADO_RECHAZADA)
 				.setParameter(2, cotizacion_id).executeUpdate();
+				NotificacionProveedor noti = em.find(NotificacionProveedor.class, new NotificacionProveedor(cotizacion.getUsuarioIdProveedor().getUsuarioId(), solicitud.getSolicitudId()));
+				noti.setDescripcion("Cotización rechazada.");
+				noti.setEstado("RECHAZADA");
+				noti.setFechaCreacion(new Date());
+				em.merge(noti);
 			}
 			return true;
 		} catch (Exception e) {

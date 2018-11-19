@@ -177,6 +177,7 @@ public class BridgeImpl extends Bridge{
 
     @Override
     public boolean aceptarCotizacion(Long solicitud_id,Long cotizacion_id){
+    	
         return this.cotizacion.aceptarCotizacion(solicitud_id,cotizacion_id);
     }
 
