@@ -67,6 +67,7 @@ public class NotificacionImpl implements INotificacion {
 						solicitud.getSolicitudId());
 				notificacion.setNotificacionProveedorPK(notificacionProveedorPK);
 				notificacion.setSolicitud(solicitud);
+				notificacion.setDescripcion("Solicitud de "+solicitud.getDescripcion());
 				try {
 					proveedor.setPassword(Encriptor.encrypt(proveedor.getPassword()));
 				} catch (Exception e) {
