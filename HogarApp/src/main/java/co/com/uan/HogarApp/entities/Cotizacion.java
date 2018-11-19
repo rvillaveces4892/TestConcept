@@ -37,7 +37,7 @@ import com.fasterxml.jackson.annotation.JsonBackReference;
 @XmlRootElement
 @NamedQueries({ @NamedQuery(name = "Cotizacion.findAll", query = "SELECT c FROM Cotizacion c"),
 		@NamedQuery(name = "Cotizacion.findByCotizacionId", query = "SELECT c FROM Cotizacion c WHERE c.cotizacionId = :cotizacionId"),
-		@NamedQuery(name = "Cotizacion.findCotizacionsBySolicitud", query = "SELECT c FROM Cotizacion c WHERE c.solicitudId = :solicitudId"),
+		@NamedQuery(name = "Cotizacion.findCotizacionsBySolicitud", query = "SELECT c FROM Cotizacion c WHERE c.solicitudId.solicitudId = :solicitudId"),
 		@NamedQuery(name = "Cotizacion.findByValor", query = "SELECT c FROM Cotizacion c WHERE c.valor = :valor"),
 		@NamedQuery(name = "Cotizacion.findByFechaEstimada", query = "SELECT c FROM Cotizacion c WHERE c.fechaEstimada = :fechaEstimada"),
 		@NamedQuery(name = "Cotizacion.findByDuracion", query = "SELECT c FROM Cotizacion c WHERE c.duracion = :duracion"),

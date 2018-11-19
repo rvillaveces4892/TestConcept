@@ -245,7 +245,7 @@ public class PrincipalController {
 	@RequestMapping("/obtenerCotizacionesPorSolicitud/{id}")
 	public ResponseEntity<?> obtenerCotizacionesPorSolicitud(@PathVariable Long id) {
 		try {
-			Fachada cotizacion = new BridgeImpl(new NotificacionImpl());
+			Fachada cotizacion = new BridgeImpl(new CotizacionImpl());
 			List<Cotizacion> cotizaciones = cotizacion.obtenerCotizacionesPorSolicitud(id);
 			return new ResponseEntity<>(cotizaciones, HttpStatus.OK);
 		} catch (Exception e) {
