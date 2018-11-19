@@ -71,7 +71,7 @@ public class CotizacionImpl implements ICotizacion {
 				em.createNativeQuery(Cotizacion.UPDATE_IDPROVEEDOR_SOLICITUD).setParameter(1, cotizacion_id)
 						.setParameter(2, solicitud_id).setParameter(3, solicitud_id).executeUpdate();
 				Cotizacion cotizacion = em.find(Cotizacion.class, cotizacion_id);
-				NotificacionProveedor noti = em.find(NotificacionProveedor.class, new NotificacionProveedor(cotizacion.getUsuarioIdProveedor().getUsuarioId(), solicitud_id));
+				NotificacionProveedor noti = em.find(NotificacionProveedor.class, new NotificacionProveedorPK(cotizacion.getUsuarioIdProveedor().getUsuarioId(), solicitud_id));
 				noti.setDescripcion("¡Solicitud y cotización aceptada!");
 				noti.setEstado("ACEPTADA");
 				noti.setFechaCreacion(new Date());
@@ -79,6 +79,7 @@ public class CotizacionImpl implements ICotizacion {
 			}
 			return true;
 		} catch (Exception e) {
+			e.printStackTrace();
 			return false;
 		}
 	}
@@ -100,7 +101,7 @@ public class CotizacionImpl implements ICotizacion {
 			if(solicitud!=null&&solicitud.getEstado().equals("CREADA")) {
 				em.createNamedQuery(Cotizacion.UPDATE_ESTADO_BY_ID).setParameter(1, Cotizacion.ESTADO_RECHAZADA)
 				.setParameter(2, cotizacion_id).executeUpdate();
-				NotificacionProveedor noti = em.find(NotificacionProveedor.class, new NotificacionProveedor(cotizacion.getUsuarioIdProveedor().getUsuarioId(), solicitud.getSolicitudId()));
+				NotificacionProveedor noti = em.find(NotificacionProveedor.class, new NotificacionProveedorPK(cotizacion.getUsuarioIdProveedor().getUsuarioId(), solicitud.getSolicitudId()));
 				noti.setDescripcion("Cotización rechazada.");
 				noti.setEstado("RECHAZADA");
 				noti.setFechaCreacion(new Date());
