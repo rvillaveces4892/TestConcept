@@ -170,7 +170,7 @@ public class BridgeImpl extends Bridge{
     }
 
     @Override
-    public Cotizacion crearCotizacion(Cotizacion cotizacion) throws Exception{
+    public Cotizacion crearCotizacion(Cotizacion cotizacion) throws Exception,IllegalArgumentException{
         Cotizacion cotizacionCreated=this.cotizacion.crearCotizacion(cotizacion);
         return cotizacionCreated;
     }

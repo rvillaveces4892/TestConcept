@@ -7,7 +7,7 @@ import co.com.uan.HogarApp.entities.Cotizacion;
 
 public interface ICotizacion {
 
-	public Cotizacion crearCotizacion(Cotizacion cotizacion) throws Exception;
+	public Cotizacion crearCotizacion(Cotizacion cotizacion) throws Exception,IllegalArgumentException;
 
 	public boolean aceptarCotizacion(Long solicitud_id, Long cotizacion_id);
 	

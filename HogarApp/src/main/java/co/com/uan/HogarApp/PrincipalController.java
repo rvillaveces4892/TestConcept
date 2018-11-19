@@ -205,6 +205,8 @@ public class PrincipalController {
 		try {
 			requestCotizacion = cotizacionImpl.crearCotizacion(cotizacion);
 			return new ResponseEntity<>(requestCotizacion, HttpStatus.OK);
+		} catch (IllegalArgumentException e) {
+			return new ResponseEntity<>(e.getMessage(), HttpStatus.OK);
 		} catch (Exception e) {
 			return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
 		}

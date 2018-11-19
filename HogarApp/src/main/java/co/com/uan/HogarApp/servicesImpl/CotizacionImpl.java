@@ -31,7 +31,7 @@ public class CotizacionImpl implements ICotizacion {
 
 	@Transactional
 	@Override
-	public Cotizacion crearCotizacion(Cotizacion cotizacion) throws Exception {
+	public Cotizacion crearCotizacion(Cotizacion cotizacion) throws Exception,IllegalArgumentException {
 		try {
 			Solicitud solicitud = em.find(Solicitud.class, cotizacion.getSolicitudId().getSolicitudId());
 			if (solicitud != null) {
@@ -42,14 +42,14 @@ public class CotizacionImpl implements ICotizacion {
 							.setParameter(2, cotizacion.getUsuarioIdProveedor().getUsuarioId());
 					List<Cotizacion> list = (List<Cotizacion>) findCotizacionBySolicitud.getResultList();
 					if (list != null && !list.isEmpty()) {
-						throw new Exception("El proveedor ya cotizo esta solicitud.");
+						throw new IllegalArgumentException("El proveedor ya cotizo esta solicitud.");
 					}
 				} else {
-					throw new Exception(
+					throw new IllegalArgumentException(
 							"La solicitud [" + cotizacion.getSolicitudId().getSolicitudId() + "] ya fue confirmada.");
 				}
 			} else {
-				throw new Exception("La solicitud [" + cotizacion.getSolicitudId().getSolicitudId() + "] no existe.");
+				throw new IllegalArgumentException("La solicitud [" + cotizacion.getSolicitudId().getSolicitudId() + "] no existe.");
 			}
 			em.persist(cotizacion);
 			NotificacionProveedor noti = em.find(NotificacionProveedor.class, new NotificacionProveedorPK(cotizacion.getUsuarioIdProveedor().getUsuarioId(), cotizacion.getSolicitudId().getSolicitudId()));
@@ -58,6 +58,8 @@ public class CotizacionImpl implements ICotizacion {
 			noti.setFechaCreacion(new Date());
 			em.merge(noti);
 			return cotizacion;
+		} catch (IllegalArgumentException e) {
+			throw new IllegalArgumentException(e.getMessage());
 		} catch (Exception e) {
 			throw new Exception(e.getMessage());
 		}
