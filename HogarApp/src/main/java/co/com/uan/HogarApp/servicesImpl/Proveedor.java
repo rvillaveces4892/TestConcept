@@ -12,6 +12,7 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.stereotype.Component;
 
 import co.com.uan.HogarApp.entities.Usuario;
+import co.com.uan.HogarApp.utils.s.Encriptor;
 
 @Component
 @Configuration
@@ -42,8 +43,15 @@ public class Proveedor extends Persona{
 			Query findByUsuarioIdIn = getEm().createNamedQuery("Usuario.findByUsuarioIdIn");
 			findByUsuarioIdIn.setParameter("usuarioIds", usuarioIds);
 			listreturn = (List<Usuario>) findByUsuarioIdIn.getResultList();
+			for (int i = 0; i < listreturn.size(); i++) {
+				try {
+					listreturn.get(i).setPassword(Encriptor.decrypt(listreturn.get(i).getPassword()));
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+			}
 		}
-
+		
 		return listreturn;
 
 	}
